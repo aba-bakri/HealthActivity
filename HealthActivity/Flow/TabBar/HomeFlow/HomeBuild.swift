@@ -11,6 +11,7 @@ class HomeBuild {
     
     static func build() -> UIViewController  {
         let homeVC = HomeViewController()
-        homeVC.router = 
+        homeVC.router = HomeRouter(viewController: homeVC)
+        return homeVC
     }
 }

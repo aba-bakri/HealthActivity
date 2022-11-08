@@ -12,27 +12,28 @@
 		CA2A418D291A32670089A2E4 /* HomeBuild.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2A418C291A32670089A2E4 /* HomeBuild.swift */; };
 		CA2A418F291A328E0089A2E4 /* HomeRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2A418E291A328E0089A2E4 /* HomeRouter.swift */; };
 		CA2A4192291A33070089A2E4 /* BaseRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2A4191291A33070089A2E4 /* BaseRouter.swift */; };
+		CA2A4194291A3FBA0089A2E4 /* BaseController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2A4193291A3FBA0089A2E4 /* BaseController.swift */; };
+		CA2A419B291A41200089A2E4 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2A419A291A41200089A2E4 /* InfoView.swift */; };
+		CA2A41A2291A4EFC0089A2E4 /* BaseTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2A41A1291A4EFC0089A2E4 /* BaseTabBarViewController.swift */; };
+		CA2A41A4291A4F450089A2E4 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2A41A3291A4F450089A2E4 /* MainTabBarViewController.swift */; };
+		CA2A41A6291A4FA00089A2E4 /* MainTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2A41A5291A4FA00089A2E4 /* MainTabBar.swift */; };
+		CA2A41A8291A51540089A2E4 /* MainTabBarBuild.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2A41A7291A51540089A2E4 /* MainTabBarBuild.swift */; };
+		CA2A41AB291A5BE30089A2E4 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2A41AA291A5BE30089A2E4 /* BaseNavigationController.swift */; };
 		CA3BB41A291A258F008FDC90 /* ComponentsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA3BB419291A258F008FDC90 /* ComponentsUI.framework */; };
-		CA3BB41B291A258F008FDC90 /* ComponentsUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CA3BB419291A258F008FDC90 /* ComponentsUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		CA94F893291A889000E02F6D /* ProfileBuild.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F892291A889000E02F6D /* ProfileBuild.swift */; };
+		CA94F895291A88A200E02F6D /* ProfileRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F894291A88A200E02F6D /* ProfileRouter.swift */; };
+		CA94F897291A88BD00E02F6D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F896291A88BD00E02F6D /* ProfileViewController.swift */; };
+		CA94F89A291A88E400E02F6D /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F899291A88E400E02F6D /* ProfileInfoView.swift */; };
+		CA94F89C291A921B00E02F6D /* ProfileMeasureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F89B291A921B00E02F6D /* ProfileMeasureView.swift */; };
+		CA94F89E291AA24F00E02F6D /* HealthKitHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F89D291AA24F00E02F6D /* HealthKitHelper.swift */; };
+		CA94F8A0291AA26200E02F6D /* HealthKitError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F89F291AA26200E02F6D /* HealthKitError.swift */; };
+		CA9CCB99291A791D00DE18ED /* WalkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA9CCB98291A791D00DE18ED /* WalkView.swift */; };
+		CA9CCB9B291A79DE00DE18ED /* CircularProgresView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA9CCB9A291A79DE00DE18ED /* CircularProgresView.swift */; };
 		CAFB8A6A2919A3C7004BF972 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB8A692919A3C7004BF972 /* AppDelegate.swift */; };
 		CAFB8A6C2919A3C7004BF972 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB8A6B2919A3C7004BF972 /* SceneDelegate.swift */; };
 		CAFB8A732919A3C8004BF972 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAFB8A722919A3C8004BF972 /* Assets.xcassets */; };
 		CAFB8A762919A3C8004BF972 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAFB8A742919A3C8004BF972 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		CA3BB41C291A258F008FDC90 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				CA3BB41B291A258F008FDC90 /* ComponentsUI.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		CA2A4181291A2F290089A2E4 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
@@ -40,7 +41,23 @@
 		CA2A418C291A32670089A2E4 /* HomeBuild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBuild.swift; sourceTree = "<group>"; };
 		CA2A418E291A328E0089A2E4 /* HomeRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeRouter.swift; sourceTree = "<group>"; };
 		CA2A4191291A33070089A2E4 /* BaseRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseRouter.swift; sourceTree = "<group>"; };
+		CA2A4193291A3FBA0089A2E4 /* BaseController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseController.swift; sourceTree = "<group>"; };
+		CA2A419A291A41200089A2E4 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		CA2A41A1291A4EFC0089A2E4 /* BaseTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTabBarViewController.swift; sourceTree = "<group>"; };
+		CA2A41A3291A4F450089A2E4 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
+		CA2A41A5291A4FA00089A2E4 /* MainTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBar.swift; sourceTree = "<group>"; };
+		CA2A41A7291A51540089A2E4 /* MainTabBarBuild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarBuild.swift; sourceTree = "<group>"; };
+		CA2A41AA291A5BE30089A2E4 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		CA3BB419291A258F008FDC90 /* ComponentsUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ComponentsUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA94F892291A889000E02F6D /* ProfileBuild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBuild.swift; sourceTree = "<group>"; };
+		CA94F894291A88A200E02F6D /* ProfileRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRouter.swift; sourceTree = "<group>"; };
+		CA94F896291A88BD00E02F6D /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		CA94F899291A88E400E02F6D /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
+		CA94F89B291A921B00E02F6D /* ProfileMeasureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileMeasureView.swift; sourceTree = "<group>"; };
+		CA94F89D291AA24F00E02F6D /* HealthKitHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitHelper.swift; sourceTree = "<group>"; };
+		CA94F89F291AA26200E02F6D /* HealthKitError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitError.swift; sourceTree = "<group>"; };
+		CA9CCB98291A791D00DE18ED /* WalkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkView.swift; sourceTree = "<group>"; };
+		CA9CCB9A291A79DE00DE18ED /* CircularProgresView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgresView.swift; sourceTree = "<group>"; };
 		CAFB8A662919A3C7004BF972 /* HealthActivity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HealthActivity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAFB8A692919A3C7004BF972 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CAFB8A6B2919A3C7004BF972 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -64,8 +81,8 @@
 		CA2A4180291A2F200089A2E4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				CAFB8A722919A3C8004BF972 /* Assets.xcassets */,
-				CA2A4181291A2F290089A2E4 /* Colors.xcassets */,
+				CA2A4196291A40F90089A2E4 /* Utilities */,
+				CA2A4195291A40F50089A2E4 /* Assets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -90,27 +107,70 @@
 		CA2A4188291A32520089A2E4 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
-				CA2A4189291A32570089A2E4 /* Home */,
+				CA2A41A9291A51EC0089A2E4 /* TabBarFlow */,
+				CA2A4189291A32570089A2E4 /* HomeFlow */,
+				CA94F891291A888400E02F6D /* ProfileFlow */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
 		};
-		CA2A4189291A32570089A2E4 /* Home */ = {
+		CA2A4189291A32570089A2E4 /* HomeFlow */ = {
 			isa = PBXGroup;
 			children = (
-				CA2A418A291A32630089A2E4 /* HomeViewController.swift */,
 				CA2A418C291A32670089A2E4 /* HomeBuild.swift */,
+				CA2A418A291A32630089A2E4 /* HomeViewController.swift */,
 				CA2A418E291A328E0089A2E4 /* HomeRouter.swift */,
 			);
-			path = Home;
+			path = HomeFlow;
 			sourceTree = "<group>";
 		};
 		CA2A4190291A32900089A2E4 /* Base */ = {
 			isa = PBXGroup;
 			children = (
 				CA2A4191291A33070089A2E4 /* BaseRouter.swift */,
+				CA2A4193291A3FBA0089A2E4 /* BaseController.swift */,
+				CA2A41A1291A4EFC0089A2E4 /* BaseTabBarViewController.swift */,
+				CA2A41AA291A5BE30089A2E4 /* BaseNavigationController.swift */,
 			);
 			path = Base;
+			sourceTree = "<group>";
+		};
+		CA2A4195291A40F50089A2E4 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				CAFB8A722919A3C8004BF972 /* Assets.xcassets */,
+				CA2A4181291A2F290089A2E4 /* Colors.xcassets */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		CA2A4196291A40F90089A2E4 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				CA94F8A1291AA27900E02F6D /* HealthKit */,
+				CA2A4199291A41060089A2E4 /* View */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		CA2A4199291A41060089A2E4 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CA2A419A291A41200089A2E4 /* InfoView.swift */,
+				CA9CCB98291A791D00DE18ED /* WalkView.swift */,
+				CA9CCB9A291A79DE00DE18ED /* CircularProgresView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		CA2A41A9291A51EC0089A2E4 /* TabBarFlow */ = {
+			isa = PBXGroup;
+			children = (
+				CA2A41A7291A51540089A2E4 /* MainTabBarBuild.swift */,
+				CA2A41A3291A4F450089A2E4 /* MainTabBarViewController.swift */,
+				CA2A41A5291A4FA00089A2E4 /* MainTabBar.swift */,
+			);
+			path = TabBarFlow;
 			sourceTree = "<group>";
 		};
 		CA3BB418291A258F008FDC90 /* Frameworks */ = {
@@ -119,6 +179,35 @@
 				CA3BB419291A258F008FDC90 /* ComponentsUI.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CA94F891291A888400E02F6D /* ProfileFlow */ = {
+			isa = PBXGroup;
+			children = (
+				CA94F892291A889000E02F6D /* ProfileBuild.swift */,
+				CA94F894291A88A200E02F6D /* ProfileRouter.swift */,
+				CA94F896291A88BD00E02F6D /* ProfileViewController.swift */,
+				CA94F898291A88D700E02F6D /* ProfileInfoView */,
+			);
+			path = ProfileFlow;
+			sourceTree = "<group>";
+		};
+		CA94F898291A88D700E02F6D /* ProfileInfoView */ = {
+			isa = PBXGroup;
+			children = (
+				CA94F899291A88E400E02F6D /* ProfileInfoView.swift */,
+				CA94F89B291A921B00E02F6D /* ProfileMeasureView.swift */,
+			);
+			path = ProfileInfoView;
+			sourceTree = "<group>";
+		};
+		CA94F8A1291AA27900E02F6D /* HealthKit */ = {
+			isa = PBXGroup;
+			children = (
+				CA94F89D291AA24F00E02F6D /* HealthKitHelper.swift */,
+				CA94F89F291AA26200E02F6D /* HealthKitError.swift */,
+			);
+			path = HealthKit;
 			sourceTree = "<group>";
 		};
 		CAFB8A5D2919A3C7004BF972 = {
@@ -161,7 +250,6 @@
 				CAFB8A622919A3C7004BF972 /* Sources */,
 				CAFB8A632919A3C7004BF972 /* Frameworks */,
 				CAFB8A642919A3C7004BF972 /* Resources */,
-				CA3BB41C291A258F008FDC90 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -223,11 +311,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA2A41AB291A5BE30089A2E4 /* BaseNavigationController.swift in Sources */,
+				CA2A419B291A41200089A2E4 /* InfoView.swift in Sources */,
 				CA2A418F291A328E0089A2E4 /* HomeRouter.swift in Sources */,
+				CA94F8A0291AA26200E02F6D /* HealthKitError.swift in Sources */,
+				CA9CCB9B291A79DE00DE18ED /* CircularProgresView.swift in Sources */,
+				CA94F89A291A88E400E02F6D /* ProfileInfoView.swift in Sources */,
 				CA2A4192291A33070089A2E4 /* BaseRouter.swift in Sources */,
+				CA2A41A2291A4EFC0089A2E4 /* BaseTabBarViewController.swift in Sources */,
+				CA94F897291A88BD00E02F6D /* ProfileViewController.swift in Sources */,
+				CA9CCB99291A791D00DE18ED /* WalkView.swift in Sources */,
+				CA94F895291A88A200E02F6D /* ProfileRouter.swift in Sources */,
+				CA2A41A6291A4FA00089A2E4 /* MainTabBar.swift in Sources */,
+				CA2A41A8291A51540089A2E4 /* MainTabBarBuild.swift in Sources */,
+				CA2A4194291A3FBA0089A2E4 /* BaseController.swift in Sources */,
+				CA2A41A4291A4F450089A2E4 /* MainTabBarViewController.swift in Sources */,
 				CAFB8A6A2919A3C7004BF972 /* AppDelegate.swift in Sources */,
 				CA2A418D291A32670089A2E4 /* HomeBuild.swift in Sources */,
 				CAFB8A6C2919A3C7004BF972 /* SceneDelegate.swift in Sources */,
+				CA94F89C291A921B00E02F6D /* ProfileMeasureView.swift in Sources */,
+				CA94F89E291AA24F00E02F6D /* HealthKitHelper.swift in Sources */,
+				CA94F893291A889000E02F6D /* ProfileBuild.swift in Sources */,
 				CA2A418B291A32630089A2E4 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -372,7 +476,6 @@
 				INFOPLIST_FILE = HealthActivity/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -404,7 +507,6 @@
 				INFOPLIST_FILE = HealthActivity/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

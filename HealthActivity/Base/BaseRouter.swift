@@ -5,7 +5,7 @@
 //  Created by Ababakri Ibragimov on 8/11/22.
 //
 
-import Foundation
+import UIKit
 
 public class BaseRouter {
     private weak var viewController: UIViewController?
@@ -92,7 +92,7 @@ public class BaseRouter {
     func replaceLast(viewController target: UIViewController) {
         guard
             let vc = viewController,
-            let nc = (vc.navigationController ?? vc.presentingViewController) as? SHNavigationController
+            let nc = (vc.navigationController ?? vc.presentingViewController) as? UINavigationController
         else { return }
 
         guard vc.presentingViewController == nil else {

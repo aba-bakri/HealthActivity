@@ -5,6 +5,6 @@
       location = "group:HealthActivity.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:../UIComponents/UIComponents.xcodeproj">
+      location = "group:../ComponentsUI/ComponentsUI.xcodeproj">
    </FileRef>
 </Workspace>

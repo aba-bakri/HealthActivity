@@ -1,0 +1,6 @@
+framework module Pods_HealthActivity {
+  umbrella header "Pods-HealthActivity-umbrella.h"
+
+  export *
+  module * { export * }
+}

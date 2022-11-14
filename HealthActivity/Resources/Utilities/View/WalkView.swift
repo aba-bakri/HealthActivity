@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import ComponentsUI
 
 class WalkView: BaseView {
     
@@ -30,6 +29,11 @@ class WalkView: BaseView {
         return view
     }()
     
+    private lazy var centerView: BaseView = {
+        let view = BaseView(frame: .zero)
+        return view
+    }()
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
@@ -46,10 +50,9 @@ class WalkView: BaseView {
         return label
     }()
     
-    private lazy var valueLabel: UILabel = {
+    lazy var valueLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 30, weight: .medium)
-        label.text = "3500"
         label.textColor = UIColor(named: "blackLabel")
         return label
     }()
@@ -58,7 +61,7 @@ class WalkView: BaseView {
         let stackView = UIStackView(frame: .zero)
         stackView.axis = .vertical
         stackView.spacing = 8
-        stackView.alignment = .leading
+        stackView.alignment = .center
         stackView.distribution = .fill
         stackView.addArrangedSubview(measureLabel)
         stackView.addArrangedSubview(valueLabel)
@@ -85,6 +88,19 @@ class WalkView: BaseView {
         titleLabel.snp.makeConstraints { make in
             make.left.equalTo(topLeftImageView.snp.right).offset(16)
             make.centerY.equalTo(topLeftImageView.snp.centerY)
+        }
+        
+        addSubview(centerView)
+        centerView.snp.makeConstraints { make in
+            make.top.equalTo(topLeftImageView.snp.bottom).offset(20)
+            make.left.equalTo(snp.left).inset(20)
+            make.right.equalTo(snp.right).inset(20)
+            make.bottom.equalTo(snp.bottom).inset(20)
+        }
+        
+        centerView.addSubview(measureStackView)
+        measureStackView.snp.makeConstraints { make in
+            make.center.equalTo(centerView.snp.center)
         }
         
 //        addSubview(circularView)

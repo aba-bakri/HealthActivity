@@ -10,11 +10,21 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    private let healthManager = HealthTest.shared
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        authorizeHealthKit()
         return true
+    }
+    
+    private func authorizeHealthKit() {
+        //execute an authorization request
+        healthManager.authorizeHealthKit(success: { [weak self] in
+            guard let self = self else { return }
+//            self.healthManager.startEnablingBackgroundDelivery()
+        })
     }
 
     // MARK: UISceneSession Lifecycle

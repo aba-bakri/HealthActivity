@@ -19,23 +19,53 @@
 		CA2A41A6291A4FA00089A2E4 /* MainTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2A41A5291A4FA00089A2E4 /* MainTabBar.swift */; };
 		CA2A41A8291A51540089A2E4 /* MainTabBarBuild.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2A41A7291A51540089A2E4 /* MainTabBarBuild.swift */; };
 		CA2A41AB291A5BE30089A2E4 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA2A41AA291A5BE30089A2E4 /* BaseNavigationController.swift */; };
-		CA3BB41A291A258F008FDC90 /* ComponentsUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA3BB419291A258F008FDC90 /* ComponentsUI.framework */; };
+		CA50EF2B291CF58900F3955E /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA50EF2A291CF58900F3955E /* ActivityView.swift */; };
+		CA50EF2E291D0A5600F3955E /* StatusBuild.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA50EF2D291D0A5600F3955E /* StatusBuild.swift */; };
+		CA50EF30291D0A5D00F3955E /* StatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA50EF2F291D0A5D00F3955E /* StatusViewController.swift */; };
+		CA50EF32291D0A6400F3955E /* StatusRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA50EF31291D0A6400F3955E /* StatusRouter.swift */; };
+		CA50EF34291D0A6900F3955E /* StatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA50EF33291D0A6900F3955E /* StatusView.swift */; };
+		CA50EF36291D1AC300F3955E /* HealthTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA50EF35291D1AC300F3955E /* HealthTest.swift */; };
+		CA50EF38291D1F1C00F3955E /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA50EF37291D1F1C00F3955E /* UIViewControllerExtension.swift */; };
+		CA50EF3A291D77FD00F3955E /* PersonalInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA50EF39291D77FD00F3955E /* PersonalInfoViewModel.swift */; };
+		CA50EF3C291D78B300F3955E /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA50EF3B291D78B300F3955E /* BaseViewModel.swift */; };
+		CA50EF3E291D79D300F3955E /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA50EF3D291D79D300F3955E /* ProfileViewModel.swift */; };
+		CA50EF41291D7FD300F3955E /* DoubleExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA50EF40291D7FD300F3955E /* DoubleExtension.swift */; };
+		CA50EF43291D808900F3955E /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA50EF42291D808900F3955E /* IntExtension.swift */; };
+		CA50EF45291F700200F3955E /* InfoGraphView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA50EF44291F700200F3955E /* InfoGraphView.swift */; };
+		CA50EF4729213A6D00F3955E /* ActivityViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA50EF4629213A6D00F3955E /* ActivityViewModel.swift */; };
+		CA520C3229222169002D6400 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA520C3129222169002D6400 /* HomeViewModel.swift */; };
 		CA94F893291A889000E02F6D /* ProfileBuild.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F892291A889000E02F6D /* ProfileBuild.swift */; };
 		CA94F895291A88A200E02F6D /* ProfileRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F894291A88A200E02F6D /* ProfileRouter.swift */; };
 		CA94F897291A88BD00E02F6D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F896291A88BD00E02F6D /* ProfileViewController.swift */; };
 		CA94F89A291A88E400E02F6D /* ProfileInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F899291A88E400E02F6D /* ProfileInfoView.swift */; };
 		CA94F89C291A921B00E02F6D /* ProfileMeasureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F89B291A921B00E02F6D /* ProfileMeasureView.swift */; };
-		CA94F89E291AA24F00E02F6D /* HealthKitHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F89D291AA24F00E02F6D /* HealthKitHelper.swift */; };
 		CA94F8A0291AA26200E02F6D /* HealthKitError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F89F291AA26200E02F6D /* HealthKitError.swift */; };
+		CA94F8A5291AA7E700E02F6D /* PersonalnfoBuild.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F8A4291AA7E700E02F6D /* PersonalnfoBuild.swift */; };
+		CA94F8A7291AA80700E02F6D /* PersonalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F8A6291AA80700E02F6D /* PersonalViewController.swift */; };
+		CA94F8A9291AA80D00E02F6D /* PersonalRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F8A8291AA80D00E02F6D /* PersonalRouter.swift */; };
+		CA94F8B2291ABD5500E02F6D /* PersonalSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F8B1291ABD5500E02F6D /* PersonalSliderView.swift */; };
+		CA94F8D1291BE7B200E02F6D /* BaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F8CD291BE7B200E02F6D /* BaseView.swift */; };
+		CA94F8D2291BE7B200E02F6D /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F8CE291BE7B200E02F6D /* BaseViewController.swift */; };
+		CA94F8D3291BE7B200E02F6D /* BaseProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F8CF291BE7B200E02F6D /* BaseProtocol.swift */; };
+		CA94F8D4291BE7B200E02F6D /* BaseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F8D0291BE7B200E02F6D /* BaseButton.swift */; };
+		CA94F8D7291BE7D700E02F6D /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F8D6291BE7D700E02F6D /* UIViewExtension.swift */; };
+		CA94F8DA291BE82600E02F6D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CA94F8D9291BE82600E02F6D /* SnapKit */; };
+		CA94F8DC291CC1F800E02F6D /* HealthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F8DB291CC1F800E02F6D /* HealthManager.swift */; };
+		CA94F8DF291CDBAB00E02F6D /* ActivityBuild.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F8DE291CDBAB00E02F6D /* ActivityBuild.swift */; };
+		CA94F8E1291CDBB300E02F6D /* ActivityRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F8E0291CDBB300E02F6D /* ActivityRouter.swift */; };
+		CA94F8E3291CDBBD00E02F6D /* ActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA94F8E2291CDBBD00E02F6D /* ActivityViewController.swift */; };
 		CA9CCB99291A791D00DE18ED /* WalkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA9CCB98291A791D00DE18ED /* WalkView.swift */; };
 		CA9CCB9B291A79DE00DE18ED /* CircularProgresView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA9CCB9A291A79DE00DE18ED /* CircularProgresView.swift */; };
 		CAFB8A6A2919A3C7004BF972 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB8A692919A3C7004BF972 /* AppDelegate.swift */; };
 		CAFB8A6C2919A3C7004BF972 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB8A6B2919A3C7004BF972 /* SceneDelegate.swift */; };
 		CAFB8A732919A3C8004BF972 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAFB8A722919A3C8004BF972 /* Assets.xcassets */; };
 		CAFB8A762919A3C8004BF972 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CAFB8A742919A3C8004BF972 /* LaunchScreen.storyboard */; };
+		EFF0514E33DA6A5AB8E6DA1D /* Pods_HealthActivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 49C0C849A65F3C49F3FDC002 /* Pods_HealthActivity.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		49C0C849A65F3C49F3FDC002 /* Pods_HealthActivity.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HealthActivity.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9568D66983ABD506479DBD83 /* Pods-HealthActivity.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HealthActivity.debug.xcconfig"; path = "Target Support Files/Pods-HealthActivity/Pods-HealthActivity.debug.xcconfig"; sourceTree = "<group>"; };
 		CA2A4181291A2F290089A2E4 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		CA2A418A291A32630089A2E4 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		CA2A418C291A32670089A2E4 /* HomeBuild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBuild.swift; sourceTree = "<group>"; };
@@ -49,13 +79,41 @@
 		CA2A41A7291A51540089A2E4 /* MainTabBarBuild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarBuild.swift; sourceTree = "<group>"; };
 		CA2A41AA291A5BE30089A2E4 /* BaseNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseNavigationController.swift; sourceTree = "<group>"; };
 		CA3BB419291A258F008FDC90 /* ComponentsUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = ComponentsUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA50EF2A291CF58900F3955E /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
+		CA50EF2D291D0A5600F3955E /* StatusBuild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBuild.swift; sourceTree = "<group>"; };
+		CA50EF2F291D0A5D00F3955E /* StatusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusViewController.swift; sourceTree = "<group>"; };
+		CA50EF31291D0A6400F3955E /* StatusRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusRouter.swift; sourceTree = "<group>"; };
+		CA50EF33291D0A6900F3955E /* StatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusView.swift; sourceTree = "<group>"; };
+		CA50EF35291D1AC300F3955E /* HealthTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthTest.swift; sourceTree = "<group>"; };
+		CA50EF37291D1F1C00F3955E /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
+		CA50EF39291D77FD00F3955E /* PersonalInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalInfoViewModel.swift; sourceTree = "<group>"; };
+		CA50EF3B291D78B300F3955E /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
+		CA50EF3D291D79D300F3955E /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		CA50EF40291D7FD300F3955E /* DoubleExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtension.swift; sourceTree = "<group>"; };
+		CA50EF42291D808900F3955E /* IntExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntExtension.swift; sourceTree = "<group>"; };
+		CA50EF44291F700200F3955E /* InfoGraphView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoGraphView.swift; sourceTree = "<group>"; };
+		CA50EF4629213A6D00F3955E /* ActivityViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewModel.swift; sourceTree = "<group>"; };
+		CA520C3129222169002D6400 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		CA94F892291A889000E02F6D /* ProfileBuild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBuild.swift; sourceTree = "<group>"; };
 		CA94F894291A88A200E02F6D /* ProfileRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRouter.swift; sourceTree = "<group>"; };
 		CA94F896291A88BD00E02F6D /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		CA94F899291A88E400E02F6D /* ProfileInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileInfoView.swift; sourceTree = "<group>"; };
 		CA94F89B291A921B00E02F6D /* ProfileMeasureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileMeasureView.swift; sourceTree = "<group>"; };
-		CA94F89D291AA24F00E02F6D /* HealthKitHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitHelper.swift; sourceTree = "<group>"; };
 		CA94F89F291AA26200E02F6D /* HealthKitError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitError.swift; sourceTree = "<group>"; };
+		CA94F8A4291AA7E700E02F6D /* PersonalnfoBuild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalnfoBuild.swift; sourceTree = "<group>"; };
+		CA94F8A6291AA80700E02F6D /* PersonalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalViewController.swift; sourceTree = "<group>"; };
+		CA94F8A8291AA80D00E02F6D /* PersonalRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalRouter.swift; sourceTree = "<group>"; };
+		CA94F8AC291AB85100E02F6D /* HealthActivity.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HealthActivity.entitlements; sourceTree = "<group>"; };
+		CA94F8B1291ABD5500E02F6D /* PersonalSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalSliderView.swift; sourceTree = "<group>"; };
+		CA94F8CD291BE7B200E02F6D /* BaseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseView.swift; sourceTree = "<group>"; };
+		CA94F8CE291BE7B200E02F6D /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		CA94F8CF291BE7B200E02F6D /* BaseProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseProtocol.swift; sourceTree = "<group>"; };
+		CA94F8D0291BE7B200E02F6D /* BaseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseButton.swift; sourceTree = "<group>"; };
+		CA94F8D6291BE7D700E02F6D /* UIViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
+		CA94F8DB291CC1F800E02F6D /* HealthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthManager.swift; sourceTree = "<group>"; };
+		CA94F8DE291CDBAB00E02F6D /* ActivityBuild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityBuild.swift; sourceTree = "<group>"; };
+		CA94F8E0291CDBB300E02F6D /* ActivityRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityRouter.swift; sourceTree = "<group>"; };
+		CA94F8E2291CDBBD00E02F6D /* ActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewController.swift; sourceTree = "<group>"; };
 		CA9CCB98291A791D00DE18ED /* WalkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkView.swift; sourceTree = "<group>"; };
 		CA9CCB9A291A79DE00DE18ED /* CircularProgresView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgresView.swift; sourceTree = "<group>"; };
 		CAFB8A662919A3C7004BF972 /* HealthActivity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HealthActivity.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -64,6 +122,7 @@
 		CAFB8A722919A3C8004BF972 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CAFB8A752919A3C8004BF972 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CAFB8A772919A3C8004BF972 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FFDBAC41BAB4BA9058BB5ADD /* Pods-HealthActivity.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HealthActivity.release.xcconfig"; path = "Target Support Files/Pods-HealthActivity/Pods-HealthActivity.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,16 +130,27 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CA3BB41A291A258F008FDC90 /* ComponentsUI.framework in Frameworks */,
+				CA94F8DA291BE82600E02F6D /* SnapKit in Frameworks */,
+				EFF0514E33DA6A5AB8E6DA1D /* Pods_HealthActivity.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7C9FB999B4632572C5F8BFFE /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9568D66983ABD506479DBD83 /* Pods-HealthActivity.debug.xcconfig */,
+				FFDBAC41BAB4BA9058BB5ADD /* Pods-HealthActivity.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		CA2A4180291A2F200089A2E4 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				CA94F8D5291BE7CC00E02F6D /* Extension */,
 				CA2A4196291A40F90089A2E4 /* Utilities */,
 				CA2A4195291A40F50089A2E4 /* Assets */,
 			);
@@ -109,6 +179,8 @@
 			children = (
 				CA2A41A9291A51EC0089A2E4 /* TabBarFlow */,
 				CA2A4189291A32570089A2E4 /* HomeFlow */,
+				CA94F8DD291CDB9600E02F6D /* ActivityFlow */,
+				CA50EF2C291D0A4E00F3955E /* StatusFlow */,
 				CA94F891291A888400E02F6D /* ProfileFlow */,
 			);
 			path = TabBar;
@@ -120,6 +192,7 @@
 				CA2A418C291A32670089A2E4 /* HomeBuild.swift */,
 				CA2A418A291A32630089A2E4 /* HomeViewController.swift */,
 				CA2A418E291A328E0089A2E4 /* HomeRouter.swift */,
+				CA520C3129222169002D6400 /* HomeViewModel.swift */,
 			);
 			path = HomeFlow;
 			sourceTree = "<group>";
@@ -131,6 +204,7 @@
 				CA2A4193291A3FBA0089A2E4 /* BaseController.swift */,
 				CA2A41A1291A4EFC0089A2E4 /* BaseTabBarViewController.swift */,
 				CA2A41AA291A5BE30089A2E4 /* BaseNavigationController.swift */,
+				CA50EF3B291D78B300F3955E /* BaseViewModel.swift */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -156,9 +230,11 @@
 		CA2A4199291A41060089A2E4 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				CA94F8C4291BE78C00E02F6D /* BaseView */,
 				CA2A419A291A41200089A2E4 /* InfoView.swift */,
 				CA9CCB98291A791D00DE18ED /* WalkView.swift */,
 				CA9CCB9A291A79DE00DE18ED /* CircularProgresView.swift */,
+				CA50EF44291F700200F3955E /* InfoGraphView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -177,17 +253,36 @@
 			isa = PBXGroup;
 			children = (
 				CA3BB419291A258F008FDC90 /* ComponentsUI.framework */,
+				49C0C849A65F3C49F3FDC002 /* Pods_HealthActivity.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CA50EF2C291D0A4E00F3955E /* StatusFlow */ = {
+			isa = PBXGroup;
+			children = (
+				CA50EF2D291D0A5600F3955E /* StatusBuild.swift */,
+				CA50EF2F291D0A5D00F3955E /* StatusViewController.swift */,
+				CA50EF31291D0A6400F3955E /* StatusRouter.swift */,
+				CA50EF33291D0A6900F3955E /* StatusView.swift */,
+			);
+			path = StatusFlow;
+			sourceTree = "<group>";
+		};
+		CA50EF3F291D7FC900F3955E /* TypeExtension */ = {
+			isa = PBXGroup;
+			children = (
+				CA50EF40291D7FD300F3955E /* DoubleExtension.swift */,
+				CA50EF42291D808900F3955E /* IntExtension.swift */,
+			);
+			path = TypeExtension;
 			sourceTree = "<group>";
 		};
 		CA94F891291A888400E02F6D /* ProfileFlow */ = {
 			isa = PBXGroup;
 			children = (
-				CA94F892291A889000E02F6D /* ProfileBuild.swift */,
-				CA94F894291A88A200E02F6D /* ProfileRouter.swift */,
-				CA94F896291A88BD00E02F6D /* ProfileViewController.swift */,
-				CA94F898291A88D700E02F6D /* ProfileInfoView */,
+				CA94F8A2291AA7C900E02F6D /* Profile */,
+				CA94F8A3291AA7D700E02F6D /* PersonalInfo */,
 			);
 			path = ProfileFlow;
 			sourceTree = "<group>";
@@ -204,10 +299,84 @@
 		CA94F8A1291AA27900E02F6D /* HealthKit */ = {
 			isa = PBXGroup;
 			children = (
-				CA94F89D291AA24F00E02F6D /* HealthKitHelper.swift */,
+				CA94F8B9291BC9B800E02F6D /* Test */,
 				CA94F89F291AA26200E02F6D /* HealthKitError.swift */,
 			);
 			path = HealthKit;
+			sourceTree = "<group>";
+		};
+		CA94F8A2291AA7C900E02F6D /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				CA94F892291A889000E02F6D /* ProfileBuild.swift */,
+				CA94F896291A88BD00E02F6D /* ProfileViewController.swift */,
+				CA94F894291A88A200E02F6D /* ProfileRouter.swift */,
+				CA50EF3D291D79D300F3955E /* ProfileViewModel.swift */,
+				CA94F898291A88D700E02F6D /* ProfileInfoView */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		CA94F8A3291AA7D700E02F6D /* PersonalInfo */ = {
+			isa = PBXGroup;
+			children = (
+				CA94F8A4291AA7E700E02F6D /* PersonalnfoBuild.swift */,
+				CA94F8A6291AA80700E02F6D /* PersonalViewController.swift */,
+				CA50EF39291D77FD00F3955E /* PersonalInfoViewModel.swift */,
+				CA94F8A8291AA80D00E02F6D /* PersonalRouter.swift */,
+				CA94F8B0291ABD1C00E02F6D /* View */,
+			);
+			path = PersonalInfo;
+			sourceTree = "<group>";
+		};
+		CA94F8B0291ABD1C00E02F6D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CA94F8B1291ABD5500E02F6D /* PersonalSliderView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		CA94F8B9291BC9B800E02F6D /* Test */ = {
+			isa = PBXGroup;
+			children = (
+				CA94F8DB291CC1F800E02F6D /* HealthManager.swift */,
+				CA50EF35291D1AC300F3955E /* HealthTest.swift */,
+			);
+			path = Test;
+			sourceTree = "<group>";
+		};
+		CA94F8C4291BE78C00E02F6D /* BaseView */ = {
+			isa = PBXGroup;
+			children = (
+				CA94F8D0291BE7B200E02F6D /* BaseButton.swift */,
+				CA94F8CF291BE7B200E02F6D /* BaseProtocol.swift */,
+				CA94F8CD291BE7B200E02F6D /* BaseView.swift */,
+				CA94F8CE291BE7B200E02F6D /* BaseViewController.swift */,
+			);
+			path = BaseView;
+			sourceTree = "<group>";
+		};
+		CA94F8D5291BE7CC00E02F6D /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				CA50EF3F291D7FC900F3955E /* TypeExtension */,
+				CA94F8D6291BE7D700E02F6D /* UIViewExtension.swift */,
+				CA50EF37291D1F1C00F3955E /* UIViewControllerExtension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		CA94F8DD291CDB9600E02F6D /* ActivityFlow */ = {
+			isa = PBXGroup;
+			children = (
+				CA94F8DE291CDBAB00E02F6D /* ActivityBuild.swift */,
+				CA94F8E2291CDBBD00E02F6D /* ActivityViewController.swift */,
+				CA94F8E0291CDBB300E02F6D /* ActivityRouter.swift */,
+				CA50EF2A291CF58900F3955E /* ActivityView.swift */,
+				CA50EF4629213A6D00F3955E /* ActivityViewModel.swift */,
+			);
+			path = ActivityFlow;
 			sourceTree = "<group>";
 		};
 		CAFB8A5D2919A3C7004BF972 = {
@@ -216,6 +385,7 @@
 				CAFB8A682919A3C7004BF972 /* HealthActivity */,
 				CAFB8A672919A3C7004BF972 /* Products */,
 				CA3BB418291A258F008FDC90 /* Frameworks */,
+				7C9FB999B4632572C5F8BFFE /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -230,6 +400,7 @@
 		CAFB8A682919A3C7004BF972 /* HealthActivity */ = {
 			isa = PBXGroup;
 			children = (
+				CA94F8AC291AB85100E02F6D /* HealthActivity.entitlements */,
 				CA2A4183291A2F2C0089A2E4 /* App */,
 				CA2A4190291A32900089A2E4 /* Base */,
 				CA2A4184291A2F360089A2E4 /* Flow */,
@@ -247,15 +418,20 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = CAFB8A7A2919A3C8004BF972 /* Build configuration list for PBXNativeTarget "HealthActivity" */;
 			buildPhases = (
+				3D705447AD77DAA6E8172C3B /* [CP] Check Pods Manifest.lock */,
 				CAFB8A622919A3C7004BF972 /* Sources */,
 				CAFB8A632919A3C7004BF972 /* Frameworks */,
 				CAFB8A642919A3C7004BF972 /* Resources */,
+				C9D639F6EED5ACD21A30CF82 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = HealthActivity;
+			packageProductDependencies = (
+				CA94F8D9291BE82600E02F6D /* SnapKit */,
+			);
 			productName = HealthActivity;
 			productReference = CAFB8A662919A3C7004BF972 /* HealthActivity.app */;
 			productType = "com.apple.product-type.application";
@@ -284,6 +460,9 @@
 				Base,
 			);
 			mainGroup = CAFB8A5D2919A3C7004BF972;
+			packageReferences = (
+				CA94F8D8291BE82600E02F6D /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = CAFB8A672919A3C7004BF972 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -306,32 +485,101 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3D705447AD77DAA6E8172C3B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HealthActivity-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C9D639F6EED5ACD21A30CF82 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HealthActivity/Pods-HealthActivity-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HealthActivity/Pods-HealthActivity-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HealthActivity/Pods-HealthActivity-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		CAFB8A622919A3C7004BF972 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				CA2A41AB291A5BE30089A2E4 /* BaseNavigationController.swift in Sources */,
+				CA50EF43291D808900F3955E /* IntExtension.swift in Sources */,
+				CA50EF38291D1F1C00F3955E /* UIViewControllerExtension.swift in Sources */,
+				CA50EF2B291CF58900F3955E /* ActivityView.swift in Sources */,
 				CA2A419B291A41200089A2E4 /* InfoView.swift in Sources */,
 				CA2A418F291A328E0089A2E4 /* HomeRouter.swift in Sources */,
+				CA50EF3C291D78B300F3955E /* BaseViewModel.swift in Sources */,
 				CA94F8A0291AA26200E02F6D /* HealthKitError.swift in Sources */,
 				CA9CCB9B291A79DE00DE18ED /* CircularProgresView.swift in Sources */,
+				CA94F8B2291ABD5500E02F6D /* PersonalSliderView.swift in Sources */,
+				CA50EF3A291D77FD00F3955E /* PersonalInfoViewModel.swift in Sources */,
+				CA50EF4729213A6D00F3955E /* ActivityViewModel.swift in Sources */,
+				CA50EF2E291D0A5600F3955E /* StatusBuild.swift in Sources */,
+				CA94F8DC291CC1F800E02F6D /* HealthManager.swift in Sources */,
 				CA94F89A291A88E400E02F6D /* ProfileInfoView.swift in Sources */,
 				CA2A4192291A33070089A2E4 /* BaseRouter.swift in Sources */,
 				CA2A41A2291A4EFC0089A2E4 /* BaseTabBarViewController.swift in Sources */,
 				CA94F897291A88BD00E02F6D /* ProfileViewController.swift in Sources */,
+				CA94F8E1291CDBB300E02F6D /* ActivityRouter.swift in Sources */,
+				CA94F8A5291AA7E700E02F6D /* PersonalnfoBuild.swift in Sources */,
+				CA50EF3E291D79D300F3955E /* ProfileViewModel.swift in Sources */,
+				CA94F8D2291BE7B200E02F6D /* BaseViewController.swift in Sources */,
+				CA50EF36291D1AC300F3955E /* HealthTest.swift in Sources */,
+				CA520C3229222169002D6400 /* HomeViewModel.swift in Sources */,
+				CA94F8A7291AA80700E02F6D /* PersonalViewController.swift in Sources */,
 				CA9CCB99291A791D00DE18ED /* WalkView.swift in Sources */,
 				CA94F895291A88A200E02F6D /* ProfileRouter.swift in Sources */,
 				CA2A41A6291A4FA00089A2E4 /* MainTabBar.swift in Sources */,
 				CA2A41A8291A51540089A2E4 /* MainTabBarBuild.swift in Sources */,
+				CA50EF34291D0A6900F3955E /* StatusView.swift in Sources */,
 				CA2A4194291A3FBA0089A2E4 /* BaseController.swift in Sources */,
+				CA94F8D3291BE7B200E02F6D /* BaseProtocol.swift in Sources */,
+				CA94F8D1291BE7B200E02F6D /* BaseView.swift in Sources */,
+				CA50EF41291D7FD300F3955E /* DoubleExtension.swift in Sources */,
+				CA50EF45291F700200F3955E /* InfoGraphView.swift in Sources */,
+				CA94F8A9291AA80D00E02F6D /* PersonalRouter.swift in Sources */,
 				CA2A41A4291A4F450089A2E4 /* MainTabBarViewController.swift in Sources */,
+				CA94F8D7291BE7D700E02F6D /* UIViewExtension.swift in Sources */,
 				CAFB8A6A2919A3C7004BF972 /* AppDelegate.swift in Sources */,
 				CA2A418D291A32670089A2E4 /* HomeBuild.swift in Sources */,
 				CAFB8A6C2919A3C7004BF972 /* SceneDelegate.swift in Sources */,
 				CA94F89C291A921B00E02F6D /* ProfileMeasureView.swift in Sources */,
-				CA94F89E291AA24F00E02F6D /* HealthKitHelper.swift in Sources */,
+				CA94F8DF291CDBAB00E02F6D /* ActivityBuild.swift in Sources */,
 				CA94F893291A889000E02F6D /* ProfileBuild.swift in Sources */,
+				CA94F8E3291CDBBD00E02F6D /* ActivityViewController.swift in Sources */,
+				CA50EF32291D0A6400F3955E /* StatusRouter.swift in Sources */,
+				CA94F8D4291BE7B200E02F6D /* BaseButton.swift in Sources */,
+				CA50EF30291D0A5D00F3955E /* StatusViewController.swift in Sources */,
 				CA2A418B291A32630089A2E4 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -466,14 +714,18 @@
 		};
 		CAFB8A7B2919A3C8004BF972 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9568D66983ABD506479DBD83 /* Pods-HealthActivity.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HealthActivity/HealthActivity.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 9K7RDBSH2X;
+				DEVELOPMENT_TEAM = L788L42PRY;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HealthActivity/Info.plist;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow to use your health parameters";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Please allow to use your health parameters";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -484,7 +736,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.base.components.HealthActivity;
+				PRODUCT_BUNDLE_IDENTIFIER = com.redpay.kg;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -497,14 +749,18 @@
 		};
 		CAFB8A7C2919A3C8004BF972 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FFDBAC41BAB4BA9058BB5ADD /* Pods-HealthActivity.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HealthActivity/HealthActivity.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 9K7RDBSH2X;
+				DEVELOPMENT_TEAM = L788L42PRY;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = HealthActivity/Info.plist;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Please allow to use your health parameters";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Please allow to use your health parameters";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -515,7 +771,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.base.components.HealthActivity;
+				PRODUCT_BUNDLE_IDENTIFIER = com.redpay.kg;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -548,6 +804,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		CA94F8D8291BE82600E02F6D /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				branch = develop;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		CA94F8D9291BE82600E02F6D /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CA94F8D8291BE82600E02F6D /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CAFB8A5E2919A3C7004BF972 /* Project object */;
 }

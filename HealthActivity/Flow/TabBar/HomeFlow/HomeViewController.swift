@@ -6,11 +6,12 @@
 //
 
 import UIKit
-import ComponentsUI
+import HealthKit
 
 class HomeViewController: BaseController {
     
     internal var router: HomeRouter?
+    internal var viewModel: HomeViewModel!
     
     private lazy var welcomeLabel: UILabel = {
         let label = UILabel(frame: .zero)
@@ -44,8 +45,8 @@ class HomeViewController: BaseController {
         return view
     }()
     
-    private lazy var waterView: InfoView = {
-        let view = InfoView(type: .water)
+    private lazy var waterView: InfoGraphView = {
+        let view = InfoGraphView(type: .water)
         return view
     }()
     
@@ -81,8 +82,8 @@ class HomeViewController: BaseController {
         return stackView
     }()
     
-    private lazy var heartView: InfoView = {
-        let view = InfoView(type: .heart)
+    private lazy var heartView: InfoGraphView = {
+        let view = InfoGraphView(type: .heart)
         return view
     }()
     
@@ -112,19 +113,37 @@ class HomeViewController: BaseController {
         let button = UIBarButtonItem(image: UIImage(named: "burger"), style: .plain, target: self, action: #selector(testAction))
         return button
     }()
-
+    
+    private let healthKitStore: HKHealthStore = HKHealthStore()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func setupNavigationBar() {
         super.setupNavigationBar()
-        navigationItem.leftBarButtonItem = leftBarButton
         navigationItem.title = "Home"
     }
-
+    
     override func setupControl() {
         super.setupControl()
+    }
+    
+    override func bindViewModel() {
+        super.bindViewModel()
+        
+        let input = HomeViewModel.Input()
+        let output = viewModel.transform(input: input)
+        
+        output.walkSubject.drive(onNext: { [weak self] steps in
+            guard let self = self else { return }
+            self.walkView.valueLabel.text = steps.toString
+        }).disposed(by: disposeBag)
+        
+        output.caloriesSubject.drive(onNext: { [weak self] calories in
+            guard let self = self else { return }
+            self.caloriesView.valueLabel.text = calories.toString
+        }).disposed(by: disposeBag)
     }
     
     override func setupComponentsUI() {
@@ -134,7 +153,7 @@ class HomeViewController: BaseController {
             make.top.equalTo(contentView.snp.top).offset(30)
             make.left.equalTo(contentView.snp.left).inset(14)
         }
-
+        
         contentView.addSubview(topStackView)
         topStackView.snp.makeConstraints { make in
             make.top.equalTo(welcomeStackView.snp.bottom).offset(30)
@@ -151,14 +170,7 @@ class HomeViewController: BaseController {
             make.bottom.equalTo(contentView.snp.bottom).inset(14)
             make.height.equalTo(304)
         }
-//        contentView.addSubview(generalStackView)
-//        generalStackView.snp.makeConstraints { make in
-//            make.top.equalTo(welcomeStackView.snp.bottom).offset(30)
-//            make.left.equalTo(contentView.snp.left).inset(14)
-//            make.right.equalTo(contentView.snp.right).inset(14)
-//            make.bottom.greaterThanOrEqualTo(contentView.snp.bottom).inset(14)
-//        }
-//
+
         [sleepView, caloriesView].forEach { view in
             view.snp.makeConstraints { make in
                 make.height.equalTo(145)

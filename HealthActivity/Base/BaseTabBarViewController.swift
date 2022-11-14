@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import ComponentsUI
 
 open class BaseTabBarViewController: UITabBarController, Setupable {
 

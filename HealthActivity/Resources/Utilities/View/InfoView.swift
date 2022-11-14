@@ -6,21 +6,14 @@
 //
 
 import UIKit
-import ComponentsUI
 import SnapKit
 
 enum InfoType {
-    case water
-    case heart
     case sleep
     case calories
     
     var title: String? {
         switch self {
-        case .water:
-            return "Water"
-        case .heart:
-            return "Heart"
         case .sleep:
             return "Sleep"
         case .calories:
@@ -30,10 +23,6 @@ enum InfoType {
     
     var topLeftImage: UIImage? {
         switch self {
-        case .water:
-            return UIImage(named: "water")
-        case .heart:
-            return UIImage(named: "heart")
         case .sleep:
             return UIImage(named: "sleep")
         case .calories:
@@ -43,10 +32,6 @@ enum InfoType {
     
     var measure: String? {
         switch self {
-        case .water:
-            return "Liters"
-        case .heart:
-            return "BPM"
         case .sleep:
             return "Hours"
         case .calories:
@@ -60,12 +45,8 @@ class InfoView: BaseView {
     private lazy var topLeftImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.image = infoType.topLeftImage
+        imageView.contentMode = .scaleToFill
         return imageView
-    }()
-    
-    private lazy var graphView: UIView = {
-        let view = UIView(frame: .zero)
-        return view
     }()
     
     private lazy var titleLabel: UILabel = {
@@ -76,18 +57,28 @@ class InfoView: BaseView {
         return label
     }()
     
+    private lazy var topStackView: UIStackView = {
+        let stackView = UIStackView(frame: .zero)
+        stackView.axis = .horizontal
+        stackView.spacing = 14
+        stackView.alignment = .center
+        stackView.distribution = .fill
+        stackView.addArrangedSubview(topLeftImageView)
+        stackView.addArrangedSubview(titleLabel)
+        return stackView
+    }()
+    
     private lazy var measureLabel: UILabel = {
         let label = UILabel(frame: .zero)
-        label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         label.text = infoType.measure
         label.textColor = UIColor(named: "grayLabel")
         return label
     }()
     
-    private lazy var valueLabel: UILabel = {
+    lazy var valueLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-        label.text = "0.10"
         label.textColor = UIColor(named: "blackLabel")
         return label
     }()
@@ -125,30 +116,18 @@ class InfoView: BaseView {
     override func setupComponentsUI() {
         super.setupComponentsUI()
         
-        addSubview(topLeftImageView)
+        addSubview(topStackView)
+        topStackView.snp.makeConstraints { make in
+            make.top.equalTo(snp.top).offset(14)
+            make.left.equalTo(snp.left).inset(14)
+        }
+        
         topLeftImageView.snp.makeConstraints { make in
-            make.top.equalTo(snp.top).offset(16)
-            make.left.equalTo(snp.left).inset(16)
-            make.height.width.equalTo(44)
+            make.width.height.equalTo(44)
         }
-        
-        addSubview(titleLabel)
-        titleLabel.snp.makeConstraints { make in
-            make.left.equalTo(topLeftImageView.snp.right).offset(16)
-            make.centerY.equalTo(topLeftImageView.snp.centerY)
-        }
-        
-        addSubview(graphView)
-        graphView.snp.makeConstraints { make in
-            make.top.equalTo(topLeftImageView.snp.bottom).offset(14)
-            make.left.equalTo(topLeftImageView.snp.left).inset(14)
-            make.right.equalTo(topLeftImageView.snp.right).inset(14)
-            make.height.greaterThanOrEqualTo(100)
-        }
-        
+
         addSubview(measureStackView)
         measureStackView.snp.makeConstraints { make in
-            make.top.equalTo(graphView.snp.bottom).offset(14)
             make.left.equalTo(snp.left).inset(14)
             make.bottom.equalTo(snp.bottom).inset(14)
         }

@@ -50,11 +50,11 @@ enum TabBarItem: CaseIterable {
             build.tabBarItem = tabbarItem
             return build
         case .activities:
-            let build = HomeBuild.build()
+            let build = ActivityBuild.build()
             build.tabBarItem = tabbarItem
             return build
         case .status:
-            let build = HomeBuild.build()
+            let build = StatusBuild.build()
             build.tabBarItem = tabbarItem
             return build
         case .profile:

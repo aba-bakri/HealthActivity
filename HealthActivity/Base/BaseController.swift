@@ -6,7 +6,8 @@
 //
 
 import UIKit
-import ComponentsUI
+import RxCocoa
+import RxSwift
 
 open class BaseController: BaseViewController {
     
@@ -20,6 +21,8 @@ open class BaseController: BaseViewController {
         view.backgroundColor = UIColor(named: "background")
         return view
     }()
+    
+    internal let disposeBag = DisposeBag()
     
     open override func loadView() {
         super.loadView()

@@ -9,16 +9,17 @@ import UIKit
 
 class ProfileInfoView: BaseView {
     
-    private lazy var photoImageView: UIImageView = {
-        let imageView = UIImageView(frame: .zero)
-        return imageView
-    }()
+//    private lazy var photoImageView: UIImageView = {
+//        let imageView = UIImageView(frame: .zero)
+//        imageView.isHidden = true
+//        return imageView
+//    }()
     
     private lazy var nameLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         label.textColor = UIColor(named: "blackLabel")
-        label.text = "Archibald Northbottom"
+        label.text = UserDefaultStorage.firstName
         return label
     }()
     
@@ -26,7 +27,7 @@ class ProfileInfoView: BaseView {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         label.textColor = UIColor(named: "grayLabel")
-        label.text = "archibald@email.com"
+        label.text = UserDefaultStorage.email
         return label
     }()
     
@@ -41,8 +42,8 @@ class ProfileInfoView: BaseView {
         return stackView
     }()
     
-    public lazy var moreButton: BaseButton = {
-        let button = BaseButton()
+    public lazy var moreButton: BaseClearButton = {
+        let button = BaseClearButton(frame: .zero)
         button.setImage(UIImage(named: "more"), for: .normal)
         return button
     }()
@@ -88,29 +89,23 @@ class ProfileInfoView: BaseView {
     
     override func setupComponentsUI() {
         super.setupComponentsUI()
-        addSubview(photoImageView)
-        photoImageView.snp.makeConstraints { make in
-            make.top.equalTo(snp.top).offset(14)
-            make.left.equalTo(snp.left).inset(14)
-            make.width.height.equalTo(66)
-        }
         
         addSubview(nameStackView)
         nameStackView.snp.makeConstraints { make in
-            make.left.equalTo(photoImageView.snp.right).offset(14)
-            make.centerY.equalTo(photoImageView.snp.centerY)
+            make.top.equalTo(snp.top).offset(28)
+            make.left.equalTo(snp.left).offset(14)
         }
         
         addSubview(moreButton)
         moreButton.snp.makeConstraints { make in
-            make.centerY.equalTo(photoImageView.snp.centerY)
+            make.top.equalTo(snp.top).offset(39)
             make.right.equalTo(snp.right).inset(16)
             make.width.height.equalTo(16)
         }
         
         addSubview(dividerView)
         dividerView.snp.makeConstraints { make in
-            make.top.equalTo(photoImageView.snp.bottom).offset(13.5)
+            make.top.equalTo(nameStackView.snp.bottom).offset(28)
             make.left.equalTo(snp.left).inset(14)
             make.right.equalTo(snp.right).inset(14)
             make.height.equalTo(1)

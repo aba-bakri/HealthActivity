@@ -1,5 +1,8 @@
 ${PODS_ROOT}/Target Support Files/Pods-HealthActivity/Pods-HealthActivity-frameworks.sh
-${BUILT_PRODUCTS_DIR}/AYHorindar/AYHorindar.framework
+${BUILT_PRODUCTS_DIR}/DTRuler/DTRuler.framework
+${BUILT_PRODUCTS_DIR}/MLVerticalProgressView/MLVerticalProgressView.framework
+${BUILT_PRODUCTS_DIR}/R.swift.Library/Rswift.framework
 ${BUILT_PRODUCTS_DIR}/RxCocoa/RxCocoa.framework
 ${BUILT_PRODUCTS_DIR}/RxRelay/RxRelay.framework
 ${BUILT_PRODUCTS_DIR}/RxSwift/RxSwift.framework
+${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework

@@ -11,60 +11,60 @@ import RxCocoa
 struct ProfileViewModel: BaseViewModelType {
     
     private let disposeBag = DisposeBag()
-    private let healthManager = HealthTest.shared
+    private let healthManager = HealthManager.shared
     
+    private let navigationTitleSubject = BehaviorSubject<String>(value: "Profile")
     private let walkSubject = PublishSubject<Int>()
     private let weightSubject = PublishSubject<Int>()
     private let heightSubject = PublishSubject<Int>()
     private let sleepSubject = PublishSubject<String>()
     private let caloriesSubject = PublishSubject<Int>()
     private let ageSubject = PublishSubject<String>()
+    private let heartRateSubject = PublishSubject<Int>()
     
     struct Input {
         
     }
     
     struct Output {
+        var navigationTitleSubject: Driver<String>
         var walkSubject: Driver<Int>
         var weightSubject: Driver<Int>
         var heightSubject: Driver<Int>
         var sleepSubject: Driver<String>
         var caloriesSubject: Driver<Int>
         var ageSubject: Driver<String>
+        var heartRateSubject: Driver<Int>
     }
     
     func transform(input: Input) -> Output {
-        
         healthManager.getSteps { steps in
             self.walkSubject.onNext(steps)
         }
+        healthManager.getHeight(unit: .meter()) { height in
+            self.heightSubject.onNext(height.toInt)
+        }
         
-        healthManager.getWeight { weight in
+        healthManager.getWeight(unit: .pound()) { weight in
             self.weightSubject.onNext(weight)
         }
         
-        healthManager.getHeight { height in
-            self.heightSubject.onNext(height)
+        healthManager.getHeartRate { heartRate in
+            self.heartRateSubject.onNext(heartRate.heartBPM)
         }
-        
-//        healthManager.getSleepHours() { done in
-//            self.sleepSubject.onNext(done.toString)
-//        }
         
         healthManager.getCalories { calories in
             self.caloriesSubject.onNext(calories)
         }
         
-//        healthManager.getAge { age in
-//            self.ageSubject.onNext(healthManager.getAge())
-//        }
-        
-        return Output(walkSubject: walkSubject.asDriver(onErrorJustReturn: .zero),
+        return Output(navigationTitleSubject: navigationTitleSubject.asDriver(onErrorJustReturn: ""),
+                      walkSubject: walkSubject.asDriver(onErrorJustReturn: .zero),
                       weightSubject: weightSubject.asDriver(onErrorJustReturn: .zero),
                       heightSubject: heightSubject.asDriver(onErrorJustReturn: .zero),
                       sleepSubject: sleepSubject.asDriver(onErrorJustReturn: ""),
                       caloriesSubject: caloriesSubject.asDriver(onErrorJustReturn: .zero),
-                      ageSubject: ageSubject.asDriver(onErrorJustReturn: "Not Set"))
+                      ageSubject: ageSubject.asDriver(onErrorJustReturn: "Not Set"),
+                      heartRateSubject: heartRateSubject.asDriver(onErrorJustReturn: .zero))
     }
     
 }

@@ -53,9 +53,75 @@ extension UIView {
                                              cornerRadius: self.layer.cornerRadius).cgPath
     }
     
-    public func setBorderColor(color: UIColor?, radius: CGFloat) {
-        self.layer.borderWidth = 1
+    public func setBorderColor(color: UIColor?, radius: CGFloat, borderWidth: CGFloat = 1) {
+        self.layer.borderWidth = borderWidth
         self.layer.borderColor = color?.cgColor
         self.layer.cornerRadius = radius
     }
 }
+
+//extension UIView {
+//    func setRightTriangle(targetView: UIView?){
+//        let heightWidth = targetView!.frame.size.width //you can use triangleView.frame.size.height
+//        let path = CGMutablePath()
+//        
+//        path.move(to: CGPoint(x: heightWidth/2, y: 0))
+//        path.addLine(to: CGPoint(x:heightWidth, y: heightWidth/2))
+//        path.addLine(to: CGPoint(x:heightWidth/2, y:heightWidth))
+//        path.addLine(to: CGPoint(x:heightWidth/2, y:0))
+//        
+//        let shape = CAShapeLayer()
+//        shape.path = path
+//        shape.fillColor = UIColor.blue.cgColor
+//        
+//        targetView!.layer.insertSublayer(shape, at: 0)
+//    }
+//    
+//    func setLeftTriangle(targetView:UIView?){
+//        let heightWidth = targetView!.frame.size.width
+//        let path = CGMutablePath()
+//        
+//        path.move(to: CGPoint(x: heightWidth/2, y: 0))
+//        path.addLine(to: CGPoint(x:0, y: heightWidth/2))
+//        path.addLine(to: CGPoint(x:heightWidth/2, y:heightWidth))
+//        path.addLine(to: CGPoint(x:heightWidth/2, y:0))
+//        
+//        let shape = CAShapeLayer()
+//        shape.path = path
+//        shape.fillColor = UIColor.blue.cgColor
+//        
+//        targetView!.layer.insertSublayer(shape, at: 0)
+//    }
+//    
+//    func setUpTriangle(targetView:UIView?){
+//        let heightWidth = targetView!.frame.size.width
+//        let path = CGMutablePath()
+//        
+//        path.move(to: CGPoint(x: 0, y: heightWidth))
+//        path.addLine(to: CGPoint(x:heightWidth/2, y: heightWidth/2))
+//        path.addLine(to: CGPoint(x:heightWidth, y:heightWidth))
+//        path.addLine(to: CGPoint(x:0, y:heightWidth))
+//        
+//        let shape = CAShapeLayer()
+//        shape.path = path
+//        shape.fillColor = UIColor.blue.cgColor
+//        
+//        targetView!.layer.insertSublayer(shape, at: 0)
+//    }
+//    
+//    func setDownTriangle(targetView:UIView?){
+//        let heightWidth = targetView!.frame.size.width
+//        let path = CGMutablePath()
+//        
+//        path.move(to: CGPoint(x: 0, y: 0))
+//        path.addLine(to: CGPoint(x:heightWidth/2, y: heightWidth/2))
+//        path.addLine(to: CGPoint(x:heightWidth, y:0))
+//        path.addLine(to: CGPoint(x:0, y:0))
+//        
+//        let shape = CAShapeLayer()
+//        shape.path = path
+//        shape.fillColor = UIColor.blue.cgColor
+//        
+//        targetView!.layer.insertSublayer(shape, at: 0)
+//    }
+//}

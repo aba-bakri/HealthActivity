@@ -26,61 +26,55 @@ class ProfileViewController: BaseController {
         return label
     }()
     
-    private lazy var walkView: WalkView = {
-        let view = WalkView(frame: .zero)
+    private lazy var walkView: InfoView = {
+        let view = InfoView(type: .walk)
         return view
+    }()
+    
+    private lazy var heartView: InfoView = {
+        let view = InfoView(type: .heart)
+        return view
+    }()
+    
+    private lazy var topStackView: UIStackView = {
+        let stackView = UIStackView(frame: .zero)
+        stackView.axis = .horizontal
+        stackView.spacing = 14
+        stackView.alignment = .fill
+        stackView.distribution = .fillEqually
+        stackView.addArrangedSubview(walkView)
+        stackView.addArrangedSubview(heartView)
+        return stackView
     }()
     
     private lazy var sleepView: InfoView = {
         let view = InfoView(type: .sleep)
         return view
     }()
-
+    
     private lazy var caloriesView: InfoView = {
         let view = InfoView(type: .calories)
         return view
     }()
     
-    private lazy var heartView: InfoGraphView = {
-        let view = InfoGraphView(type: .heart)
-        return view
-    }()
-    
-    private lazy var leftStackView: UIStackView = {
+    private lazy var bottomStackView: UIStackView = {
         let stackView = UIStackView(frame: .zero)
-        stackView.axis = .vertical
+        stackView.axis = .horizontal
         stackView.spacing = 14
         stackView.alignment = .fill
-        stackView.distribution = .fill
+        stackView.distribution = .fillEqually
         stackView.addArrangedSubview(sleepView)
-        stackView.addArrangedSubview(heartView)
-        return stackView
-    }()
-    
-    private lazy var rightStackView: UIStackView = {
-        let stackView = UIStackView(frame: .zero)
-        stackView.axis = .vertical
-        stackView.spacing = 14
-        stackView.alignment = .fill
-        stackView.distribution = .fill
-        stackView.addArrangedSubview(walkView)
         stackView.addArrangedSubview(caloriesView)
         return stackView
     }()
     
-    private lazy var generalStackView: UIStackView = {
-        let stackView = UIStackView(frame: .zero)
-        stackView.axis = .horizontal
-        stackView.spacing = 14
-        stackView.alignment = .leading
-        stackView.distribution = .fillEqually
-        stackView.addArrangedSubview(leftStackView)
-        stackView.addArrangedSubview(rightStackView)
-        return stackView
+    private lazy var leftBarButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(image: UIImage(named: "notification"), style: .plain, target: self, action: #selector(notificationAction))
+        return button
     }()
     
     private lazy var rightBarButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: UIImage(named: "notification"), style: .plain, target: self, action: #selector(testAction))
+        let button = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(settingsAction))
         return button
     }()
 
@@ -90,8 +84,8 @@ class ProfileViewController: BaseController {
     
     override func setupNavigationBar() {
         super.setupNavigationBar()
+        navigationItem.leftBarButtonItem = leftBarButton
         navigationItem.rightBarButtonItem = rightBarButton
-        navigationItem.title = "Profile"
     }
 
     override func setupControl() {
@@ -103,25 +97,34 @@ class ProfileViewController: BaseController {
         }
     }
     
+    override func bindUI() {
+        super.bindUI()
+    }
+    
     override func bindViewModel() {
         super.bindViewModel()
         
         let input = ProfileViewModel.Input()
         let output = viewModel.transform(input: input)
         
+        output.navigationTitleSubject.drive(onNext: { [weak self] title in
+            guard let self = self else { return }
+            self.navigationItem.title = title
+        }).disposed(by: disposeBag)
+        
         output.walkSubject.drive(onNext: { [weak self] steps in
             guard let self = self else { return }
             self.walkView.valueLabel.text = steps.toString
         }).disposed(by: disposeBag)
         
+        output.heightSubject.drive(onNext: { [weak self] height in
+            guard let self = self else { return }
+            self.profileInfoView.heightView.configureView(value: height.toString)
+        }).disposed(by: disposeBag)
+         
         output.weightSubject.drive(onNext: { [weak self] weight in
             guard let self = self else { return }
-            self.profileInfoView.weightView.measureValueLabel.text = weight.toString
-        }).disposed(by: disposeBag)
-        
-        output.weightSubject.drive(onNext: { [weak self] height in
-            guard let self = self else { return }
-            self.profileInfoView.heightView.measureValueLabel.text = height.toString
+            self.profileInfoView.weightView.configureView(value: weight.toString)
         }).disposed(by: disposeBag)
         
         output.sleepSubject.drive(onNext: { [weak self] sleepHours in
@@ -134,7 +137,12 @@ class ProfileViewController: BaseController {
             self.caloriesView.valueLabel.text = calories.toString
         }).disposed(by: disposeBag)
         
-        profileInfoView.ageView.measureValueLabel.text = HealthTest.shared.getAge()
+        output.heartRateSubject.drive(onNext: { [weak self] heartRate in
+            guard let self = self else { return }
+            self.heartView.configureValueLabel(value: heartRate)
+        }).disposed(by: disposeBag)
+        
+        profileInfoView.ageView.configureView(value: HealthManager.shared.getAge())
     }
     
     override func setupComponentsUI() {
@@ -153,27 +161,34 @@ class ProfileViewController: BaseController {
             make.left.equalTo(contentView.snp.left).inset(14)
         }
         
-        contentView.addSubview(generalStackView)
-        generalStackView.snp.makeConstraints { make in
+        contentView.addSubview(topStackView)
+        topStackView.snp.makeConstraints { make in
             make.top.equalTo(dayLabel.snp.bottom).offset(20)
+            make.left.equalTo(contentView.snp.left).inset(14)
+            make.right.equalTo(contentView.snp.right).inset(14)
+        }
+        
+        contentView.addSubview(bottomStackView)
+        bottomStackView.snp.makeConstraints { make in
+            make.top.equalTo(topStackView.snp.bottom).offset(14)
             make.left.equalTo(contentView.snp.left).inset(14)
             make.right.equalTo(contentView.snp.right).inset(14)
             make.bottom.equalTo(contentView.snp.bottom).inset(14)
         }
 
-        [heartView, walkView].forEach { view in
-            view.snp.makeConstraints { make in
-                make.height.equalTo(244)
-            }
-        }
-
-        [sleepView, caloriesView].forEach { view in
+        [walkView, heartView, sleepView, caloriesView].forEach { view in
             view.snp.makeConstraints { make in
                 make.height.equalTo(145)
             }
         }
     }
     
-    @objc private func testAction() { }
+    @objc private func notificationAction() {
+        
+    }
+    
+    @objc private func settingsAction() {
+        
+    }
     
 }

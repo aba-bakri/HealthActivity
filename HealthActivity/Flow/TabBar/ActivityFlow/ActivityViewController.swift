@@ -7,19 +7,25 @@
 
 import Foundation
 import UIKit
-import AYHorindar
+import RxSwift
 
 class ActivityViewController: BaseController {
-    
-    private let horindarViewController = AYHorindarViewController()
     
     internal var router: ActivityRouter?
     internal var viewModel: ActivityViewModel!
     
-    private lazy var calendarView: BaseView = {
-        let view = BaseView(frame: .zero)
-        view.setCornerRadius(corners: .allCorners, radius: 10)
-        return view
+    private lazy var datePicker: UIDatePicker = {
+        let picker = UIDatePicker(frame: .zero)
+        picker.tintColor = UIColor(named: "purple")
+        picker.datePickerMode = .date
+        picker.maximumDate = Date()
+        if #available(iOS 14.0, *) {
+            picker.preferredDatePickerStyle = .inline
+        } else {
+            picker.preferredDatePickerStyle = .automatic
+        }
+        picker.addTarget(self, action: #selector(datePickerAction), for: .valueChanged)
+        return picker
     }()
     
     private lazy var activityView: ActivityView = {
@@ -27,19 +33,26 @@ class ActivityViewController: BaseController {
         return view
     }()
     
+    private let dateSubject = BehaviorSubject<Date>(value: Date())
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    override func setupNavigationBar() {
-        super.setupNavigationBar()
-        navigationItem.title = "Your Activities"
+    override func bindUI() {
+        super.bindUI()
+        datePicker.rx.date.bind(to: dateSubject).disposed(by: disposeBag)
     }
     
     override func bindViewModel() {
         super.bindViewModel()
-        let input = ActivityViewModel.Input()
+        let input = ActivityViewModel.Input(date: dateSubject)
         let output = viewModel.transform(input: input)
+        
+        output.navigationTitleSubject.drive(onNext: { [weak self] title in
+            guard let self = self else { return }
+            self.navigationItem.title = title
+        }).disposed(by: disposeBag)
         
         output.stepsSubject.drive(onNext: { [weak self] steps in
             guard let self = self else { return }
@@ -64,56 +77,28 @@ class ActivityViewController: BaseController {
     
     override func setupControl() {
         super.setupControl()
-        horindarViewController.delegate = self
-        horindarViewController.dataSource = self
-        horindarViewController.uiDelegate = self
-        
-        calendarView.addSubview(horindarViewController.view)
-        calendarView.addAllSidesAnchors(to: horindarViewController.view)
     }
     
     override func setupComponentsUI() {
         super.setupComponentsUI()
-        
-        contentView.addSubview(calendarView)
-        calendarView.snp.makeConstraints { make in
-            make.top.equalTo(contentView.snp.top).offset(14)
+        contentView.addSubview(datePicker)
+        datePicker.snp.makeConstraints { make in
+            make.top.equalTo(contentView.snp.top)
             make.left.equalTo(contentView.snp.left).inset(14)
-            make.right.equalTo(contentView.snp.right).inset(14)
-            make.height.equalTo(66)
         }
         
         contentView.addSubview(activityView)
         activityView.snp.makeConstraints { make in
-            make.top.equalTo(calendarView.snp.bottom).offset(30)
+            make.top.equalTo(datePicker.snp.bottom).offset(14)
             make.left.equalTo(contentView.snp.left).inset(14)
             make.right.equalTo(contentView.snp.right).inset(14)
             make.bottom.equalTo(contentView.snp.bottom).inset(14)
+            make.height.equalTo(250)
         }
     }
     
-}
-
-extension ActivityViewController: AYHorindarDelegate, AYHorindarDataSource, AYHorindarUIDelegate {
-    
-    func current(date: Date) {
-        print(date.log)
-    }
-    
-    func locale() -> Locale {
-        return Locale(identifier: "en_US_POSIX")
-    }
-    
-    func selectedDate() -> Date {
-        return Date()
-    }
-    
-    func itemDisplayType() -> AYItemDisplayType {
-        return .weekWithDay
-    }
-    
-    func weekdayNameDisplayType() -> AYNameDisplayType {
-        return .short
+    @objc private func datePickerAction() {
+        
     }
     
 }

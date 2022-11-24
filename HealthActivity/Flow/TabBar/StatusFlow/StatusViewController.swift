@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class StatusViewController: BaseController {
     
@@ -31,6 +33,10 @@ class StatusViewController: BaseController {
     }()
     
     internal var router: StatusRouter?
+    internal var viewModel: StatusViewModel!
+    
+    private let heartRateDates = BehaviorSubject<[Date]>(value: Date().daysOfWeek())
+    private let singleHeartRateSubject = PublishSubject<StatusProgressModel?>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,9 +46,33 @@ class StatusViewController: BaseController {
         super.setupControl()
     }
     
-    override func setupNavigationBar() {
-        super.setupNavigationBar()
-        navigationItem.title = "Status For Week"
+    override func bindViewModel() {
+        super.bindViewModel()
+        
+        let input = StatusViewModel.Input(heartRateDates: heartRateDates.asObservable(),
+                                          singleHeartRate: singleHeartRateSubject.asObservable())
+        let output = viewModel.transform(input: input)
+        
+        output.navigationTitleSubject.drive(onNext: { [weak self] title in
+            guard let self = self else { return }
+            self.navigationItem.title = title
+        }).disposed(by: disposeBag)
+        
+        output.todayHeartRateSubject.drive(onNext: { [weak self] heartBPM in
+            guard let self = self else { return }
+            self.heartStatusView.configureTodayLabel(value: heartBPM)
+        }).disposed(by: disposeBag)
+        
+        output.rateModelSubject.drive(onNext: { [weak self] heartRate in
+            guard let self = self else { return }
+            self.singleHeartRateSubject.onNext(heartRate)
+        }).disposed(by: disposeBag)
+        
+        output.weeklyHeartRateSubject.drive(onNext: { [weak self] weeklyHeartRates in
+            guard let self = self else { return }
+            self.heartStatusView.configureView(rates: weeklyHeartRates)
+        }).disposed(by: disposeBag)
+        
     }
     
     override func setupComponentsUI() {
@@ -54,7 +84,7 @@ class StatusViewController: BaseController {
         
         [heartStatusView, sleepStatusView].forEach { statusView in
             statusView.snp.makeConstraints { make in
-                make.height.equalTo(390)
+                make.height.equalTo(330)
             }
         }
     }

@@ -1,0 +1,6 @@
+framework module DTRuler {
+  umbrella header "DTRuler-umbrella.h"
+
+  export *
+  module * { export * }
+}

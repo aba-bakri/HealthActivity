@@ -7,24 +7,28 @@
 
 import UIKit
 
-open class BaseButton: UIButton, Tapable {
+open class BaseButton: BaseClearButton {
     
-    // MARK: Tapable
-    public var didTapBlock: TapBlock? {
+    open override var isEnabled: Bool {
         didSet {
-            self.addTarget(self, action: #selector(didTapAction), for: .touchUpInside)
+            backgroundColor = isEnabled ? UIColor(named: "purple") : UIColor(named: "purple")?.withAlphaComponent(0.5)
+            isUserInteractionEnabled = isEnabled ? true : false
         }
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupControl()
     }
     
     public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc func didTapAction() {
-        didTapBlock?()
+    private func setupControl() {
+        self.setTitleColor(UIColor.white, for: .normal)
+        self.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        self.backgroundColor = R.color.purple()
+        self.setCornerRadius(corners: .allCorners, radius: 24)
     }
 }

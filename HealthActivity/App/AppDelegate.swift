@@ -6,25 +6,23 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    private let healthManager = HealthTest.shared
+    
+    var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
-        authorizeHealthKit()
+        setupLoader()
         return true
     }
     
-    private func authorizeHealthKit() {
-        //execute an authorization request
-        healthManager.authorizeHealthKit(success: { [weak self] in
-            guard let self = self else { return }
-//            self.healthManager.startEnablingBackgroundDelivery()
-        })
+    private func setupLoader() {
+        window = UIWindow(frame: UIScreen.main.bounds)
+        SVProgressHUD.setDefaultStyle(.dark)
+        SVProgressHUD.setDefaultMaskType(.black)
     }
 
     // MARK: UISceneSession Lifecycle

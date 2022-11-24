@@ -69,9 +69,19 @@ class MainTabBarViewController: BaseTabBarViewController {
     
     private let mainTabBar = MainTabBar()
     
+    private let healthManager = HealthManager.shared
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupControl()
+        authorizeHealthKit()
+    }
+    
+    private func authorizeHealthKit() {
+        healthManager.authorizeHealthKit(success: nil) { [weak self] error in
+            guard let self = self else { return }
+            self.showErrorAlert(title: "Error", message: error.errorDescription)
+        }
     }
     
     override func setupControl() {

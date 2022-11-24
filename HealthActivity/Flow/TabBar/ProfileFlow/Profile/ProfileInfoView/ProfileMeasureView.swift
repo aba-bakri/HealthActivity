@@ -50,8 +50,7 @@ class ProfileMeasureView: BaseView {
     
     lazy var measureValueLabel: UILabel = {
         let label = UILabel(frame: .zero)
-        label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.textColor = UIColor(named: "grayLabel")
+        label.textColor = UIColor(named: "blackLabel")
         return label
     }()
     
@@ -90,12 +89,14 @@ class ProfileMeasureView: BaseView {
         }
     }
     
-    func configureView(model: Int) {
-        measureValueLabel.text = String(model)
-//        let warningTitle = NSMutableAttributedString(string: R.string.authLocalizable.federatedWarningTitle())
-//        let boldAttribute = [NSAttributedString.Key.font: SHFontPreset.subheadlineBold]
-//        let boldAttributedString = NSAttributedString(string: "\n\(R.string.authLocalizable.federatedWarningSubtitle())", attributes: boldAttribute)
-//        warningTitle.append(boldAttributedString)
-//        warningLabel.attributedText = warningTitle
+    func configureView(value: String) {
+        let boldAttribute = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .semibold),
+                             NSAttributedString.Key.foregroundColor: UIColor(named: "blackLabel")]
+        let measureAttribute = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12, weight: .semibold),
+                             NSAttributedString.Key.foregroundColor: UIColor(named: "grayLabel")]
+        let boldAttributedString = NSMutableAttributedString(string: value, attributes: boldAttribute as [NSAttributedString.Key: Any])
+        let measureAttributedString = NSMutableAttributedString(string: measureType.measure, attributes: measureAttribute as [NSAttributedString.Key: Any])
+        boldAttributedString.append(measureAttributedString)
+        measureValueLabel.attributedText = boldAttributedString
     }
 }

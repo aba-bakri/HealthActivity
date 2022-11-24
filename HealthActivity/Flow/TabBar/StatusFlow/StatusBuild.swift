@@ -12,6 +12,7 @@ class StatusBuild {
     static func build() -> UIViewController {
         let statusVC = StatusViewController()
         statusVC.router = StatusRouter(viewController: statusVC)
+        statusVC.viewModel = StatusViewModel()
         return statusVC
     }
 }

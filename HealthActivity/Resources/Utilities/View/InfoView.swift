@@ -11,9 +11,15 @@ import SnapKit
 enum InfoType {
     case sleep
     case calories
+    case walk
+    case heart
     
     var title: String? {
         switch self {
+        case .walk:
+            return "Walk"
+        case .heart:
+            return "Heart"
         case .sleep:
             return "Sleep"
         case .calories:
@@ -23,6 +29,10 @@ enum InfoType {
     
     var topLeftImage: UIImage? {
         switch self {
+        case .walk:
+            return UIImage(named: "walk")
+        case .heart:
+            return UIImage(named: "heart")
         case .sleep:
             return UIImage(named: "sleep")
         case .calories:
@@ -32,6 +42,10 @@ enum InfoType {
     
     var measure: String? {
         switch self {
+        case .walk:
+            return "Steps"
+        case .heart:
+            return "BPM"
         case .sleep:
             return "Hours"
         case .calories:
@@ -94,6 +108,17 @@ class InfoView: BaseView {
         return stackView
     }()
     
+    private lazy var generalStackView: UIStackView = {
+        let stackView = UIStackView(frame: .zero)
+        stackView.axis = .vertical
+        stackView.spacing = 30
+        stackView.alignment = .leading
+        stackView.distribution = .fillProportionally
+        stackView.addArrangedSubview(topStackView)
+        stackView.addArrangedSubview(measureStackView)
+        return stackView
+    }()
+    
     private var infoType: InfoType
     
     public init(type: InfoType) {
@@ -116,20 +141,23 @@ class InfoView: BaseView {
     override func setupComponentsUI() {
         super.setupComponentsUI()
         
-        addSubview(topStackView)
-        topStackView.snp.makeConstraints { make in
-            make.top.equalTo(snp.top).offset(14)
-            make.left.equalTo(snp.left).inset(14)
+        addSubview(generalStackView)
+        generalStackView.snp.makeConstraints { make in
+            make.edges.equalTo(snp.edges).inset(14)
         }
         
         topLeftImageView.snp.makeConstraints { make in
             make.width.height.equalTo(44)
         }
-
-        addSubview(measureStackView)
-        measureStackView.snp.makeConstraints { make in
-            make.left.equalTo(snp.left).inset(14)
-            make.bottom.equalTo(snp.bottom).inset(14)
+    }
+    
+    func configureValueLabel(value: Int) {
+        if value == .zero {
+            valueLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+            valueLabel.text = "Haven't measured today"
+        } else {
+            valueLabel.text = value.toString
         }
     }
+    
 }

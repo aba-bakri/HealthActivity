@@ -11,7 +11,7 @@ class ActivityView: BaseView {
     
     private lazy var topLabel: UILabel = {
         let label = UILabel(frame: .zero)
-        label.text = "Steps"
+        label.text = "STEPS"
         label.textColor = UIColor(named: "grayLabel")
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         return label

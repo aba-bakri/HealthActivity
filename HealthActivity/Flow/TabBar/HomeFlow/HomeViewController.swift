@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import HealthKit
 
 class HomeViewController: BaseController {
     
@@ -40,13 +39,13 @@ class HomeViewController: BaseController {
         return stackView
     }()
     
-    private lazy var walkView: WalkView = {
-        let view = WalkView(frame: .zero)
+    private lazy var walkView: InfoView = {
+        let view = InfoView(type: .walk)
         return view
     }()
     
-    private lazy var waterView: InfoGraphView = {
-        let view = InfoGraphView(type: .water)
+    private lazy var heartView: InfoView = {
+        let view = InfoView(type: .heart)
         return view
     }()
     
@@ -57,7 +56,7 @@ class HomeViewController: BaseController {
         stackView.alignment = .fill
         stackView.distribution = .fillEqually
         stackView.addArrangedSubview(walkView)
-        stackView.addArrangedSubview(waterView)
+        stackView.addArrangedSubview(heartView)
         return stackView
     }()
     
@@ -71,30 +70,14 @@ class HomeViewController: BaseController {
         return view
     }()
     
-    private lazy var rightStackView: UIStackView = {
-        let stackView = UIStackView(frame: .zero)
-        stackView.axis = .vertical
-        stackView.spacing = 14
-        stackView.alignment = .fill
-        stackView.distribution = .fillEqually
-        stackView.addArrangedSubview(sleepView)
-        stackView.addArrangedSubview(caloriesView)
-        return stackView
-    }()
-    
-    private lazy var heartView: InfoGraphView = {
-        let view = InfoGraphView(type: .heart)
-        return view
-    }()
-    
     private lazy var bottomStackView: UIStackView = {
         let stackView = UIStackView(frame: .zero)
         stackView.axis = .horizontal
         stackView.spacing = 14
         stackView.alignment = .fill
         stackView.distribution = .fillEqually
-        stackView.addArrangedSubview(heartView)
-        stackView.addArrangedSubview(rightStackView)
+        stackView.addArrangedSubview(sleepView)
+        stackView.addArrangedSubview(caloriesView)
         return stackView
     }()
     
@@ -109,20 +92,8 @@ class HomeViewController: BaseController {
         return stackView
     }()
     
-    private lazy var leftBarButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: UIImage(named: "burger"), style: .plain, target: self, action: #selector(testAction))
-        return button
-    }()
-    
-    private let healthKitStore: HKHealthStore = HKHealthStore()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    override func setupNavigationBar() {
-        super.setupNavigationBar()
-        navigationItem.title = "Home"
     }
     
     override func setupControl() {
@@ -135,9 +106,19 @@ class HomeViewController: BaseController {
         let input = HomeViewModel.Input()
         let output = viewModel.transform(input: input)
         
+        output.navigationTitleSubject.drive(onNext: { [weak self] title in
+            guard let self = self else { return }
+            self.navigationItem.title = title
+        }).disposed(by: disposeBag)
+        
         output.walkSubject.drive(onNext: { [weak self] steps in
             guard let self = self else { return }
             self.walkView.valueLabel.text = steps.toString
+        }).disposed(by: disposeBag)
+        
+        output.heartRateSubject.drive(onNext: { [weak self] heartRate in
+            guard let self = self else { return }
+            self.heartView.configureValueLabel(value: heartRate)
         }).disposed(by: disposeBag)
         
         output.caloriesSubject.drive(onNext: { [weak self] calories in
@@ -154,30 +135,19 @@ class HomeViewController: BaseController {
             make.left.equalTo(contentView.snp.left).inset(14)
         }
         
-        contentView.addSubview(topStackView)
-        topStackView.snp.makeConstraints { make in
+        contentView.addSubview(generalStackView)
+        generalStackView.snp.makeConstraints { make in
             make.top.equalTo(welcomeStackView.snp.bottom).offset(30)
             make.left.equalTo(contentView.snp.left).inset(14)
             make.right.equalTo(contentView.snp.right).inset(14)
-            make.height.equalTo(244)
+            make.bottom.greaterThanOrEqualTo(contentView.snp.bottom).inset(14)
         }
         
-        contentView.addSubview(bottomStackView)
-        bottomStackView.snp.makeConstraints { make in
-            make.top.equalTo(topStackView.snp.bottom).offset(14)
-            make.left.equalTo(contentView.snp.left).inset(14)
-            make.right.equalTo(contentView.snp.right).inset(14)
-            make.bottom.equalTo(contentView.snp.bottom).inset(14)
-            make.height.equalTo(304)
-        }
-
-        [sleepView, caloriesView].forEach { view in
-            view.snp.makeConstraints { make in
+        [topStackView, bottomStackView].forEach { stackView in
+            stackView.snp.makeConstraints { make in
                 make.height.equalTo(145)
             }
         }
     }
-    
-    @objc private func testAction() { }
-    
+
 }

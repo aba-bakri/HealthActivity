@@ -6,8 +6,10 @@ target 'HealthActivity' do
   use_frameworks!
 
   # Pods for HealthActivity
-  pod 'AYHorindar'
   pod 'RxSwift', '6.5.0'
   pod 'RxCocoa', '6.5.0'
-
+  pod "MLVerticalProgressView"
+  pod 'SVProgressHUD'
+  pod 'R.swift'
+  pod "DTRuler"
 end

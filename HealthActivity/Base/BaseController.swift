@@ -9,7 +9,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-open class BaseController: BaseViewController {
+open class BaseController: ViewController {
     
     internal lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView(frame: .zero)

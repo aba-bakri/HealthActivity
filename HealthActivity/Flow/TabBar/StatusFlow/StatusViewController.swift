@@ -38,17 +38,20 @@ class StatusViewController: BaseController {
     private let heartRateDates = BehaviorSubject<[Date]>(value: Date().daysOfWeek())
     private let singleHeartRateSubject = PublishSubject<StatusProgressModel?>()
     private let previousHeartRateDates = BehaviorSubject<[Date]>(value: Date().previousWeek())
+    private let previousHeartSubject = PublishSubject<Double>()
     
     private let sleepDates = BehaviorSubject<[Date]>(value: Date().daysOfWeek())
     private let singleSleepSubject = PublishSubject<StatusProgressModel?>()
     private let previousSleepDates = BehaviorSubject<[Date]>(value: Date().previousWeek())
+    private let previousSleepSubject = PublishSubject<Double>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
-    override func setupControl() {
-        super.setupControl()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        bindViewModel()
     }
     
     override func bindViewModel() {
@@ -57,15 +60,19 @@ class StatusViewController: BaseController {
         let input = StatusViewModel.Input(heartRateDates: heartRateDates.asObservable(),
                                           singleHeartRate: singleHeartRateSubject.asObservable(),
                                           previousHeartDates: previousHeartRateDates.asObservable(),
+                                          previousSingleHeart: previousHeartSubject.asObservable(),
                                           sleepDates: sleepDates.asObservable(),
                                           singleSleep: singleSleepSubject.asObservable(),
-                                          previousSleepDates: previousSleepDates.asObservable())
+                                          previousSleepDates: previousSleepDates.asObservable(),
+                                          previousSingleSleep: previousSleepSubject.asObservable())
         let output = viewModel.transform(input: input)
         
         output.navigationTitleSubject.drive(onNext: { [weak self] title in
             guard let self = self else { return }
             self.navigationItem.title = title
         }).disposed(by: disposeBag)
+        
+        //MARK: Heart
         
         output.todayHeartRateSubject.drive(onNext: { [weak self] heartBPM in
             guard let self = self else { return }
@@ -82,6 +89,18 @@ class StatusViewController: BaseController {
             self.heartStatusView.configureView(values: weeklyHeartRates)
         }).disposed(by: disposeBag)
         
+        output.previousHeartSubject.drive(onNext: { [weak self] heart in
+            guard let self = self else { return }
+            self.previousHeartSubject.onNext(heart)
+        }).disposed(by: disposeBag)
+        
+        output.previousHeartResultSubject.drive(onNext: { [weak self] previousHeartResult in
+            guard let self = self else { return }
+            self.heartStatusView.bottomMeasureValueLabel.text = previousHeartResult
+        }).disposed(by: disposeBag)
+        
+        //MARK: Sleep
+        
         output.todaySleepSubject.drive(onNext: { [weak self] hours in
             guard let self = self else { return }
             self.sleepStatusView.configureTodayLabel(value: hours)
@@ -96,6 +115,16 @@ class StatusViewController: BaseController {
             guard let self = self else { return }
             self.sleepStatusView.configureView(values: weeklySleep)
         }).disposed(by: disposeBag)
+        
+        output.previousSleepSubject.drive(onNext: { [weak self] sleep in
+            guard let self = self else { return }
+            self.previousSleepSubject.onNext(sleep)
+        }).disposed(by: disposeBag)
+        
+        output.previousSleepResultSubject.drive(onNext: { [weak self] previousSleepResult in
+            guard let self = self else { return }
+            self.sleepStatusView.bottomMeasureValueLabel.text = previousSleepResult
+        }).disposed(by: disposeBag)
     }
     
     override func setupComponentsUI() {
@@ -107,7 +136,7 @@ class StatusViewController: BaseController {
         
         [heartStatusView, sleepStatusView].forEach { statusView in
             statusView.snp.makeConstraints { make in
-                make.height.equalTo(330)
+                make.height.equalTo(350)
             }
         }
     }

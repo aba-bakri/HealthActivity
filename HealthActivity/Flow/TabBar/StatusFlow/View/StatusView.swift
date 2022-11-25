@@ -14,9 +14,9 @@ enum StatusType {
     var image: UIImage? {
         switch self {
         case .heart:
-            return UIImage(named: "heart")
+            return R.image.heart()
         case .sleep:
-            return UIImage(named: "sleep")
+            return R.image.sleep()
         }
     }
     
@@ -41,9 +41,9 @@ enum StatusType {
     var progressLineColor: UIColor? {
         switch self {
         case .heart:
-            return UIColor(named: "purple")
+            return R.color.purple()
         case .sleep:
-            return UIColor(named: "green")
+            return R.color.green()
         }
     }
     
@@ -69,7 +69,7 @@ class StatusView: BaseView {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         label.text = statusType.title
-        label.textColor = UIColor(named: "blackLabel")
+        label.textColor = R.color.blackLabel()
         return label
     }()
     
@@ -77,7 +77,7 @@ class StatusView: BaseView {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         label.text = statusType.measure
-        label.textColor = UIColor(named: "grayLabel")
+        label.textColor = R.color.grayLabel()
         return label
     }()
     
@@ -85,7 +85,7 @@ class StatusView: BaseView {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         label.text = statusType.measure
-        label.textColor = UIColor(named: "blackLabel")
+        label.textColor = R.color.blackLabel()
         return label
     }()
     
@@ -108,7 +108,7 @@ class StatusView: BaseView {
     private lazy var previousWeekLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
-        label.textColor = UIColor(named: "grayLabel")
+        label.textColor = R.color.blackLabel()
         label.text = "Previous week"
         return label
     }()
@@ -117,15 +117,15 @@ class StatusView: BaseView {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         label.text = statusType.measure
-        label.textColor = UIColor(named: "grayLabel")
+        label.textColor = R.color.grayLabel()
         return label
     }()
     
-    private lazy var bottomMeasureValueLabel: UILabel = {
+    lazy var bottomMeasureValueLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
         label.text = statusType.measure
-        label.textColor = UIColor(named: "blackLabel")
+        label.textColor = R.color.blackLabel()
         return label
     }()
     
@@ -191,7 +191,7 @@ class StatusView: BaseView {
         
         addSubview(previousWeekLabel)
         previousWeekLabel.snp.makeConstraints { make in
-            make.top.greaterThanOrEqualTo(statusProgressView.snp.bottom).offset(32)
+            make.top.equalTo(statusProgressView.snp.bottom).offset(32)
             make.left.equalTo(snp.left).inset(28)
             make.bottom.equalTo(snp.bottom).inset(30)
         }

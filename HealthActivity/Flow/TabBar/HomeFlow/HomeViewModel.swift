@@ -46,7 +46,7 @@ struct HomeViewModel: BaseViewModelType {
         healthManager.getHeartRate { state in
             switch state {
             case .success(let heartModel):
-                self.heartRateSubject.onNext(heartModel.value)
+                self.heartRateSubject.onNext(heartModel.value.toInt)
             case .failure(let error):
                 self.errorSubject.onNext(error)
             }

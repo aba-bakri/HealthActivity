@@ -140,7 +140,7 @@ class HomeViewController: BaseController {
         
         output.sleepSubject.drive(onNext: { [weak self] hours in
             guard let self = self else { return }
-            self.caloriesView.valueLabel.text = hours
+            self.sleepView.valueLabel.text = hours
         }).disposed(by: disposeBag)
     }
     

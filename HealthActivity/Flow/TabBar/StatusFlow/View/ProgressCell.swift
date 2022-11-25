@@ -56,11 +56,8 @@ class ProgressCell: UICollectionViewCell, Setupable {
     
     func configureCell(type: StatusType, model: StatusProgressModel?) {
         verticalProgressView.fillDoneColor = type.progressLineColor ?? .purple
-        dayLabel.text = model?.day
+        dayLabel.text = model?.day.ddd
         let progress = Double(Double(Double((model?.value ?? .zero) * 100) / type.maxValue) / 100)
-        if type == .sleep {
-            debugPrint("debug__\(model?.value)")
-        }
         verticalProgressView.setProgress(progress: Float(progress), animated: true)
     }
 }

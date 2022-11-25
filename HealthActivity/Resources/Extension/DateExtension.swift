@@ -29,6 +29,14 @@ extension Date {
         let startOfWeek = self.startOfWeek(using: calendar).noon
         return (0...6).map { startOfWeek.byAdding(component: .day, value: $0, using: calendar)! }
     }
+    
+    func previousWeek(using calendar: Calendar = .current) -> [Date] {
+        let dayOfWeek = calendar.component(.weekday, from: Date())
+        let weekDays = calendar.range(of: .weekday, in: .weekOfYear, for: Date().addingTimeInterval(-60 * 60 * 24 * 7))!
+        let dates = (weekDays.lowerBound ..< weekDays.upperBound)
+            .compactMap { calendar.date(byAdding: .day, value: $0 - dayOfWeek, to: Date().addingTimeInterval(-60 * 60 * 24 * 7)) }
+        return dates
+    }
 }
 
 extension Formatter {

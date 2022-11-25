@@ -28,8 +28,10 @@ struct StatusViewModel: BaseViewModelType {
     struct Input {
         var heartRateDates: Observable<[Date]>
         var singleHeartRate: Observable<StatusProgressModel?>
+        var previousHeartDates: Observable<[Date]>
         var sleepDates: Observable<[Date]>
         var singleSleep: Observable<StatusProgressModel?>
+        var previousSleepDates: Observable<[Date]>
     }
     
     struct Output {
@@ -44,6 +46,8 @@ struct StatusViewModel: BaseViewModelType {
     }
     
     func transform(input: Input) -> Output {
+        
+        //MARK: Heart Dates
         var heartRates = [StatusProgressModel?]()
         input.heartRateDates.subscribe(onNext: { dates in
             dates.forEach { date in
@@ -61,17 +65,20 @@ struct StatusViewModel: BaseViewModelType {
         healthManager.getHeartRate(forSpecificDate: Date()) { state in
             switch state {
             case .success(let heartModel):
-                self.todayHeartRateSubject.onNext(heartModel.value)
+                self.todayHeartRateSubject.onNext(heartModel.value.toInt)
             case .failure(let error):
                 self.errorSubject.onNext(error)
             }
         }
         
+        //MARK: Sleep Hours
         var hours = [StatusProgressModel?]()
+        var previousHours = [Double]()
         input.sleepDates.subscribe(onNext: { dates in
             dates.forEach { date in
                 healthManager.weeklySleepHours(forSpecificDate: date) { statusProgressModel in
-                    sleepSubject.onNext(statusProgressModel)
+                    let model = StatusProgressModel(value: statusProgressModel.value.hours, day: statusProgressModel.day)
+                    sleepSubject.onNext(model)
                 }
             }
         }).disposed(by: disposeBag)
@@ -84,6 +91,14 @@ struct StatusViewModel: BaseViewModelType {
         healthManager.getSleepHours(forSpecificDate: Date()) { hours in
             self.todaySleepSubject.onNext(hours.stringFromTimeInterval())
         }
+        
+        input.previousSleepDates.subscribe(onNext: { dates in
+            dates.forEach { date in
+                healthManager.weeklySleepHours(forSpecificDate: date) { statusProgressModel in
+                    previousHours.append(statusProgressModel.value.hours)
+                }
+            }
+        }).disposed(by: disposeBag)
         
         return Output(navigationTitleSubject: navigationTitleSubject.asDriver(onErrorJustReturn: ""),
                       todayHeartRateSubject: todayHeartRateSubject.asDriver(onErrorJustReturn: .zero),

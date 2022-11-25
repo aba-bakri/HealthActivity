@@ -115,6 +115,10 @@ class OnboardingViewController: BaseController, BaseCollectionViewProtocol {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        Date().previousWeek().forEach { date in
+            debugPrint("Debug__\(date.test)")
+        }
     }
     
     override func setupControl() {

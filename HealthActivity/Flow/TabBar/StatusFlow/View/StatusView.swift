@@ -203,8 +203,9 @@ class StatusView: BaseView {
         }
     }
     
-    func configureView(rates: [StatusProgressModel?]) {
-        statusProgressView.setupCollectionView(items: rates)
+    func configureView(values: [StatusProgressModel?]) {
+        let sortedValues = values.sorted(by: { ($0?.day ?? Date()).compare($1?.day ?? Date()) == .orderedAscending })
+        statusProgressView.setupCollectionView(items: sortedValues)
     }
     
     func configureTodayLabel(value: String) {

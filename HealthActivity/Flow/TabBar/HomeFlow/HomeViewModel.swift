@@ -17,6 +17,7 @@ struct HomeViewModel: BaseViewModelType {
     private let walkSubject = PublishSubject<Int>()
     private let caloriesSubject = PublishSubject<Int>()
     private let heartRateSubject = PublishSubject<Int>()
+    private let errorSubject = PublishSubject<String?>()
     
     struct Input {
         
@@ -27,6 +28,7 @@ struct HomeViewModel: BaseViewModelType {
         var walkSubject: Driver<Int>
         var caloriesSubject: Driver<Int>
         var heartRateSubject: Driver<Int>
+        var errorSubject: Driver<String?>
     }
     
     func transform(input: Input) -> Output {
@@ -39,17 +41,19 @@ struct HomeViewModel: BaseViewModelType {
             self.caloriesSubject.onNext(calories)
         }
         
-        healthManager.getHeartRate { heartRate in
-            if heartRate.heartBPM == .zero {
-                self.heartRateSubject.onNext(.zero)
-            } else {
-                self.heartRateSubject.onNext(heartRate.heartBPM)
+        healthManager.getHeartRate { state in
+            switch state {
+            case .success(let heartModel):
+                self.heartRateSubject.onNext(heartModel.heartBPM)
+            case .failure(let error):
+                self.errorSubject.onNext(error)
             }
         }
         
         return Output(navigationTitleSubject: navigationTitleSubject.asDriver(onErrorJustReturn: ""),
                       walkSubject: walkSubject.asDriver(onErrorJustReturn: .zero),
                       caloriesSubject: caloriesSubject.asDriver(onErrorJustReturn: .zero),
-                      heartRateSubject: heartRateSubject.asDriver(onErrorJustReturn: .zero))
+                      heartRateSubject: heartRateSubject.asDriver(onErrorJustReturn: .zero),
+                      errorSubject: errorSubject.asDriver(onErrorJustReturn: "Error"))
     }
 }

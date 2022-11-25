@@ -147,7 +147,8 @@ class HealthManager {
         }
         let (start, end) = getWholeDate(date: Date())
         let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
-        let query = HKSampleQuery(sampleType: heightType, predicate: predicate, limit: 1, sortDescriptors: nil) { (query, results, error) in
+        let sortDescriptors = [NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)]
+        let query = HKSampleQuery(sampleType: heightType, predicate: predicate, limit: 1, sortDescriptors: sortDescriptors) { (query, results, error) in
             if let result = results?.first as? HKQuantitySample {
                 let height = result.quantity.doubleValue(for: unit)
                 completion(height)
@@ -177,16 +178,17 @@ class HealthManager {
     
     //MARK: Weight
     
-    func getWeight(unit: HKUnit, completion: @escaping(Int) -> Void) {
+    func getWeight(unit: HKUnit, completion: @escaping(Double) -> Void) {
         guard let bodyMassType = HKQuantityType.quantityType(forIdentifier: .bodyMass) else {
             fatalError("Weight cannot be changed")
         }
         let (start, end) = getWholeDate(date: Date())
         let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
-        let query = HKSampleQuery(sampleType: bodyMassType, predicate: predicate, limit: 1, sortDescriptors: nil) { (query, results, error) in
+        let sortDescriptors = [NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)]
+        let query = HKSampleQuery(sampleType: bodyMassType, predicate: predicate, limit: 1, sortDescriptors: sortDescriptors) { (query, results, error) in
             if let result = results?.first as? HKQuantitySample {
                 let bodyMass = result.quantity.doubleValue(for: unit)
-                completion(bodyMass.toInt)
+                completion(bodyMass)
                 return
             } else {
                 completion(.zero)
@@ -280,48 +282,48 @@ extension HealthManager {
 }
 
 extension HealthManager {
-    func getHeartRate(forSpecificDate: Date = Date(), completion: @escaping(StatusProgressModel) -> Void) {
-        guard let heartRateType = HKQuantityType.quantityType(forIdentifier: .heartRate) else {
-            fatalError("Step Count Type is no longer available in HealthKit")
-        }
-        //predicate
-        let calendar = Calendar.current
-        let components = calendar.dateComponents([.year, .month, .day], from: forSpecificDate as Date)
-        
-        guard let startDate: Date = calendar.date(from: components) as Date? else {
-            completion(StatusProgressModel(heartBPM: 0, day: "None"))
-            return
-        }
-        var dayComponent = DateComponents()
-        dayComponent.day = 1
-        //        let (start, end) = getWholeDate(date: forSpecificDate)
-        //        let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
-        let endDate: Date? = calendar.date(byAdding: dayComponent, to: startDate as Date) as Date?
-        let predicate = HKQuery.predicateForSamples(withStart: startDate as Date, end: endDate as Date?, options: [])
-        let sortDescriptors = [NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)]
-        
-        let query = HKSampleQuery(sampleType: heartRateType, predicate: predicate, limit: 1, sortDescriptors: sortDescriptors, resultsHandler: { (query, results, error) in
-            guard error == nil else {
-                completion(StatusProgressModel(heartBPM: 0, day: "None"))
-                return
-            }
-            self.heartRateInfo(date: forSpecificDate, results: results, completion: completion)
-        })
-        healthStore.execute(query)
-    }
-    
-    private func heartRateInfo(date: Date, results: [HKSample]?, completion: @escaping(StatusProgressModel) -> Void) {
-        for (_, sample) in results!.enumerated() {
-            guard let currData:HKQuantitySample = sample as? HKQuantitySample else { return }
-            let value = currData.quantity.doubleValue(for: HKUnit(from: "count/min"))
-            if (results?.isEmpty ?? true) {
-                completion(StatusProgressModel(heartBPM: value.toInt, day: date.ddd))
-            } else {
-                let model = StatusProgressModel(heartBPM: value.toInt, day: date.ddd)
-                completion(model)
-            }
-        }
-    }
+//    func getHeartRate(forSpecificDate: Date = Date(), completion: @escaping(StatusProgressModel) -> Void) {
+//        guard let heartRateType = HKQuantityType.quantityType(forIdentifier: .heartRate) else {
+//            fatalError("Step Count Type is no longer available in HealthKit")
+//        }
+//        //predicate
+//        let calendar = Calendar.current
+//        let components = calendar.dateComponents([.year, .month, .day], from: forSpecificDate as Date)
+//
+//        guard let startDate: Date = calendar.date(from: components) as Date? else {
+//            completion(StatusProgressModel(heartBPM: 0, day: "None"))
+//            return
+//        }
+//        var dayComponent = DateComponents()
+//        dayComponent.day = 1
+//        //        let (start, end) = getWholeDate(date: forSpecificDate)
+//        //        let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
+//        let endDate: Date? = calendar.date(byAdding: dayComponent, to: startDate as Date) as Date?
+//        let predicate = HKQuery.predicateForSamples(withStart: startDate as Date, end: endDate as Date?, options: [])
+//        let sortDescriptors = [NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)]
+//
+//        let query = HKSampleQuery(sampleType: heartRateType, predicate: predicate, limit: 1, sortDescriptors: sortDescriptors, resultsHandler: { (query, results, error) in
+//            guard error == nil else {
+//                completion(StatusProgressModel(heartBPM: 0, day: "None"))
+//                return
+//            }
+//            self.heartRateInfo(date: forSpecificDate, results: results, completion: completion)
+//        })
+//        healthStore.execute(query)
+//    }
+//
+//    private func heartRateInfo(date: Date, results: [HKSample]?, completion: @escaping(StatusProgressModel) -> Void) {
+//        for (_, sample) in results!.enumerated() {
+//            guard let currData:HKQuantitySample = sample as? HKQuantitySample else { return }
+//            let value = currData.quantity.doubleValue(for: HKUnit(from: "count/min"))
+//            if (results?.isEmpty ?? true) {
+//                completion(StatusProgressModel(heartBPM: value.toInt, day: date.ddd))
+//            } else {
+//                let model = StatusProgressModel(heartBPM: value.toInt, day: date.ddd)
+//                completion(model)
+//            }
+//        }
+//    }
     
     func getWeeklyHeartRate(forSpecificDate: Date = Date(), completion: @escaping((StatusProgressModel) -> Void)) {
         guard let heartRateType = HKQuantityType.quantityType(forIdentifier: .heartRate) else { return }
@@ -339,6 +341,30 @@ extension HealthManager {
             if let currData: HKQuantitySample = sample as? HKQuantitySample {
                 let value = currData.quantity.doubleValue(for: HKUnit(from: "count/min"))
                 completion(StatusProgressModel(heartBPM: value.toInt, day: date.ddd))
+            }
+        }
+    }
+    
+    func getHeartRate(forSpecificDate: Date = Date(), completion: @escaping((Result<StatusProgressModel>) -> Void)) {
+        guard let heartRateType = HKQuantityType.quantityType(forIdentifier: .heartRate) else { return }
+        let (start, end) = getWholeDate(date: forSpecificDate)
+        let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
+        let sortDescriptors = [NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)]
+        let query = HKSampleQuery(sampleType: heartRateType, predicate: predicate, limit: 1, sortDescriptors: sortDescriptors, resultsHandler: { (query, results, error) in
+            self.heartRateInfo(date: forSpecificDate, results: results, completion: completion)
+        })
+        healthStore.execute(query)
+    }
+    
+    private func heartRateInfo(date: Date, results: [HKSample]?, completion: @escaping((Result<StatusProgressModel>) -> Void)) {
+        if (results?.isEmpty ?? true) {
+            completion(.failure(error: "Haven't measured today"))
+        } else {
+            for (_, sample) in results!.enumerated() {
+                if let currData: HKQuantitySample = sample as? HKQuantitySample {
+                    let value = currData.quantity.doubleValue(for: HKUnit(from: "count/min"))
+                    completion(.success(StatusProgressModel(heartBPM: value.toInt, day: date.ddd)))
+                }
             }
         }
     }

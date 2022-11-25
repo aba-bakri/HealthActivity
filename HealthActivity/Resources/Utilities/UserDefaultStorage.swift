@@ -21,13 +21,13 @@ struct UserDefaultStorage {
     @Storage(key: "heightUnit", defaultValue: HeightUnit.meter)
     static var heightUnit: HeightUnit
     
-    @Storage(key: "userIdentifier", defaultValue: "nil")
+    @Storage(key: "userIdentifier", defaultValue: "")
     static var userIdentifier: String
     
     @Storage(key: "email", defaultValue: nil)
     static var email: String?
     
-    @Storage(key: "firstName", defaultValue: nil)
+    @Storage(key: "firstName", defaultValue: "Guest")
     static var firstName: String?
 }
 

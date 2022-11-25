@@ -76,7 +76,6 @@
 		CABE30EA292AC4680038A999 /* SplashRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABE30E9292AC4680038A999 /* SplashRouter.swift */; };
 		CABE30ED292D140F0038A999 /* HeightWeightType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABE30EC292D140F0038A999 /* HeightWeightType.swift */; };
 		CABE30F1292E612F0038A999 /* StatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABE30F0292E612F0038A999 /* StatusViewModel.swift */; };
-		CABE30F3292F5BDE0038A999 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABE30F2292F5BDE0038A999 /* TestViewController.swift */; };
 		CABE30F5292F8FA20038A999 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABE30F4292F8FA20038A999 /* StringExtension.swift */; };
 		CAFB8A6A2919A3C7004BF972 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB8A692919A3C7004BF972 /* AppDelegate.swift */; };
 		CAFB8A6C2919A3C7004BF972 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAFB8A6B2919A3C7004BF972 /* SceneDelegate.swift */; };
@@ -158,7 +157,6 @@
 		CABE30E9292AC4680038A999 /* SplashRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashRouter.swift; sourceTree = "<group>"; };
 		CABE30EC292D140F0038A999 /* HeightWeightType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeightWeightType.swift; sourceTree = "<group>"; };
 		CABE30F0292E612F0038A999 /* StatusViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusViewModel.swift; sourceTree = "<group>"; };
-		CABE30F2292F5BDE0038A999 /* TestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
 		CABE30F4292F8FA20038A999 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		CAFB8A662919A3C7004BF972 /* HealthActivity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HealthActivity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CAFB8A692919A3C7004BF972 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -361,7 +359,6 @@
 		CA94F891291A888400E02F6D /* ProfileFlow */ = {
 			isa = PBXGroup;
 			children = (
-				CABE30F2292F5BDE0038A999 /* TestViewController.swift */,
 				CA94F8A2291AA7C900E02F6D /* Profile */,
 				CA94F8A3291AA7D700E02F6D /* PersonalInfo */,
 			);
@@ -660,7 +657,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CABE30F3292F5BDE0038A999 /* TestViewController.swift in Sources */,
 				CA2A41AB291A5BE30089A2E4 /* BaseNavigationController.swift in Sources */,
 				CA7D04B5292551D3009620F5 /* DateExtension.swift in Sources */,
 				CA50EF43291D808900F3955E /* IntExtension.swift in Sources */,

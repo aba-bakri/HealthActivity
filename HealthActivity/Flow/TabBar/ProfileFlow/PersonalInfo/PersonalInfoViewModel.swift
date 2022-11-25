@@ -14,17 +14,12 @@ struct PersonalInfoViewModel: BaseViewModelType {
     private let disposeBag = DisposeBag()
     private let healthManager = HealthManager.shared
     
-//    private let heightSubject = PublishSubject<Int>()
-//    private let weightSubject = PublishSubject<Int>()
-//    private let navigationTitleSubject = BehaviorSubject<String>(value: "Personal Info")
-//    private let heightUnitSubject = BehaviorSubject<HKUnit>(value: .meter())
-//    private let weightUnitSubject = BehaviorSubject<HKUnit>(value: .pound())
-    
     private let navigationTitleSubject = BehaviorSubject<String>(value: "Personal Info")
     private let nextButtonSubject = PublishSubject<Bool>()
     private let heightSubject = PublishSubject<(HKUnit, Int)>()
     private let weightSubject = PublishSubject<(HKUnit, Int)>()
     private let changeHeightSubject = PublishSubject<Int>()
+    private let changeWeightSubject = PublishSubject<Int>()
     private let errorSubject = PublishSubject<String?>()
     
     struct Input {
@@ -32,19 +27,16 @@ struct PersonalInfoViewModel: BaseViewModelType {
         var heightUnit: Observable<HKUnit>
         var weightUnit: Observable<HKUnit>
         var changeHeight: Observable<Int>
+        var changeWeight: Observable<Int>
     }
     
     struct Output {
         var navigationTitle: Driver<String>
-//        var nextButtonIsEnabled: Driver<Bool>
-//        var errorSubject: Driver<String>
-//        var heightSubject: Driver<Int>
-//        var weightSubject: Driver<Int>
-//        var heightUnitSubject: Driver<HKUnit>
         var nextButtonSubject: Driver<Bool>
         var heightSubjet: Driver<(HKUnit, Int)>
         var weightSubject: Driver<(HKUnit, Int)>
         var changeHeightSubject: Driver<Int>
+        var changeWeightSubject: Driver<Int>
         var errorSubject: Driver<String?>
     }
     
@@ -59,7 +51,8 @@ struct PersonalInfoViewModel: BaseViewModelType {
         
         input.weightUnit.subscribe(onNext: { weightUnit in
             self.healthManager.getWeight(unit: weightUnit) { weightValue in
-                let subject = (weightUnit, weightValue)
+                let pound = (weightValue * 100).toInt
+                let subject = (weightUnit, pound)
                 self.weightSubject.onNext(subject)
             }
         }).disposed(by: disposeBag)
@@ -67,7 +60,25 @@ struct PersonalInfoViewModel: BaseViewModelType {
         Observable.combineLatest(input.nextButton, input.changeHeight).subscribe(onNext: { isButtonEnabled, heightValue in
             if isButtonEnabled {
                 self.changeHeightSubject.onNext(heightValue)
-                healthManager.changeHeight(unit: .meter(), height: 130) { state in
+                let heightDouble = Double(Double(heightValue) / 100)
+                healthManager.changeHeight(unit: .meter(), height: heightDouble) { state in
+                    switch state {
+                    case .success:
+                        self.nextButtonSubject.onNext(true)
+                    case .failure(let error):
+                        self.errorSubject.onNext(error)
+                    }
+                }
+            } else {
+                self.nextButtonSubject.onNext(false)
+            }
+        }).disposed(by: disposeBag)
+        
+        Observable.combineLatest(input.nextButton, input.changeWeight).subscribe(onNext: { isButtonEnabled, weightValue in
+            if isButtonEnabled {
+                self.changeWeightSubject.onNext(weightValue)
+                let weightDouble = Double(Double(weightValue) / 100)
+                healthManager.changeWeight(unit: .pound(), weight: weightDouble) { state in
                     switch state {
                     case .success:
                         self.nextButtonSubject.onNext(true)
@@ -85,6 +96,7 @@ struct PersonalInfoViewModel: BaseViewModelType {
                       heightSubjet: heightSubject.asDriver(onErrorJustReturn: (.meter(), .zero)),
                       weightSubject: weightSubject.asDriver(onErrorJustReturn: (.pound(), .zero)),
                       changeHeightSubject: changeHeightSubject.asDriver(onErrorJustReturn: .zero),
+                      changeWeightSubject: changeWeightSubject.asDriver(onErrorJustReturn: .zero),
                       errorSubject: errorSubject.asDriver(onErrorJustReturn: "Error"))
     }
 }

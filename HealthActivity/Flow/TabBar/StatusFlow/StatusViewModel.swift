@@ -17,6 +17,7 @@ struct StatusViewModel: BaseViewModelType {
     private let weeklyHeartRateSubject = PublishSubject<[StatusProgressModel?]>()
     private let rateModelSubject = PublishSubject<StatusProgressModel?>()
     private let todayHeartRateSubject = PublishSubject<Int>()
+    private let errorSubject = PublishSubject<String?>()
     
     struct Input {
         var heartRateDates: Observable<[Date]>
@@ -28,6 +29,7 @@ struct StatusViewModel: BaseViewModelType {
         var todayHeartRateSubject: Driver<Int>
         var rateModelSubject: Driver<StatusProgressModel?>
         var weeklyHeartRateSubject: Driver<[StatusProgressModel?]>
+        var errorSubject: Driver<String?>
     }
     
     func transform(input: Input) -> Output {
@@ -45,14 +47,20 @@ struct StatusViewModel: BaseViewModelType {
             self.weeklyHeartRateSubject.onNext(heartRates)
         }).disposed(by: disposeBag)
         
-        healthManager.getHeartRate(forSpecificDate: Date()) { heartRateModel in
-            self.todayHeartRateSubject.onNext(heartRateModel.heartBPM)
+        healthManager.getHeartRate(forSpecificDate: Date()) { state in
+            switch state {
+            case .success(let heartModel):
+                self.todayHeartRateSubject.onNext(heartModel.heartBPM)
+            case .failure(let error):
+                self.errorSubject.onNext(error)
+            }
         }
         
         return Output(navigationTitleSubject: navigationTitleSubject.asDriver(onErrorJustReturn: ""),
                       todayHeartRateSubject: todayHeartRateSubject.asDriver(onErrorJustReturn: .zero),
                       rateModelSubject: rateModelSubject.asDriver(onErrorJustReturn: nil),
-                      weeklyHeartRateSubject: weeklyHeartRateSubject.asDriver(onErrorJustReturn: []))
+                      weeklyHeartRateSubject: weeklyHeartRateSubject.asDriver(onErrorJustReturn: []),
+                      errorSubject: errorSubject.asDriver(onErrorJustReturn: "Error"))
     }
     
 }

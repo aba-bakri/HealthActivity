@@ -7,11 +7,11 @@
 
 import UIKit
 import HealthKit
+import AuthenticationServices
+import RxSwift
+import RxCocoa
 
 class ProfileViewController: BaseController {
-    
-    internal var router: ProfileRouter?
-    internal var viewModel: ProfileViewModel!
     
     private lazy var profileInfoView: ProfileInfoView = {
         let view = ProfileInfoView(frame: .zero)
@@ -73,32 +73,44 @@ class ProfileViewController: BaseController {
         return button
     }()
     
-    private lazy var rightBarButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: UIImage(named: "more"), style: .plain, target: self, action: #selector(settingsAction))
+    private lazy var signInBarButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "Sign In", style: .plain, target: self, action: #selector(signInAction))
         return button
     }()
+    
+    private lazy var signOutBarButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: "Sign Out", style: .plain, target: self, action: #selector(signOutAction))
+        return button
+    }()
+    
+    internal var router: ProfileRouter?
+    internal var viewModel: ProfileViewModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        bindViewModel()
+    }
+    
     override func setupNavigationBar() {
         super.setupNavigationBar()
         navigationItem.leftBarButtonItem = leftBarButton
-        navigationItem.rightBarButtonItem = rightBarButton
+        if !(UserDefaultStorage.email?.isEmpty ?? true) {
+//            navigationItem.rightBarButtonItem = signOutBarButton
+        } else {
+            navigationItem.rightBarButtonItem = signInBarButton
+        }
     }
 
     override func setupControl() {
         super.setupControl()
-        
         profileInfoView.moreButton.didTapBlock = { [weak self] in
             guard let self = self else { return }
             self.router?.navigateToPersonalInfo()
         }
-    }
-    
-    override func bindUI() {
-        super.bindUI()
     }
     
     override func bindViewModel() {
@@ -117,14 +129,14 @@ class ProfileViewController: BaseController {
             self.walkView.valueLabel.text = steps.toString
         }).disposed(by: disposeBag)
         
-        output.heightSubject.drive(onNext: { [weak self] height in
+        output.heightSubject.drive(onNext: { [weak self] unit, height in
             guard let self = self else { return }
-            self.profileInfoView.heightView.configureView(value: height.toString)
+            self.profileInfoView.heightView.configureView(unit: unit, value: height.toString)
         }).disposed(by: disposeBag)
          
-        output.weightSubject.drive(onNext: { [weak self] weight in
+        output.weightSubject.drive(onNext: { [weak self] unit, weight in
             guard let self = self else { return }
-            self.profileInfoView.weightView.configureView(value: weight.toString)
+            self.profileInfoView.weightView.configureView(unit: unit, value: weight.toString)
         }).disposed(by: disposeBag)
         
         output.sleepSubject.drive(onNext: { [weak self] sleepHours in
@@ -141,8 +153,6 @@ class ProfileViewController: BaseController {
             guard let self = self else { return }
             self.heartView.configureValueLabel(value: heartRate)
         }).disposed(by: disposeBag)
-        
-        profileInfoView.ageView.configureView(value: HealthManager.shared.getAge())
     }
     
     override func setupComponentsUI() {
@@ -183,12 +193,42 @@ class ProfileViewController: BaseController {
         }
     }
     
-    @objc private func notificationAction() {
-        
+    @objc private func notificationAction() { }
+    
+    @objc private func signInAction() {
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.performRequests()
+    }
+    @objc private func signOutAction() { }
+}
+
+extension ProfileViewController: ASAuthorizationControllerPresentationContextProviding {
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
+    }
+}
+
+extension ProfileViewController: ASAuthorizationControllerDelegate {
+    
+    func authorizationController(controller: ASAuthorizationController,
+                                 didCompleteWithAuthorization authorization: ASAuthorization) {
+        switch authorization.credential {
+        case let appleIDCredential as ASAuthorizationAppleIDCredential:
+            UserDefaultStorage.userIdentifier = appleIDCredential.user
+            UserDefaultStorage.firstName = "\(appleIDCredential.fullName?.givenName ?? "") \(appleIDCredential.fullName?.familyName ?? "")"
+            UserDefaultStorage.email = appleIDCredential.email
+            dismiss(animated: true)
+            break
+        default:
+            self.showErrorAlert(title: "Error", message: "Sign In Error")
+        }
     }
     
-    @objc private func settingsAction() {
-        
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        self.showErrorAlert(title: "Error", message: error.localizedDescription)
     }
-    
 }

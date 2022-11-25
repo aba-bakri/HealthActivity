@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class HomeViewController: BaseController {
     
@@ -24,7 +26,7 @@ class HomeViewController: BaseController {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.textColor = UIColor(named: "grayLabel")
-        label.text = "Hi, Aba-Bakri"
+        label.text = "Hi, \(UserDefaultStorage.firstName ?? "")"
         return label
     }()
     
@@ -96,6 +98,11 @@ class HomeViewController: BaseController {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        bindViewModel()
+    }
+    
     override func setupControl() {
         super.setupControl()
     }
@@ -116,9 +123,14 @@ class HomeViewController: BaseController {
             self.walkView.valueLabel.text = steps.toString
         }).disposed(by: disposeBag)
         
-        output.heartRateSubject.drive(onNext: { [weak self] heartRate in
+        output.heartRateSubject.drive(onNext: { [weak self] bpm in
             guard let self = self else { return }
-            self.heartView.configureValueLabel(value: heartRate)
+            self.heartView.configureValueLabel(value: bpm)
+        }).disposed(by: disposeBag)
+        
+        output.errorSubject.drive(onNext: { [weak self] error in
+            guard let self = self else { return }
+            self.heartView.configureError(value: error)
         }).disposed(by: disposeBag)
         
         output.caloriesSubject.drive(onNext: { [weak self] calories in

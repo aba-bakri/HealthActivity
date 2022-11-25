@@ -10,12 +10,6 @@ import AuthenticationServices
 
 class SplashViewController: BaseController, ASAuthorizationControllerDelegate {
     
-    private lazy var logoView: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = UIColor(named: "purple")
-        return view
-    }()
-    
     internal var router: SplashRouter?
     
     override func viewDidLoad() {
@@ -29,11 +23,6 @@ class SplashViewController: BaseController, ASAuthorizationControllerDelegate {
     
     override func setupComponentsUI() {
         super.setupComponentsUI()
-        view.addSubview(logoView)
-        logoView.snp.makeConstraints { make in
-            make.center.equalTo(view.snp.center)
-            make.width.height.equalTo(200)
-        }
     }
     
     private func getInitialViewController() {

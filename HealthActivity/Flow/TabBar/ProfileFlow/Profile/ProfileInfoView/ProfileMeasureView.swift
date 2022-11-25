@@ -7,6 +7,7 @@
 
 import UIKit
 import RxCocoa
+import HealthKit
 
 enum ProfileMeasureType {
     case weight
@@ -89,13 +90,35 @@ class ProfileMeasureView: BaseView {
         }
     }
     
-    func configureView(value: String) {
+    func configureView(unit: HKUnit, value: String) {
         let boldAttribute = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .semibold),
                              NSAttributedString.Key.foregroundColor: UIColor(named: "blackLabel")]
         let measureAttribute = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12, weight: .semibold),
                              NSAttributedString.Key.foregroundColor: UIColor(named: "grayLabel")]
         let boldAttributedString = NSMutableAttributedString(string: value, attributes: boldAttribute as [NSAttributedString.Key: Any])
-        let measureAttributedString = NSMutableAttributedString(string: measureType.measure, attributes: measureAttribute as [NSAttributedString.Key: Any])
+        var stringMeasure: String = ""
+        switch unit {
+        case .meter():
+            stringMeasure = " Cm"
+        case .pound():
+            stringMeasure = " Lb"
+        case .inch():
+            stringMeasure = " ”"
+        default:
+            stringMeasure = " Kg"
+        }
+        let measureAttributedString = NSMutableAttributedString(string: stringMeasure, attributes: measureAttribute as [NSAttributedString.Key: Any])
+        boldAttributedString.append(measureAttributedString)
+        measureValueLabel.attributedText = boldAttributedString
+    }
+    
+    func configureAgeView() {
+        let boldAttribute = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .semibold),
+                             NSAttributedString.Key.foregroundColor: UIColor(named: "blackLabel")]
+        let measureAttribute = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12, weight: .semibold),
+                             NSAttributedString.Key.foregroundColor: UIColor(named: "grayLabel")]
+        let boldAttributedString = NSMutableAttributedString(string: HealthManager.shared.getAge(), attributes: boldAttribute as [NSAttributedString.Key: Any])
+        let measureAttributedString = NSMutableAttributedString(string: " Yrs", attributes: measureAttribute as [NSAttributedString.Key: Any])
         boldAttributedString.append(measureAttributedString)
         measureValueLabel.attributedText = boldAttributedString
     }

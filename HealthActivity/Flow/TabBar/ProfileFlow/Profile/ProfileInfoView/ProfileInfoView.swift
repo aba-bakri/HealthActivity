@@ -9,12 +9,6 @@ import UIKit
 
 class ProfileInfoView: BaseView {
     
-//    private lazy var photoImageView: UIImageView = {
-//        let imageView = UIImageView(frame: .zero)
-//        imageView.isHidden = true
-//        return imageView
-//    }()
-    
     private lazy var nameLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
@@ -66,6 +60,7 @@ class ProfileInfoView: BaseView {
     
     lazy var ageView: ProfileMeasureView = {
         let view = ProfileMeasureView(type: .age)
+        view.configureAgeView()
         return view
     }()
     

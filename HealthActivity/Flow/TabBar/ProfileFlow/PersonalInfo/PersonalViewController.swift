@@ -11,11 +11,6 @@ import HealthKit
 
 class PersonalInfoViewController: BaseController {
     
-    internal var router: PersonalRouter?
-    internal var viewModel: PersonalInfoViewModel!
-    
-    let test = [Int](1...100)
-    
     private lazy var sexLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.textColor = UIColor(named: "blackLabel")
@@ -50,7 +45,6 @@ class PersonalInfoViewController: BaseController {
         stackView.distribution = .fillEqually
         stackView.addArrangedSubview(heightView)
         stackView.addArrangedSubview(weightView)
-//        stackView.addArrangedSubview(pickerView)
         return stackView
     }()
     
@@ -58,19 +52,18 @@ class PersonalInfoViewController: BaseController {
         let button = BaseButton(frame: .zero)
         button.setTitle("Next", for: .normal)
         button.setCornerRadius(corners: .allCorners, radius: 25)
-        button.backgroundColor = UIColor(named: "purple")
+        button.backgroundColor = R.color.purple()
         return button
     }()
+    
+    internal var router: PersonalRouter?
+    internal var viewModel: PersonalInfoViewModel!
     
     private let nextButtonSubject = BehaviorSubject<Bool>(value: false)
     private let heightUnitSubject = BehaviorSubject<HKUnit>(value: .meter())
     private let weightUnitSubject = BehaviorSubject<HKUnit>(value: .pound())
     private let changeHeightSubject = PublishSubject<Int>()
-    
-//    private let heightUnitSubject = PublishSubject<HKUnit>()
-//    private let weightUnitSubject = PublishSubject<HKUnit>()
-//    private let changeHeightSubject = PublishSubject<Int>()
-//    private let changeWeightSubject = PublishSubject<Int>()
+    private let changeWeightSubject = PublishSubject<Int>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,21 +76,15 @@ class PersonalInfoViewController: BaseController {
     override func bindUI() {
         super.bindUI()
         
-//        heightView.pickerView.rx.itemSelected.subscribe(onNext: { [weak self] row, component in
-//            guard let self = self else { return }
-//            self.changeHeightSubject.onNext(row)
-//        }).disposed(by: disposeBag)
-//
-//        weightView.pickerView.rx.itemSelected.subscribe(onNext: { [weak self] row, component in
-//            guard let self = self else { return }
-////            self.changeHeightSubject.onNext(row)
-//        }).disposed(by: disposeBag)
-//
-        
-        
         heightView.rulerValueDidChange = { [weak self] value in
             guard let self = self else { return }
             self.changeHeightSubject.onNext(value.toInt() ?? .zero)
+            self.nextButtonSubject.onNext(true)
+        }
+        
+        weightView.rulerValueDidChange = { [weak self] value in
+            guard let self = self else { return }
+            self.changeWeightSubject.onNext(value.toInt() ?? .zero)
             self.nextButtonSubject.onNext(true)
         }
         
@@ -112,26 +99,18 @@ class PersonalInfoViewController: BaseController {
         let input = PersonalInfoViewModel.Input(nextButton: nextButtonSubject.asObservable(),
                                                 heightUnit: heightUnitSubject.asObservable(),
                                                 weightUnit: weightUnitSubject.asObservable(),
-                                                changeHeight: changeHeightSubject.asObservable())
+                                                changeHeight: changeHeightSubject.asObservable(),
+                                                changeWeight: changeWeightSubject.asObservable())
         let output = viewModel.transform(input: input)
-        
-//        output.heightUnitSubject.drive(onNext: { [weak self] heightUnit in
-//            guard let self = self else { return }
-//            self.heightView.selectSegmentedControl(unit: heightUnit)
-//        }).disposed(by: disposeBag)
-//
-//        output.heightValueSubjet.drive(onNext: { [weak self] heightValue in
-//            guard let self = self else { return }
-//            debugPrint("Debug__Test\(heightValue)")
-//            self.heightView.selectValueRow(row: heightValue)
-//        }).disposed(by: disposeBag)
         
         output.heightSubjet.drive(onNext: { [weak self] heightUnit, heightValue in
             guard let self = self else { return }
-//            debugPrint("Debug__\(heightUnit), \(heightValue)")
-            self.heightView.configureRulerView(scale: .integer(heightValue))
-//            self.heightView.selectUnitControl(unit: heightUnit)
-//            self.heightView.selectValueRow(row: heightValue)
+            self.heightView.configureRulerView(value: heightValue)
+        }).disposed(by: disposeBag)
+        
+        output.weightSubject.drive(onNext: { [weak self] weightUnit, weightValue in
+            guard let self = self else { return }
+            self.weightView.configureRulerView(value: weightValue)
         }).disposed(by: disposeBag)
         
         output.nextButtonSubject.drive(onNext: { [weak self] isEnabled in
@@ -139,53 +118,11 @@ class PersonalInfoViewController: BaseController {
             self.nextButton.isEnabled = isEnabled
         }).disposed(by: disposeBag)
         
-//        output.weightSubject.drive(onNext: { [weak self] weightUnit, weightValue in
-//            guard let self = self else { return }
-////            self.weightView.selectUnitControl(unit: weightUnit)
-////            self.weightView.selectValueRow(row: weightValue)
-//        }).disposed(by: disposeBag)
-        
-//        nextButton.rx.tap.subscribe(onNext: { [weak self] _ in
-//            guard let self = self else { return }
-//
-//        })
-//        output.
+        output.errorSubject.drive(onNext: { [weak self] error in
+            guard let self = self else { return }
+            self.showErrorAlert(title: "Error", message: error)
+        }).disposed(by: disposeBag)
     }
-    
-//    override func bindViewModel() {
-//        super.bindViewModel()
-//
-//        let input = PersonalInfoViewModel.Input(heightUnit: heightUnitSubject.asObservable(),
-//                                                weightUnit: weightUnitSubject.asObservable(),
-//                                                changeHeight: changeHeightSubject.asObservable(),
-//                                                changeWeight: changeWeightSubject.asObservable())
-//        let output = viewModel.transform(input: input)
-//
-//        output.navigationTitle.drive(onNext: { [weak self] title in
-//            guard let self = self else { return }
-//            self.navigationItem.title = title
-//        }).disposed(by: disposeBag)
-//
-//        output.heightSubject.drive(onNext: { [weak self] height in
-//            guard let self = self else { return }
-//            self.heightView.selectRow(row: height)
-//        }).disposed(by: disposeBag)
-//
-//        output.weightSubject.drive(onNext: { [weak self] weight in
-//            guard let self = self else { return }
-//            self.weightView.selectRow(row: weight)
-//        }).disposed(by: disposeBag)
-//
-//        output.errorSubject.drive(onNext: { [weak self] errorMessage in
-//            guard let self = self else { return }
-//            self.showErrorAlert(title: "Error", message: errorMessage)
-//        }).disposed(by: disposeBag)
-//
-//        output.nextButtonIsEnabled.drive(onNext: { [weak self] isEnabled in
-//            guard let self = self else { return }
-//            self.nextButton.isEnabled = isEnabled
-//        }).disposed(by: disposeBag)
-//    }
     
     override func setupComponentsUI() {
         super.setupComponentsUI()
@@ -218,8 +155,5 @@ class PersonalInfoViewController: BaseController {
             make.height.equalTo(48)
         }
     }
-    
-    @objc private func testAction() { }
-    
-    @objc private func genderValueChanged() { }
+
 }

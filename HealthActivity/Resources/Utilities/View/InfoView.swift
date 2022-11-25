@@ -152,12 +152,12 @@ class InfoView: BaseView {
     }
     
     func configureValueLabel(value: Int) {
-        if value == .zero {
-            valueLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-            valueLabel.text = "Haven't measured today"
-        } else {
-            valueLabel.text = value.toString
-        }
+        valueLabel.text = value.toString
+    }
+    
+    func configureError(value: String?) {
+        valueLabel.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+        valueLabel.text = value
     }
     
 }

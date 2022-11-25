@@ -137,6 +137,11 @@ class HomeViewController: BaseController {
             guard let self = self else { return }
             self.caloriesView.valueLabel.text = calories.toString
         }).disposed(by: disposeBag)
+        
+        output.sleepSubject.drive(onNext: { [weak self] hours in
+            guard let self = self else { return }
+            self.caloriesView.valueLabel.text = hours
+        }).disposed(by: disposeBag)
     }
     
     override func setupComponentsUI() {

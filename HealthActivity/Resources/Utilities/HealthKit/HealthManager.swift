@@ -19,7 +19,7 @@ enum EmptyResult {
 }
 
 struct StatusProgressModel {
-    var heartBPM: Int
+    var value: Int
     var day: String
 }
 
@@ -261,12 +261,12 @@ extension TimeInterval{
         
         let time = NSInteger(self)
         
-        let ms = Int((self.truncatingRemainder(dividingBy: 1)) * 1000)
-        let seconds = time % 60
+//        let ms = Int((self.truncatingRemainder(dividingBy: 1)) * 1000)
+//        let seconds = time % 60
         let minutes = (time / 60) % 60
         let hours = (time / 3600)
         
-        return String(format: "%0.2d:%0.2d:%0.2d.%0.3d",hours,minutes,seconds,ms)
+        return String(format: "%0.2d:%0.2d", hours, minutes)
         
     }
 }
@@ -282,48 +282,48 @@ extension HealthManager {
 }
 
 extension HealthManager {
-//    func getHeartRate(forSpecificDate: Date = Date(), completion: @escaping(StatusProgressModel) -> Void) {
-//        guard let heartRateType = HKQuantityType.quantityType(forIdentifier: .heartRate) else {
-//            fatalError("Step Count Type is no longer available in HealthKit")
-//        }
-//        //predicate
-//        let calendar = Calendar.current
-//        let components = calendar.dateComponents([.year, .month, .day], from: forSpecificDate as Date)
-//
-//        guard let startDate: Date = calendar.date(from: components) as Date? else {
-//            completion(StatusProgressModel(heartBPM: 0, day: "None"))
-//            return
-//        }
-//        var dayComponent = DateComponents()
-//        dayComponent.day = 1
-//        //        let (start, end) = getWholeDate(date: forSpecificDate)
-//        //        let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
-//        let endDate: Date? = calendar.date(byAdding: dayComponent, to: startDate as Date) as Date?
-//        let predicate = HKQuery.predicateForSamples(withStart: startDate as Date, end: endDate as Date?, options: [])
-//        let sortDescriptors = [NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)]
-//
-//        let query = HKSampleQuery(sampleType: heartRateType, predicate: predicate, limit: 1, sortDescriptors: sortDescriptors, resultsHandler: { (query, results, error) in
-//            guard error == nil else {
-//                completion(StatusProgressModel(heartBPM: 0, day: "None"))
-//                return
-//            }
-//            self.heartRateInfo(date: forSpecificDate, results: results, completion: completion)
-//        })
-//        healthStore.execute(query)
-//    }
-//
-//    private func heartRateInfo(date: Date, results: [HKSample]?, completion: @escaping(StatusProgressModel) -> Void) {
-//        for (_, sample) in results!.enumerated() {
-//            guard let currData:HKQuantitySample = sample as? HKQuantitySample else { return }
-//            let value = currData.quantity.doubleValue(for: HKUnit(from: "count/min"))
-//            if (results?.isEmpty ?? true) {
-//                completion(StatusProgressModel(heartBPM: value.toInt, day: date.ddd))
-//            } else {
-//                let model = StatusProgressModel(heartBPM: value.toInt, day: date.ddd)
-//                completion(model)
-//            }
-//        }
-//    }
+    //    func getHeartRate(forSpecificDate: Date = Date(), completion: @escaping(StatusProgressModel) -> Void) {
+    //        guard let heartRateType = HKQuantityType.quantityType(forIdentifier: .heartRate) else {
+    //            fatalError("Step Count Type is no longer available in HealthKit")
+    //        }
+    //        //predicate
+    //        let calendar = Calendar.current
+    //        let components = calendar.dateComponents([.year, .month, .day], from: forSpecificDate as Date)
+    //
+    //        guard let startDate: Date = calendar.date(from: components) as Date? else {
+    //            completion(StatusProgressModel(heartBPM: 0, day: "None"))
+    //            return
+    //        }
+    //        var dayComponent = DateComponents()
+    //        dayComponent.day = 1
+    //        //        let (start, end) = getWholeDate(date: forSpecificDate)
+    //        //        let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
+    //        let endDate: Date? = calendar.date(byAdding: dayComponent, to: startDate as Date) as Date?
+    //        let predicate = HKQuery.predicateForSamples(withStart: startDate as Date, end: endDate as Date?, options: [])
+    //        let sortDescriptors = [NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)]
+    //
+    //        let query = HKSampleQuery(sampleType: heartRateType, predicate: predicate, limit: 1, sortDescriptors: sortDescriptors, resultsHandler: { (query, results, error) in
+    //            guard error == nil else {
+    //                completion(StatusProgressModel(heartBPM: 0, day: "None"))
+    //                return
+    //            }
+    //            self.heartRateInfo(date: forSpecificDate, results: results, completion: completion)
+    //        })
+    //        healthStore.execute(query)
+    //    }
+    //
+    //    private func heartRateInfo(date: Date, results: [HKSample]?, completion: @escaping(StatusProgressModel) -> Void) {
+    //        for (_, sample) in results!.enumerated() {
+    //            guard let currData:HKQuantitySample = sample as? HKQuantitySample else { return }
+    //            let value = currData.quantity.doubleValue(for: HKUnit(from: "count/min"))
+    //            if (results?.isEmpty ?? true) {
+    //                completion(StatusProgressModel(heartBPM: value.toInt, day: date.ddd))
+    //            } else {
+    //                let model = StatusProgressModel(heartBPM: value.toInt, day: date.ddd)
+    //                completion(model)
+    //            }
+    //        }
+    //    }
     
     func getWeeklyHeartRate(forSpecificDate: Date = Date(), completion: @escaping((StatusProgressModel) -> Void)) {
         guard let heartRateType = HKQuantityType.quantityType(forIdentifier: .heartRate) else { return }
@@ -340,7 +340,7 @@ extension HealthManager {
         for (_, sample) in results!.enumerated() {
             if let currData: HKQuantitySample = sample as? HKQuantitySample {
                 let value = currData.quantity.doubleValue(for: HKUnit(from: "count/min"))
-                completion(StatusProgressModel(heartBPM: value.toInt, day: date.ddd))
+                completion(StatusProgressModel(value: value.toInt, day: date.ddd))
             }
         }
     }
@@ -363,7 +363,7 @@ extension HealthManager {
             for (_, sample) in results!.enumerated() {
                 if let currData: HKQuantitySample = sample as? HKQuantitySample {
                     let value = currData.quantity.doubleValue(for: HKUnit(from: "count/min"))
-                    completion(.success(StatusProgressModel(heartBPM: value.toInt, day: date.ddd)))
+                    completion(.success(StatusProgressModel(value: value.toInt, day: date.ddd)))
                 }
             }
         }
@@ -372,31 +372,91 @@ extension HealthManager {
 
 //MARK: Get sleep hours
 extension HealthManager {
-    func getSleepHours(forSpecificDate: Date = Date()) {
-//        if let sleepType = HKObjectType.categoryType(forIdentifier: HKCategoryTypeIdentifier.sleepAnalysis) {
-//            let (start, end) = getWholeDate(date: forSpecificDate)
-//            let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
-//            let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
-//            let query = HKSampleQuery(sampleType: sleepType, predicate: predicate, limit: 30, sortDescriptors: [sortDescriptor]) { (query, tmpResult, error) -> Void in
-//                if let result = tmpResult {
-//                    for item in result {
-//                        if let sample = item as? HKCategorySample {
-//                            let value = (sample.value == HKCategoryValueSleepAnalysis.inBed.rawValue) ? "InBed" : "Asleep"
-//                            print("sleep: \(sample.startDate) \(sample.endDate) - source: \(sample.source.name) - value: \(value)")
-//                            //   let seconds = endDate.timeIntervalSinceDate(sample.startDate)
-//                            let seconds = sample.startDate.timeIntervalSince(sample.endDate)
-//                            let minutes = seconds/60
-//                            let hours = minutes/60
-//                            print(seconds)
-//                            print(minutes)
-//                            print(hours)
-//                        }
-//                    }
-//                } else{
-//                    print(error?.localizedDescription)
-//                }
-//            }
-//            healthStore.execute(query)
-//        }
+    func getSleepHours(forSpecificDate: Date = Date(), completion: @escaping(Double) -> Void) {
+        if let sleepType = HKObjectType.categoryType(forIdentifier: HKCategoryTypeIdentifier.sleepAnalysis) {
+            let (start, end) = getWholeDate(date: forSpecificDate)
+            let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
+            let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
+            let query = HKSampleQuery(sampleType: sleepType, predicate: predicate, limit: 30, sortDescriptors: [sortDescriptor]) { (query, tmpResult, error) -> Void in
+                if let result = tmpResult {
+                    let hours = result.map { item -> Double in
+                        if let sample = item as? HKCategorySample {
+                            if sample.value == HKCategoryValueSleepAnalysis.inBed.rawValue {
+                                let sleepTimeForOneDay = sample.endDate.timeIntervalSince(sample.startDate)
+                                return sleepTimeForOneDay
+                            } else {
+                                return .zero
+                            }
+                        } else {
+                            return .zero
+                        }
+                    }
+                    let dayHours = hours.reduce(0, +)
+                    completion(dayHours)
+                } else {
+                    completion(.zero)
+                }
+            }
+            healthStore.execute(query)
+        }
+    }
+    
+    func weeklySleepHours(forSpecificDate: Date = Date(), completion: @escaping(StatusProgressModel) -> Void) {
+        if let sleepType = HKObjectType.categoryType(forIdentifier: HKCategoryTypeIdentifier.sleepAnalysis) {
+            let (start, end) = getWholeDate(date: forSpecificDate)
+            let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
+            let sortDescriptor = NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)
+            let query = HKSampleQuery(sampleType: sleepType, predicate: predicate, limit: 30, sortDescriptors: [sortDescriptor]) { (query, tmpResult, error) -> Void in
+                if let result = tmpResult {
+                    let hours = result.map { item -> Double in
+                        if let sample = item as? HKCategorySample {
+                            if sample.value == HKCategoryValueSleepAnalysis.inBed.rawValue {
+                                let sleepTimeForOneDay = sample.endDate.timeIntervalSince(sample.startDate)
+                                return sleepTimeForOneDay
+                            } else {
+                                return .zero
+                            }
+                        } else {
+                            return .zero
+                        }
+                    }
+                    let dayHours = hours.reduce(0, +)
+                    completion(StatusProgressModel(value: dayHours.toInt, day: forSpecificDate.ddd))
+                } else {
+                    completion(StatusProgressModel(value: .zero, day: forSpecificDate.ddd))
+                }
+            }
+            healthStore.execute(query)
+        }
+    }
+}
+
+extension TimeInterval {
+    var milliseconds: Int {
+        return Int((truncatingRemainder(dividingBy: 1)) * 1000)
+    }
+
+    var seconds: Int {
+        return Int(self) % 60
+    }
+
+    var minutes: Int {
+        return (Int(self) / 60 ) % 60
+    }
+
+    public var hours: Double {
+        return Double(self) / 3600
+    }
+
+    var stringTime: String {
+        if hours != 0 {
+            return "\(hours)h \(minutes)m \(seconds)s"
+        } else if minutes != 0 {
+            return "\(minutes)m \(seconds)s"
+        } else if milliseconds != 0 {
+            return "\(seconds)s \(milliseconds)ms"
+        } else {
+            return "\(seconds)s"
+        }
     }
 }

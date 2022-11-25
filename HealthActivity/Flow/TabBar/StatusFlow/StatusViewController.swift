@@ -38,6 +38,9 @@ class StatusViewController: BaseController {
     private let heartRateDates = BehaviorSubject<[Date]>(value: Date().daysOfWeek())
     private let singleHeartRateSubject = PublishSubject<StatusProgressModel?>()
     
+    private let sleepDates = BehaviorSubject<[Date]>(value: Date().daysOfWeek())
+    private let singleSleepSubject = PublishSubject<StatusProgressModel?>()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -50,7 +53,9 @@ class StatusViewController: BaseController {
         super.bindViewModel()
         
         let input = StatusViewModel.Input(heartRateDates: heartRateDates.asObservable(),
-                                          singleHeartRate: singleHeartRateSubject.asObservable())
+                                          singleHeartRate: singleHeartRateSubject.asObservable(),
+                                          sleepDates: sleepDates.asObservable(),
+                                          singleSleep: singleSleepSubject.asObservable())
         let output = viewModel.transform(input: input)
         
         output.navigationTitleSubject.drive(onNext: { [weak self] title in
@@ -60,9 +65,9 @@ class StatusViewController: BaseController {
         
         output.todayHeartRateSubject.drive(onNext: { [weak self] heartBPM in
             guard let self = self else { return }
-            self.heartStatusView.configureTodayLabel(value: heartBPM)
+            self.heartStatusView.configureTodayLabel(value: heartBPM.toString)
         }).disposed(by: disposeBag)
-        
+
         output.rateModelSubject.drive(onNext: { [weak self] heartRate in
             guard let self = self else { return }
             self.singleHeartRateSubject.onNext(heartRate)
@@ -73,6 +78,20 @@ class StatusViewController: BaseController {
             self.heartStatusView.configureView(rates: weeklyHeartRates)
         }).disposed(by: disposeBag)
         
+        output.todaySleepSubject.drive(onNext: { [weak self] hours in
+            guard let self = self else { return }
+            self.sleepStatusView.configureTodayLabel(value: hours)
+        }).disposed(by: disposeBag)
+        
+        output.sleepSubject.drive(onNext: { [weak self] sleep in
+            guard let self = self else { return }
+            self.singleSleepSubject.onNext(sleep)
+        }).disposed(by: disposeBag)
+        
+        output.weeklySleepSubject.drive(onNext: { [weak self] weeklySleep in
+            guard let self = self else { return }
+            self.sleepStatusView.configureView(rates: weeklySleep)
+        }).disposed(by: disposeBag)
     }
     
     override func setupComponentsUI() {

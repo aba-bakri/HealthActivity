@@ -59,7 +59,7 @@ struct ProfileViewModel: BaseViewModelType {
         healthManager.getHeartRate { state in
             switch state {
             case .success(let heartModel):
-                self.heartRateSubject.onNext(heartModel.heartBPM)
+                self.heartRateSubject.onNext(heartModel.value)
             case .failure(let error):
                 self.errorSubject.onNext(error)
             }
@@ -67,6 +67,10 @@ struct ProfileViewModel: BaseViewModelType {
         
         healthManager.getCalories { calories in
             self.caloriesSubject.onNext(calories)
+        }
+        
+        healthManager.getSleepHours(forSpecificDate: Date()) { hours in
+            self.sleepSubject.onNext(hours.stringFromTimeInterval())
         }
         
         return Output(navigationTitleSubject: navigationTitleSubject.asDriver(onErrorJustReturn: ""),

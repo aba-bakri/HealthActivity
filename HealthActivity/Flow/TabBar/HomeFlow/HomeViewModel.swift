@@ -18,6 +18,7 @@ struct HomeViewModel: BaseViewModelType {
     private let caloriesSubject = PublishSubject<Int>()
     private let heartRateSubject = PublishSubject<Int>()
     private let errorSubject = PublishSubject<String?>()
+    private let sleepSubject = PublishSubject<String>()
     
     struct Input {
         
@@ -29,6 +30,7 @@ struct HomeViewModel: BaseViewModelType {
         var caloriesSubject: Driver<Int>
         var heartRateSubject: Driver<Int>
         var errorSubject: Driver<String?>
+        var sleepSubject: Driver<String>
     }
     
     func transform(input: Input) -> Output {
@@ -44,16 +46,21 @@ struct HomeViewModel: BaseViewModelType {
         healthManager.getHeartRate { state in
             switch state {
             case .success(let heartModel):
-                self.heartRateSubject.onNext(heartModel.heartBPM)
+                self.heartRateSubject.onNext(heartModel.value)
             case .failure(let error):
                 self.errorSubject.onNext(error)
             }
+        }
+        
+        healthManager.getSleepHours { hours in
+            self.sleepSubject.onNext(hours.stringFromTimeInterval())
         }
         
         return Output(navigationTitleSubject: navigationTitleSubject.asDriver(onErrorJustReturn: ""),
                       walkSubject: walkSubject.asDriver(onErrorJustReturn: .zero),
                       caloriesSubject: caloriesSubject.asDriver(onErrorJustReturn: .zero),
                       heartRateSubject: heartRateSubject.asDriver(onErrorJustReturn: .zero),
-                      errorSubject: errorSubject.asDriver(onErrorJustReturn: "Error"))
+                      errorSubject: errorSubject.asDriver(onErrorJustReturn: "Error"),
+                      sleepSubject: sleepSubject.asDriver(onErrorJustReturn: "Error"))
     }
 }

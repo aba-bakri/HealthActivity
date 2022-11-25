@@ -46,6 +46,15 @@ enum StatusType {
             return UIColor(named: "green")
         }
     }
+    
+    var maxValue: Double {
+        switch self {
+        case .heart:
+            return 220
+        case .sleep:
+            return 8
+        }
+    }
 }
 
 class StatusView: BaseView {
@@ -198,7 +207,7 @@ class StatusView: BaseView {
         statusProgressView.setupCollectionView(items: rates)
     }
     
-    func configureTodayLabel(value: Int) {
-        measureValueLabel.text = value.toString
+    func configureTodayLabel(value: String) {
+        measureValueLabel.text = value
     }
 }

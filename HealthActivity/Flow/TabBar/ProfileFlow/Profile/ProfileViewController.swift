@@ -139,11 +139,6 @@ class ProfileViewController: BaseController {
             self.profileInfoView.weightView.configureView(unit: unit, value: weight.toString)
         }).disposed(by: disposeBag)
         
-        output.sleepSubject.drive(onNext: { [weak self] sleepHours in
-            guard let self = self else { return }
-            self.sleepView.valueLabel.text = sleepHours
-        }).disposed(by: disposeBag)
-        
         output.caloriesSubject.drive(onNext: { [weak self] calories in
             guard let self = self else { return }
             self.caloriesView.valueLabel.text = calories.toString
@@ -152,6 +147,11 @@ class ProfileViewController: BaseController {
         output.heartRateSubject.drive(onNext: { [weak self] heartRate in
             guard let self = self else { return }
             self.heartView.configureValueLabel(value: heartRate)
+        }).disposed(by: disposeBag)
+        
+        output.sleepSubject.drive(onNext: { [weak self] hours in
+            guard let self = self else { return }
+            self.sleepView.valueLabel.text = hours
         }).disposed(by: disposeBag)
     }
     

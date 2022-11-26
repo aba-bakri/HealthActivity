@@ -49,11 +49,6 @@ class StatusViewController: BaseController {
         super.viewDidLoad()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        bindViewModel()
-    }
-    
     override func bindViewModel() {
         super.bindViewModel()
         

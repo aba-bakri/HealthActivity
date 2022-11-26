@@ -42,7 +42,6 @@ class PersonalSliderView: BaseView {
         control.selectedSegmentTintColor = UIColor.white
         control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(named: "segmentedGray") ?? .lightGray], for: .normal)
         control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(named: "purple") ?? .purple], for: .selected)
-        control.selectedSegmentIndex = 0
         control.addTarget(self, action: #selector(segmentedControlValueChanged), for: .valueChanged)
         return control
     }()
@@ -73,6 +72,7 @@ class PersonalSliderView: BaseView {
     
     override func setupControl() {
         super.setupControl()
+        setupSegmentedControl()
         DTRuler.theme = Colorful()
     }
     
@@ -99,28 +99,43 @@ class PersonalSliderView: BaseView {
         }
     }
     
-    //    func convertLbToKg(lb: Int) -> Measurement<UnitMass> {
-    //        let unitKg = UnitMass.kilograms
-    //        let measurement: Measurement = Measurement(value: Double(lb), unit: unitKg)
-    //        return measurement.converted(to: .pounds)
-    //    }
-    
-    func selectUnitControl(unit: HKUnit) {
-        switch unit {
-        case .meter(), .pound():
-            segmentedControl.selectedSegmentIndex = 0
-        default:
-            segmentedControl.selectedSegmentIndex = 1
+    private func setupSegmentedControl() {
+        switch unitType {
+        case .height(let unit):
+            segmentedControl.selectedSegmentIndex = unit == .cm ? 0 : 1
+        case .weight(let unit):
+            segmentedControl.selectedSegmentIndex = unit == .pound ? 0 : 1
         }
     }
     
     @objc private func segmentedControlValueChanged() {
-        if segmentedControl.selectedSegmentIndex == 0 {
-            var value = (Double(initialValue) * 2.54)
-            rulerViewDataSource(scale: .integer(value.toInt), unitLimit: unitType.unitLimit.0)
-        } else {
-            var value = (Double(initialValue) * 0.393701)
-            rulerViewDataSource(scale: .integer(value.toInt), unitLimit: unitType.unitLimit.1)
+//        if segmentedControl.selectedSegmentIndex == 0 {
+////            let value = (Double(initialValue) * 2.54)
+////            rulerViewDataSource(scale: .integer(value.toInt), unitLimit: unitType.unitLimit.0)
+//            rulerViewDataSource(scale: .integer(initialValue), unitLimit: unitType.unitLimit.1)
+//            switch unitType {
+//            case .height:
+//                UserDefaultStorage.heightUnit = .cm
+//            case .weight:
+//                UserDefaultStorage.weightUnit = .pound
+//            }
+//        } else {
+////            let value = (Double(initialValue) * 0.393701)
+////            rulerViewDataSource(scale: .integer(value.toInt), unitLimit: unitType.unitLimit.1)
+//            rulerViewDataSource(scale: .integer(initialValue), unitLimit: unitType.unitLimit.1)
+//            switch unitType {
+//            case .height:
+//                UserDefaultStorage.heightUnit = .feet
+//            case .weight:
+//                UserDefaultStorage.weightUnit = .kg
+//            }
+//        }
+        
+        switch unitType {
+        case .height:
+            UserDefaultStorage.heightUnit = segmentedControl.selectedSegmentIndex == 0 ? .cm : .feet
+        case .weight:
+            UserDefaultStorage.weightUnit = segmentedControl.selectedSegmentIndex == 0 ? .pound : .kg
         }
     }
     
@@ -158,11 +173,29 @@ extension PersonalSliderView: DTRulerDelegate {
     }
     
     func didChange(on ruler: DTRuler, withScale scale: DTRuler.Scale) {
-        if segmentedControl.selectedSegmentIndex == 0 {
-            valueLabel.text = unitType == .height ? "\(scale.minorTextRepresentation()) cm" : "\(scale.minorTextRepresentation()) lb"
-        } else {
-            valueLabel.text = unitType == .height ? "\(scale.minorTextRepresentation()) inch" : "\(scale.minorTextRepresentation()) kg"
-        }
         rulerValueDidChange?(scale.minorTextRepresentation())
+//        if segmentedControl.selectedSegmentIndex == 0 {
+//            switch unitType {
+//            case .height(let heightUnit):
+//                valueLabel.text = "\(scale.minorTextRepresentation()) \(heightUnit.measure)"
+//            case .weight(let weightUnit):
+//                valueLabel.text = "\(scale.minorTextRepresentation()) \(weightUnit.measure)"
+//            }
+//        } else {
+//            switch unitType {
+//            case .height(let heightUnit):
+//                valueLabel.text = "\(scale.minorTextRepresentation()) \(heightUnit.measure)"
+//            case .weight(let weightUnit):
+//                valueLabel.text = "\(scale.minorTextRepresentation()) \(weightUnit.measure)"
+//            }
+//        }
+        
+        switch unitType {
+        case .height:
+            valueLabel.text = "\(scale.minorTextRepresentation()) \(UserDefaultStorage.heightUnit.measure)"
+        case .weight:
+            valueLabel.text = "\(scale.minorTextRepresentation()) \(UserDefaultStorage.weightUnit.measure)"
+        }
+//        rulerValueDidChange?(scale.minorTextRepresentation())
     }
 }

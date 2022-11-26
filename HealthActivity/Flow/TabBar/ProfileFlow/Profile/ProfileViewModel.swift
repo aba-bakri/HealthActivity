@@ -16,8 +16,10 @@ struct ProfileViewModel: BaseViewModelType {
     
     private let navigationTitleSubject = BehaviorSubject<String>(value: "Profile")
     private let walkSubject = PublishSubject<Int>()
-    private let weightSubject = PublishSubject<(HKUnit, Int)>()
-    private let heightSubject = PublishSubject<(HKUnit, Int)>()
+    
+    private let weightSubject = PublishSubject<(WeightUnit, Int)>()
+    private let heightSubject = PublishSubject<(HeightUnit, Int)>()
+    
     private let sleepSubject = PublishSubject<String>()
     private let caloriesSubject = PublishSubject<Int>()
     private let ageSubject = PublishSubject<String>()
@@ -25,14 +27,16 @@ struct ProfileViewModel: BaseViewModelType {
     private let errorSubject = PublishSubject<String?>()
     
     struct Input {
-        
+        var date: Observable<Date>
+        var weightUnit: Observable<WeightUnit>
+        var heightUnit: Observable<HeightUnit>
     }
     
     struct Output {
         var navigationTitleSubject: Driver<String>
         var walkSubject: Driver<Int>
-        var weightSubject: Driver<(HKUnit, Int)>
-        var heightSubject: Driver<(HKUnit, Int)>
+        var weightSubject: Driver<(WeightUnit, Int)>
+        var heightSubject: Driver<(HeightUnit, Int)>
         var sleepSubject: Driver<String>
         var caloriesSubject: Driver<Int>
         var ageSubject: Driver<String>
@@ -41,20 +45,33 @@ struct ProfileViewModel: BaseViewModelType {
     }
     
     func transform(input: Input) -> Output {
-        healthManager.getSteps { steps in
-            self.walkSubject.onNext(steps)
-        }
-        healthManager.getHeight(unit: .meter()) { heightValue in
-            let heightInt = (heightValue * 100).toInt
-            let subject = (HKUnit.meter(), heightInt)
-            self.heightSubject.onNext(subject)
-        }
+        input.date.subscribe(onNext: { date in
+            healthManager.getSteps(forSpecificDate: date) { steps in
+                self.walkSubject.onNext(steps)
+            }
+            healthManager.getCalories(forSpecificDate: date) { calories in
+                self.caloriesSubject.onNext(calories)
+            }
+            healthManager.getSleepHours(forSpecificDate: date) { hours in
+                self.sleepSubject.onNext(hours.stringFromTimeInterval())
+            }
+        }).disposed(by: disposeBag)
         
-        healthManager.getWeight(unit: .pound()) { weight in
-            let weightInt = (weight * 100).toInt
-            let subject = (HKUnit.pound(), weightInt)
-            self.weightSubject.onNext(subject)
-        }
+        input.weightUnit.subscribe(onNext: { weightUnit in
+            healthManager.getWeight(unit: weightUnit.unit) { weight in
+                let weightInt = (weight * 100).toInt
+                let subject = (weightUnit, weightInt)
+                self.weightSubject.onNext(subject)
+            }
+        }).disposed(by: disposeBag)
+        
+        input.heightUnit.subscribe(onNext: { heightUnit in
+            healthManager.getHeight(unit: heightUnit.unit) { heightValue in
+                let heightInt = (heightValue * 100).toInt
+                let subject = (heightUnit, heightInt)
+                self.heightSubject.onNext(subject)
+            }
+        }).disposed(by: disposeBag)
         
         healthManager.getHeartRate { state in
             switch state {
@@ -65,18 +82,18 @@ struct ProfileViewModel: BaseViewModelType {
             }
         }
         
-        healthManager.getCalories { calories in
-            self.caloriesSubject.onNext(calories)
-        }
+//        healthManager.getCalories { calories in
+//            self.caloriesSubject.onNext(calories)
+//        }
         
-        healthManager.getSleepHours(forSpecificDate: Date()) { hours in
-            self.sleepSubject.onNext(hours.stringFromTimeInterval())
-        }
+//        healthManager.getSleepHours(forSpecificDate: Date()) { hours in
+//            self.sleepSubject.onNext(hours.stringFromTimeInterval())
+//        }
         
         return Output(navigationTitleSubject: navigationTitleSubject.asDriver(onErrorJustReturn: ""),
                       walkSubject: walkSubject.asDriver(onErrorJustReturn: .zero),
-                      weightSubject: weightSubject.asDriver(onErrorJustReturn: (.pound(), .zero)),
-                      heightSubject: heightSubject.asDriver(onErrorJustReturn: (.meter(), .zero)),
+                      weightSubject: weightSubject.asDriver(onErrorJustReturn: (.pound, .zero)),
+                      heightSubject: heightSubject.asDriver(onErrorJustReturn: (.cm, .zero)),
                       sleepSubject: sleepSubject.asDriver(onErrorJustReturn: ""),
                       caloriesSubject: caloriesSubject.asDriver(onErrorJustReturn: .zero),
                       ageSubject: ageSubject.asDriver(onErrorJustReturn: "Not Set"),

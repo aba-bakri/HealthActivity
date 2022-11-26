@@ -8,8 +8,8 @@
 import UIKit
 
 enum HeightWeightType {
-    case height
-    case weight
+    case height(unit: HeightUnit)
+    case weight(unit: WeightUnit)
 
     var title: String? {
         switch self {

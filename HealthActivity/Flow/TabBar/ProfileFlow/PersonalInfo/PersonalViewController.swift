@@ -28,12 +28,12 @@ class PersonalInfoViewController: BaseController {
     }()
     
     private lazy var heightView: PersonalSliderView = {
-        let view = PersonalSliderView(type: .height)
+        let view = PersonalSliderView(type: .height(unit: UserDefaultStorage.heightUnit))
         return view
     }()
     
     private lazy var weightView: PersonalSliderView = {
-        let view = PersonalSliderView(type: .weight)
+        let view = PersonalSliderView(type: .weight(unit: UserDefaultStorage.weightUnit))
         return view
     }()
     
@@ -58,10 +58,10 @@ class PersonalInfoViewController: BaseController {
     
     internal var router: PersonalRouter?
     internal var viewModel: PersonalInfoViewModel!
+    private let saveSubject = PublishSubject<()>()
+    private let heightUnitSubject = BehaviorSubject<HeightUnit>(value: UserDefaultStorage.heightUnit)
+    private let weightUnitSubject = BehaviorSubject<WeightUnit>(value: UserDefaultStorage.weightUnit)
     
-    private let nextButtonSubject = BehaviorSubject<Bool>(value: false)
-    private let heightUnitSubject = BehaviorSubject<HKUnit>(value: .meter())
-    private let weightUnitSubject = BehaviorSubject<HKUnit>(value: .pound())
     private let changeHeightSubject = PublishSubject<Int>()
     private let changeWeightSubject = PublishSubject<Int>()
     
@@ -73,30 +73,32 @@ class PersonalInfoViewController: BaseController {
         super.setupControl()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        bindViewModel()
+    }
+    
     override func bindUI() {
         super.bindUI()
         
         heightView.rulerValueDidChange = { [weak self] value in
             guard let self = self else { return }
             self.changeHeightSubject.onNext(value.toInt() ?? .zero)
-            self.nextButtonSubject.onNext(true)
         }
         
         weightView.rulerValueDidChange = { [weak self] value in
             guard let self = self else { return }
             self.changeWeightSubject.onNext(value.toInt() ?? .zero)
-            self.nextButtonSubject.onNext(true)
         }
         
-        nextButton.rx.tap.subscribe(onNext: { [weak self] _ in
-            guard let self = self else { return }
-            self.navigationController?.popViewController(animated: true)
+        nextButton.rx.tap.asDriver().drive(onNext: { _ in
+            self.saveSubject.onNext(())
         }).disposed(by: disposeBag)
     }
     
     override func bindViewModel() {
         super.bindViewModel()
-        let input = PersonalInfoViewModel.Input(nextButton: nextButtonSubject.asObservable(),
+        let input = PersonalInfoViewModel.Input(saveButton: saveSubject.asObservable(),
                                                 heightUnit: heightUnitSubject.asObservable(),
                                                 weightUnit: weightUnitSubject.asObservable(),
                                                 changeHeight: changeHeightSubject.asObservable(),
@@ -106,21 +108,23 @@ class PersonalInfoViewController: BaseController {
         output.heightSubjet.drive(onNext: { [weak self] heightUnit, heightValue in
             guard let self = self else { return }
             self.heightView.configureRulerView(value: heightValue)
+            self.changeHeightSubject.onNext(heightValue)
         }).disposed(by: disposeBag)
         
         output.weightSubject.drive(onNext: { [weak self] weightUnit, weightValue in
             guard let self = self else { return }
             self.weightView.configureRulerView(value: weightValue)
-        }).disposed(by: disposeBag)
-        
-        output.nextButtonSubject.drive(onNext: { [weak self] isEnabled in
-            guard let self = self else { return }
-            self.nextButton.isEnabled = isEnabled
+            self.changeWeightSubject.onNext(weightValue)
         }).disposed(by: disposeBag)
         
         output.errorSubject.drive(onNext: { [weak self] error in
             guard let self = self else { return }
             self.showErrorAlert(title: "Error", message: error)
+        }).disposed(by: disposeBag)
+        
+        output.saveSubject.drive(onNext: { [weak self] _ in
+            guard let self = self else { return }
+            self.router?.pop()
         }).disposed(by: disposeBag)
     }
     

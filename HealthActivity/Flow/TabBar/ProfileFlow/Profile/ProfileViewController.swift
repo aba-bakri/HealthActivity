@@ -85,6 +85,10 @@ class ProfileViewController: BaseController {
     
     internal var router: ProfileRouter?
     internal var viewModel: ProfileViewModel!
+    
+    private let dateSubject = BehaviorSubject<Date>(value: Date())
+    private let heightUnitSubject = BehaviorSubject<HeightUnit>(value: UserDefaultStorage.heightUnit)
+    private let weightUnitSubject = BehaviorSubject<WeightUnit>(value: UserDefaultStorage.weightUnit)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -98,9 +102,7 @@ class ProfileViewController: BaseController {
     override func setupNavigationBar() {
         super.setupNavigationBar()
         navigationItem.leftBarButtonItem = leftBarButton
-        if !(UserDefaultStorage.email?.isEmpty ?? true) {
-//            navigationItem.rightBarButtonItem = signOutBarButton
-        } else {
+        if (UserDefaultStorage.email?.isEmpty ?? true) {
             navigationItem.rightBarButtonItem = signInBarButton
         }
     }
@@ -113,10 +115,16 @@ class ProfileViewController: BaseController {
         }
     }
     
+    override func bindUI() {
+        super.bindUI()
+    }
+    
     override func bindViewModel() {
         super.bindViewModel()
         
-        let input = ProfileViewModel.Input()
+        let input = ProfileViewModel.Input(date: dateSubject.asObservable(),
+                                           weightUnit: weightUnitSubject.asObservable(),
+                                           heightUnit: heightUnitSubject.asObservable())
         let output = viewModel.transform(input: input)
         
         output.navigationTitleSubject.drive(onNext: { [weak self] title in
@@ -131,12 +139,12 @@ class ProfileViewController: BaseController {
         
         output.heightSubject.drive(onNext: { [weak self] unit, height in
             guard let self = self else { return }
-            self.profileInfoView.heightView.configureView(unit: unit, value: height.toString)
+            self.profileInfoView.heightView.configureHeightView(unit: unit, value: height.toString)
         }).disposed(by: disposeBag)
          
         output.weightSubject.drive(onNext: { [weak self] unit, weight in
             guard let self = self else { return }
-            self.profileInfoView.weightView.configureView(unit: unit, value: weight.toString)
+            self.profileInfoView.weightView.configureWeightView(unit: unit, value: weight.toString)
         }).disposed(by: disposeBag)
         
         output.caloriesSubject.drive(onNext: { [weak self] calories in

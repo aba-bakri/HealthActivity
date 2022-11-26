@@ -9,17 +9,55 @@ import Foundation
 import HealthKit
 
 enum HeightUnit: Codable {
-    case meter
+    case cm
     case feet
+    
+    var measure: String {
+        switch self {
+        case .cm:
+            return " Cm"
+        case .feet:
+            return " ”"
+        }
+    }
+    
+    var unit: HKUnit {
+        switch self {
+        case .cm:
+            return .meter()
+        case .feet:
+            return .inch()
+        }
+    }
+}
+
+enum WeightUnit: Codable {
+    case pound
+    case kg
+    
+    var measure: String {
+        switch self {
+        case .pound:
+            return " Lb"
+        case .kg:
+            return " Kg"
+        }
+    }
+    
+    var unit: HKUnit {
+        switch self {
+        case .pound:
+            return .pound()
+        case .kg:
+            return .gramUnit(with: .kilo)
+        }
+    }
 }
 
 struct UserDefaultStorage {
     
     @Storage(key: "isOnboarded", defaultValue: false)
     static var isOnboarded: Bool
-    
-    @Storage(key: "heightUnit", defaultValue: HeightUnit.meter)
-    static var heightUnit: HeightUnit
     
     @Storage(key: "userIdentifier", defaultValue: "")
     static var userIdentifier: String
@@ -29,6 +67,12 @@ struct UserDefaultStorage {
     
     @Storage(key: "firstName", defaultValue: "Guest")
     static var firstName: String?
+    
+    @Storage(key: "heightUnit", defaultValue: HeightUnit.cm)
+    static var heightUnit: HeightUnit
+    
+    @Storage(key: "weightUnit", defaultValue: WeightUnit.pound)
+    static var weightUnit: WeightUnit
 }
 
 @propertyWrapper

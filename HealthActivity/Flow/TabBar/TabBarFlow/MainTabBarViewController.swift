@@ -10,6 +10,7 @@ import UIKit
 enum TabBarItem: CaseIterable {
     case home
     case activities
+    case go
     case status
     case profile
     
@@ -23,6 +24,8 @@ enum TabBarItem: CaseIterable {
             return UIImage(named: "home")
         case .activities:
             return UIImage(named: "activities")
+        case .go:
+            return nil
         case .status:
             return UIImage(named: "status")
         case .profile:
@@ -36,6 +39,8 @@ enum TabBarItem: CaseIterable {
             return UIImage(named: "home")
         case .activities:
             return UIImage(named: "activities")
+        case .go:
+            return nil
         case .status:
             return UIImage(named: "status")
         case .profile:
@@ -53,6 +58,9 @@ enum TabBarItem: CaseIterable {
             let build = ActivityBuild.build()
             build.tabBarItem = tabbarItem
             return build
+        case .go:
+            let build = WalkBuild.build()
+            return build
         case .status:
             let build = StatusBuild.build()
             build.tabBarItem = tabbarItem
@@ -67,14 +75,36 @@ enum TabBarItem: CaseIterable {
 
 class MainTabBarViewController: BaseTabBarViewController {
     
-    private let mainTabBar = MainTabBar()
-    
+//    private let mainTabBar = MainTabBar()
     private let healthManager = HealthManager.shared
+    
+    private lazy var goButton: BaseClearButton = {
+        let button = BaseClearButton(frame: .zero)
+        button.backgroundColor = R.color.purple()
+        button.setTitle("GO", for: .normal)
+        button.setCornerRadius(corners: .allCorners, radius: 30)
+        button.didTapBlock = { [weak self] in
+            guard let self = self else { return }
+            let walkBuild = WalkBuild.build()
+            self.navigationController?.pushViewController(walkBuild, animated: true)
+        }
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupControl()
         authorizeHealthKit()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        tabBar.addSubview(goButton)
+        goButton.snp.makeConstraints { make in
+            make.centerY.equalTo(tabBar.snp.top)
+            make.centerX.equalTo(tabBar.snp.centerX)
+            make.height.width.equalTo(60)
+        }
     }
     
     private func authorizeHealthKit() {
@@ -86,6 +116,7 @@ class MainTabBarViewController: BaseTabBarViewController {
     
     override func setupControl() {
         super.setupControl()
+        delegate = self
 //        setValue(MainTabBar(frame: self.tabBar.frame), forKey: "tabBar")
         self.setViewControllers(TabBarItem.allCases.map { BaseNavigationController(rootViewController: $0.controller) }, animated: false)
         self.tabBar.backgroundColor = UIColor.white
@@ -103,4 +134,17 @@ class MainTabBarViewController: BaseTabBarViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
+}
+
+extension MainTabBarViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        guard let selectedIndex = tabBarController.viewControllers?.firstIndex(of: viewController) else {
+            return true
+        }
+        if selectedIndex == 2 {
+            return false
+        } else {
+            return true
+        }
+    }
 }

@@ -131,7 +131,7 @@ struct StatusViewModel: BaseViewModelType {
         
         input.previousSingleSleep.subscribe(onNext: { hours in
             previousHours.append(hours)
-            let result = "\(previousHours.min() ?? .zero)-\(previousHours.max() ?? .zero)"
+            let result = "\(previousHours.min()?.toInt ?? .zero)-\(previousHours.max()?.toInt ?? .zero)"
             self.previousSleepResultSubject.onNext(result)
         }).disposed(by: disposeBag)
         

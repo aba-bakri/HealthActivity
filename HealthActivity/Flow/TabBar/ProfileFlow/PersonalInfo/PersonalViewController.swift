@@ -52,7 +52,6 @@ class PersonalInfoViewController: BaseController {
         let button = BaseButton(frame: .zero)
         button.setTitle("Next", for: .normal)
         button.setCornerRadius(corners: .allCorners, radius: 25)
-        button.backgroundColor = R.color.purple()
         return button
     }()
     

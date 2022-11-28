@@ -20,12 +20,10 @@ class WalkView: BaseView {
         return view
     }()
     
-    private lazy var circularView: CircularProgressView = {
-        let view = CircularProgressView(frame: .zero, lineWidth: 11, rounded: true)
-        view.backgroundColor = .clear
-        view.trackColor = UIColor(named: "grayProgress") ?? .lightGray
-        view.progressColor = UIColor(named: "purple") ?? .purple
-        view.progress = 11
+    lazy var circularView: CircularProgressView = {
+        let view = CircularProgressView(frame: CGRect(x: .zero, y: .zero, width: 140, height: 140), lineWidth: 11, rounded: true)
+        view.trackColor = R.color.grayProgress() ?? .lightGray
+        view.progressColor = R.color.purple() ?? .purple
         return view
     }()
     
@@ -38,7 +36,7 @@ class WalkView: BaseView {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         label.text = "Walk"
-        label.textColor = UIColor(named: "blackLabel")
+        label.textColor = R.color.blackLabel()
         return label
     }()
     
@@ -46,14 +44,14 @@ class WalkView: BaseView {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         label.text = "Steps"
-        label.textColor = UIColor(named: "grayLabel")
+        label.textColor = R.color.grayLabel()
         return label
     }()
     
     lazy var valueLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 30, weight: .medium)
-        label.textColor = UIColor(named: "blackLabel")
+        label.textColor = R.color.blackLabel()
         return label
     }()
     
@@ -90,36 +88,19 @@ class WalkView: BaseView {
             make.centerY.equalTo(topLeftImageView.snp.centerY)
         }
         
-        addSubview(centerView)
-        centerView.snp.makeConstraints { make in
-            make.top.equalTo(topLeftImageView.snp.bottom).offset(20)
-            make.left.equalTo(snp.left).inset(20)
-            make.right.equalTo(snp.right).inset(20)
-            make.bottom.equalTo(snp.bottom).inset(20)
+        addSubview(circularView)
+        circularView.snp.makeConstraints { make in
+            make.top.equalTo(topLeftImageView.snp.bottom).offset(14)
+            make.left.equalTo(snp.left).inset(14)
+            make.right.equalTo(snp.right).inset(14)
+            make.bottom.equalTo(snp.bottom).inset(14)
+            make.height.width.equalTo(140)
         }
         
-        centerView.addSubview(measureStackView)
+        circularView.addSubview(measureStackView)
         measureStackView.snp.makeConstraints { make in
-            make.center.equalTo(centerView.snp.center)
+            make.center.equalTo(circularView.snp.center)
         }
-        
-//        addSubview(circularView)
-//        circularView.snp.makeConstraints { make in
-//            make.top.equalTo(topLeftImageView.snp.bottom).offset(14)
-//            make.left.equalTo(snp.left).inset(14)
-//            make.right.equalTo(snp.right).inset(14)
-//            make.bottom.equalTo(snp.bottom).inset(14)
-//        }
-//
-////        graphView.addSubview(circularView)
-////        circularView.snp.makeConstraints { make in
-////            make.edges.equalTo(graphView.snp.edges)
-////        }
-//
-//        circularView.addSubview(measureStackView)
-//        measureStackView.snp.makeConstraints { make in
-//            make.center.equalTo(circularView.snp.center)
-//        }
     }
     
 }

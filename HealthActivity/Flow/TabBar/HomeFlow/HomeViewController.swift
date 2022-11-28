@@ -11,9 +11,6 @@ import RxCocoa
 
 class HomeViewController: BaseController {
     
-    internal var router: HomeRouter?
-    internal var viewModel: HomeViewModel!
-    
     private lazy var welcomeLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 22, weight: .medium)
@@ -41,25 +38,14 @@ class HomeViewController: BaseController {
         return stackView
     }()
     
-    private lazy var walkView: InfoView = {
-        let view = InfoView(type: .walk)
+    private lazy var walkView: WalkView = {
+        let view = WalkView(frame: .zero)
         return view
     }()
     
     private lazy var heartView: InfoView = {
         let view = InfoView(type: .heart)
         return view
-    }()
-    
-    private lazy var topStackView: UIStackView = {
-        let stackView = UIStackView(frame: .zero)
-        stackView.axis = .horizontal
-        stackView.spacing = 14
-        stackView.alignment = .fill
-        stackView.distribution = .fillEqually
-        stackView.addArrangedSubview(walkView)
-        stackView.addArrangedSubview(heartView)
-        return stackView
     }()
     
     private lazy var sleepView: InfoView = {
@@ -72,27 +58,21 @@ class HomeViewController: BaseController {
         return view
     }()
     
-    private lazy var bottomStackView: UIStackView = {
+    private lazy var topStackView: UIStackView = {
         let stackView = UIStackView(frame: .zero)
         stackView.axis = .horizontal
         stackView.spacing = 14
         stackView.alignment = .fill
         stackView.distribution = .fillEqually
-        stackView.addArrangedSubview(sleepView)
+        stackView.addArrangedSubview(heartView)
         stackView.addArrangedSubview(caloriesView)
         return stackView
     }()
     
-    private lazy var generalStackView: UIStackView = {
-        let stackView = UIStackView(frame: .zero)
-        stackView.axis = .vertical
-        stackView.spacing = 14
-        stackView.alignment = .fill
-        stackView.distribution = .fillEqually
-        stackView.addArrangedSubview(topStackView)
-        stackView.addArrangedSubview(bottomStackView)
-        return stackView
-    }()
+    internal var router: HomeRouter?
+    internal var viewModel: HomeViewModel!
+    
+    private let dateSubject = BehaviorSubject<Date>(value: Date())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,7 +82,7 @@ class HomeViewController: BaseController {
         super.viewWillAppear(animated)
         bindViewModel()
     }
-    
+
     override func setupControl() {
         super.setupControl()
     }
@@ -110,7 +90,7 @@ class HomeViewController: BaseController {
     override func bindViewModel() {
         super.bindViewModel()
         
-        let input = HomeViewModel.Input()
+        let input = HomeViewModel.Input(date: dateSubject.asObservable())
         let output = viewModel.transform(input: input)
         
         output.navigationTitleSubject.drive(onNext: { [weak self] title in
@@ -121,6 +101,7 @@ class HomeViewController: BaseController {
         output.walkSubject.drive(onNext: { [weak self] steps in
             guard let self = self else { return }
             self.walkView.valueLabel.text = steps.toString
+            self.walkView.circularView.setProgress(to: steps.toFloat / UserDefaultStorage.stepGoal.toFloat)
         }).disposed(by: disposeBag)
         
         output.heartRateSubject.drive(onNext: { [weak self] bpm in
@@ -152,18 +133,34 @@ class HomeViewController: BaseController {
             make.left.equalTo(contentView.snp.left).inset(14)
         }
         
-        contentView.addSubview(generalStackView)
-        generalStackView.snp.makeConstraints { make in
+        contentView.addSubview(topStackView)
+        topStackView.snp.makeConstraints { make in
             make.top.equalTo(welcomeStackView.snp.bottom).offset(30)
             make.left.equalTo(contentView.snp.left).inset(14)
             make.right.equalTo(contentView.snp.right).inset(14)
-            make.bottom.greaterThanOrEqualTo(contentView.snp.bottom).inset(14)
         }
         
-        [topStackView, bottomStackView].forEach { stackView in
-            stackView.snp.makeConstraints { make in
+        [heartView, caloriesView].forEach { view in
+            view.snp.makeConstraints { make in
                 make.height.equalTo(145)
             }
+        }
+        
+        contentView.addSubview(walkView)
+        walkView.snp.makeConstraints { make in
+            make.top.equalTo(topStackView.snp.bottom).offset(14)
+            make.left.equalTo(contentView.snp.left).inset(14)
+            make.bottom.greaterThanOrEqualTo(contentView.snp.bottom).inset(14)
+            make.height.equalTo(244)
+        }
+        
+        contentView.addSubview(sleepView)
+        sleepView.snp.makeConstraints { make in
+            make.top.equalTo(topStackView.snp.bottom).offset(14)
+            make.left.equalTo(walkView.snp.right).offset(14)
+            make.right.equalTo(contentView.snp.right).inset(14)
+            make.width.equalTo(heartView.snp.width)
+            make.height.equalTo(145)
         }
     }
 

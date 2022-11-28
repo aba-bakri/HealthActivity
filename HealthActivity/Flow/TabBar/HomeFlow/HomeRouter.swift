@@ -8,6 +8,4 @@
 import UIKit
 
 class HomeRouter: BaseRouter {
-    
-    func navigateTest() { }
 }

@@ -73,6 +73,9 @@ struct UserDefaultStorage {
     
     @Storage(key: "weightUnit", defaultValue: WeightUnit.pound)
     static var weightUnit: WeightUnit
+    
+    @Storage(key: "stepGoal", defaultValue: 10000)
+    static var stepGoal: Int
 }
 
 @propertyWrapper

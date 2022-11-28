@@ -39,6 +39,11 @@ class ActivityViewController: BaseController {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        bindViewModel()
+    }
+    
     override func bindUI() {
         super.bindUI()
         datePicker.rx.date.bind(to: dateSubject).disposed(by: disposeBag)

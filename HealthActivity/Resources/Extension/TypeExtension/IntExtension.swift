@@ -13,6 +13,10 @@ extension Int {
         return String(describing: self)
     }
     
+    var toFloat: Float {
+        return Float(self)
+    }
+    
     var toCalculatedString: String {
         let divisor = pow(10.0, Double(2))
         return String(((Double(self) / 100) * divisor).rounded() / divisor)

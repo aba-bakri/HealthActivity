@@ -9,8 +9,6 @@ import Foundation
 
 class WalkRouter: BaseRouter {
     
-    func navigateBack() {
-        
-    }
+    func navigateBack() { }
     
 }

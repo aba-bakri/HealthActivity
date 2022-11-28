@@ -54,4 +54,14 @@ open class BaseController: ViewController {
         }
     }
     
+    func dismissKeyboard() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(endEditing))
+        tap.cancelsTouchesInView = false
+        contentView.addGestureRecognizer(tap)
+    }
+    
+    @objc private func endEditing() {
+        contentView.endEditing(true)
+    }
+    
 }

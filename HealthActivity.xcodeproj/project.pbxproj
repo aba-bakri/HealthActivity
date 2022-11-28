@@ -494,8 +494,8 @@
 			children = (
 				CABE30FD29326D310038A999 /* WalkViewController.swift */,
 				CABE30F929326D240038A999 /* WalkBuild.swift */,
-				CABE30F729326CF10038A999 /* WalkRouter.swift */,
 				CABE30FB29326D2A0038A999 /* WalkViewModel.swift */,
+				CABE30F729326CF10038A999 /* WalkRouter.swift */,
 			);
 			path = WalkFlow;
 			sourceTree = "<group>";

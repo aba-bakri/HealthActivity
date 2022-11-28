@@ -21,7 +21,7 @@ struct HomeViewModel: BaseViewModelType {
     private let sleepSubject = PublishSubject<String>()
     
     struct Input {
-        
+        var date: Observable<Date>
     }
     
     struct Output {
@@ -35,26 +35,28 @@ struct HomeViewModel: BaseViewModelType {
     
     func transform(input: Input) -> Output {
         
-        healthManager.getSteps { steps in
-            self.walkSubject.onNext(steps)
-        }
-        
-        healthManager.getCalories { calories in
-            self.caloriesSubject.onNext(calories)
-        }
-        
-        healthManager.getHeartRate { state in
-            switch state {
-            case .success(let heartModel):
-                self.heartRateSubject.onNext(heartModel.value.toInt)
-            case .failure(let error):
-                self.errorSubject.onNext(error)
+        input.date.subscribe(onNext: { date in
+            healthManager.getSteps(forSpecificDate: date) { steps in
+                self.walkSubject.onNext(steps)
             }
-        }
-        
-        healthManager.getSleepHours { hours in
-            self.sleepSubject.onNext(hours.stringFromTimeInterval())
-        }
+            
+            healthManager.getCalories(forSpecificDate: date) { calories in
+                self.caloriesSubject.onNext(calories)
+            }
+            
+            healthManager.getSleepHours(forSpecificDate: date) { hours in
+                self.sleepSubject.onNext(hours.stringFromTimeInterval())
+            }
+            
+            healthManager.getHeartRate(forSpecificDate: date) { state in
+                switch state {
+                case .success(let heartModel):
+                    self.heartRateSubject.onNext(heartModel.value.toInt)
+                case .failure(let error):
+                    self.errorSubject.onNext(error)
+                }
+            }
+        }).disposed(by: disposeBag)
         
         return Output(navigationTitleSubject: navigationTitleSubject.asDriver(onErrorJustReturn: ""),
                       walkSubject: walkSubject.asDriver(onErrorJustReturn: .zero),

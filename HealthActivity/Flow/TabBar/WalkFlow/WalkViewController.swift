@@ -88,6 +88,12 @@ class WalkViewController: BaseController {
             self.changeGoalSubject.onNext(text.toInt() ?? .zero)
         }).disposed(by: disposeBag)
         
+        changeGoalTextField.rx.controlEvent(.editingChanged).subscribe(onNext: { [unowned self] in
+            if let text = self.changeGoalTextField.text {
+                self.changeGoalTextField.text = String(text.prefix(5))
+            }
+        }).disposed(by: disposeBag)
+        
         saveButton.rx.tap.subscribe(onNext: { [weak self] in
             guard let self = self else { return }
             self.saveButtonSubject.onNext(())

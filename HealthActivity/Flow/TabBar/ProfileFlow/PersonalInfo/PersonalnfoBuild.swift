@@ -9,9 +9,10 @@ import UIKit
 
 class PersonalInfoBuild {
     
-    static func build() -> UIViewController {
+    static func build(delegate: PersonalInfoDelegate) -> UIViewController {
         let personalInfoVC = PersonalInfoViewController()
         personalInfoVC.router = PersonalRouter(viewController: personalInfoVC)
+        personalInfoVC.delegate = delegate
         personalInfoVC.viewModel = PersonalInfoViewModel()
         personalInfoVC.hidesBottomBarWhenPushed = true
         return personalInfoVC

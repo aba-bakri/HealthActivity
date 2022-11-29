@@ -7,7 +7,12 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 import HealthKit
+
+protocol PersonalInfoDelegate {
+    func updateHeightWeight(height: UpdateHeight?, weight: UpdateWeight?)
+}
 
 class PersonalInfoViewController: BaseController {
     
@@ -55,14 +60,17 @@ class PersonalInfoViewController: BaseController {
         return button
     }()
     
-    internal var router: PersonalRouter?
-    internal var viewModel: PersonalInfoViewModel!
-    private let saveSubject = PublishSubject<()>()
     private let heightUnitSubject = BehaviorSubject<HeightUnit>(value: UserDefaultStorage.heightUnit)
     private let weightUnitSubject = BehaviorSubject<WeightUnit>(value: UserDefaultStorage.weightUnit)
     
     private let changeHeightSubject = PublishSubject<Int>()
     private let changeWeightSubject = PublishSubject<Int>()
+    private let saveHeightSubject = PublishSubject<()>()
+    private let saveWeightSubject = PublishSubject<()>()
+    
+    internal var router: PersonalRouter?
+    internal var viewModel: PersonalInfoViewModel!
+    internal var delegate: PersonalInfoDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,17 +99,31 @@ class PersonalInfoViewController: BaseController {
         }
         
         nextButton.rx.tap.asDriver().drive(onNext: { _ in
-            self.saveSubject.onNext(())
+            self.saveHeightSubject.onNext(())
+            self.saveWeightSubject.onNext(())
+        }).disposed(by: disposeBag)
+        
+        heightView.segmentedControl.rx.selectedSegmentIndex.subscribe(onNext: { [weak self] index in
+            guard let self = self else { return }
+            let unit: HeightUnit = index == 0 ? .cm : .inch
+            self.heightUnitSubject.onNext(unit)
+        }).disposed(by: disposeBag)
+        
+        weightView.segmentedControl.rx.selectedSegmentIndex.subscribe(onNext: { [weak self] index in
+            guard let self = self else { return }
+            let unit: WeightUnit = index == 0 ? .pound : .kg
+            self.weightUnitSubject.onNext(unit)
         }).disposed(by: disposeBag)
     }
     
     override func bindViewModel() {
         super.bindViewModel()
-        let input = PersonalInfoViewModel.Input(saveButton: saveSubject.asObservable(),
-                                                heightUnit: heightUnitSubject.asObservable(),
+        let input = PersonalInfoViewModel.Input(heightUnit: heightUnitSubject.asObservable(),
                                                 weightUnit: weightUnitSubject.asObservable(),
                                                 changeHeight: changeHeightSubject.asObservable(),
-                                                changeWeight: changeWeightSubject.asObservable())
+                                                changeWeight: changeWeightSubject.asObservable(),
+                                                saveHeight: saveHeightSubject.asObservable(),
+                                                saveWeight: saveWeightSubject.asObservable())
         let output = viewModel.transform(input: input)
         
         output.heightSubjet.drive(onNext: { [weak self] heightUnit, heightValue in
@@ -121,8 +143,9 @@ class PersonalInfoViewController: BaseController {
             self.showErrorAlert(title: "Error", message: error)
         }).disposed(by: disposeBag)
         
-        output.saveSubject.drive(onNext: { [weak self] _ in
+        Driver.combineLatest(output.saveHeight, output.saveWeight).drive(onNext: { [weak self] updateHeight, updateWeight in
             guard let self = self else { return }
+            self.delegate?.updateHeightWeight(height: updateHeight, weight: updateWeight)
             self.router?.pop()
         }).disposed(by: disposeBag)
     }

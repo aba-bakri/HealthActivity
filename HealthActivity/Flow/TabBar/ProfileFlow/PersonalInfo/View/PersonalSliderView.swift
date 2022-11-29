@@ -37,7 +37,7 @@ class PersonalSliderView: BaseView {
         return stackView
     }()
     
-    private lazy var segmentedControl: UISegmentedControl = {
+    lazy var segmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: [unitType.unitLabels.0, unitType.unitLabels.1])
         control.selectedSegmentTintColor = UIColor.white
         control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(named: "segmentedGray") ?? .lightGray], for: .normal)
@@ -109,31 +109,9 @@ class PersonalSliderView: BaseView {
     }
     
     @objc private func segmentedControlValueChanged() {
-//        if segmentedControl.selectedSegmentIndex == 0 {
-////            let value = (Double(initialValue) * 2.54)
-////            rulerViewDataSource(scale: .integer(value.toInt), unitLimit: unitType.unitLimit.0)
-//            rulerViewDataSource(scale: .integer(initialValue), unitLimit: unitType.unitLimit.1)
-//            switch unitType {
-//            case .height:
-//                UserDefaultStorage.heightUnit = .cm
-//            case .weight:
-//                UserDefaultStorage.weightUnit = .pound
-//            }
-//        } else {
-////            let value = (Double(initialValue) * 0.393701)
-////            rulerViewDataSource(scale: .integer(value.toInt), unitLimit: unitType.unitLimit.1)
-//            rulerViewDataSource(scale: .integer(initialValue), unitLimit: unitType.unitLimit.1)
-//            switch unitType {
-//            case .height:
-//                UserDefaultStorage.heightUnit = .feet
-//            case .weight:
-//                UserDefaultStorage.weightUnit = .kg
-//            }
-//        }
-        
         switch unitType {
         case .height:
-            UserDefaultStorage.heightUnit = segmentedControl.selectedSegmentIndex == 0 ? .cm : .feet
+            UserDefaultStorage.heightUnit = segmentedControl.selectedSegmentIndex == 0 ? .cm : .inch
         case .weight:
             UserDefaultStorage.weightUnit = segmentedControl.selectedSegmentIndex == 0 ? .pound : .kg
         }

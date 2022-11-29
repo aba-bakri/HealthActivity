@@ -9,8 +9,8 @@ import UIKit
 
 class ProfileRouter: BaseRouter {
     
-    func navigateToPersonalInfo() {
-        let personalInfoBuild = PersonalInfoBuild.build()
+    func navigateToPersonalInfo(delegate: PersonalInfoDelegate) {
+        let personalInfoBuild = PersonalInfoBuild.build(delegate: delegate)
         push(viewController: personalInfoBuild)
     }
 }

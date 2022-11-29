@@ -11,7 +11,7 @@ import AuthenticationServices
 import RxSwift
 import RxCocoa
 
-class ProfileViewController: BaseController {
+class ProfileViewController: BaseController, PersonalInfoDelegate {
     
     private lazy var profileInfoView: ProfileInfoView = {
         let view = ProfileInfoView(frame: .zero)
@@ -94,11 +94,6 @@ class ProfileViewController: BaseController {
         super.viewDidLoad()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        bindViewModel()
-    }
-    
     override func setupNavigationBar() {
         super.setupNavigationBar()
         navigationItem.leftBarButtonItem = leftBarButton
@@ -111,12 +106,15 @@ class ProfileViewController: BaseController {
         super.setupControl()
         profileInfoView.moreButton.didTapBlock = { [weak self] in
             guard let self = self else { return }
-            self.router?.navigateToPersonalInfo()
+            self.router?.navigateToPersonalInfo(delegate: self)
         }
     }
     
-    override func bindUI() {
-        super.bindUI()
+    func updateHeightWeight(height: UpdateHeight?, weight: UpdateWeight?) {
+        self.heightUnitSubject.onNext(height?.heightUnit ?? .cm)
+        self.weightUnitSubject.onNext(weight?.weightUnit ?? .pound)
+        self.profileInfoView.heightView.configureHeightView(value: height?.height.toString ?? "")
+        self.profileInfoView.weightView.configureWeightView(value: weight?.weight.toString ?? "")
     }
     
     override func bindViewModel() {
@@ -139,12 +137,12 @@ class ProfileViewController: BaseController {
         
         output.heightSubject.drive(onNext: { [weak self] unit, height in
             guard let self = self else { return }
-            self.profileInfoView.heightView.configureHeightView(unit: unit, value: height.toString)
+            self.profileInfoView.heightView.configureHeightView(value: height.toString)
         }).disposed(by: disposeBag)
          
         output.weightSubject.drive(onNext: { [weak self] unit, weight in
             guard let self = self else { return }
-            self.profileInfoView.weightView.configureWeightView(unit: unit, value: weight.toString)
+            self.profileInfoView.weightView.configureWeightView(value: weight.toString)
         }).disposed(by: disposeBag)
         
         output.caloriesSubject.drive(onNext: { [weak self] calories in

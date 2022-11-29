@@ -59,16 +59,17 @@ struct ProfileViewModel: BaseViewModelType {
         
         input.weightUnit.subscribe(onNext: { weightUnit in
             healthManager.getWeight(unit: weightUnit.unit) { weight in
-                let weightInt = (weight * 100).toInt
-                let subject = (weightUnit, weightInt)
+//                let weightInt = (weight * 100).toInt
+                let subject = (weightUnit, weight.toInt)
                 self.weightSubject.onNext(subject)
             }
         }).disposed(by: disposeBag)
         
         input.heightUnit.subscribe(onNext: { heightUnit in
             healthManager.getHeight(unit: heightUnit.unit) { heightValue in
-                let heightInt = (heightValue * 100).toInt
-                let subject = (heightUnit, heightInt)
+//                debugPrint("Debug__\(heightUnit.unit), \(heightValue)")
+                let height = heightUnit == .cm ? (heightValue * 100).toInt : heightValue.toInt
+                let subject = (heightUnit, height)
                 self.heightSubject.onNext(subject)
             }
         }).disposed(by: disposeBag)
@@ -81,14 +82,6 @@ struct ProfileViewModel: BaseViewModelType {
                 self.errorSubject.onNext(error)
             }
         }
-        
-//        healthManager.getCalories { calories in
-//            self.caloriesSubject.onNext(calories)
-//        }
-        
-//        healthManager.getSleepHours(forSpecificDate: Date()) { hours in
-//            self.sleepSubject.onNext(hours.stringFromTimeInterval())
-//        }
         
         return Output(navigationTitleSubject: navigationTitleSubject.asDriver(onErrorJustReturn: ""),
                       walkSubject: walkSubject.asDriver(onErrorJustReturn: .zero),

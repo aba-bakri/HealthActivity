@@ -9,25 +9,38 @@ import RxSwift
 import RxCocoa
 import HealthKit
 
+struct UpdateHeight {
+    var heightUnit: HeightUnit
+    var height: Double
+}
+
+struct UpdateWeight {
+    var weightUnit: WeightUnit
+    var weight: Double
+}
+
 struct PersonalInfoViewModel: BaseViewModelType {
     
     private let disposeBag = DisposeBag()
     private let healthManager = HealthManager.shared
     
     private let navigationTitleSubject = BehaviorSubject<String>(value: "Personal Info")
-    private let saveButtonSubject = PublishSubject<()>()
     private let heightSubject = PublishSubject<(HeightUnit, Int)>()
     private let weightSubject = PublishSubject<(WeightUnit, Int)>()
     private let changeHeightSubject = PublishSubject<Int>()
     private let changeWeightSubject = PublishSubject<Int>()
     private let errorSubject = PublishSubject<String?>()
     
+    private let saveHeightSubject = PublishSubject<UpdateHeight?>()
+    private let saveWeightSubject = PublishSubject<UpdateWeight?>()
+    
     struct Input {
-        var saveButton: Observable<Void>
         var heightUnit: Observable<HeightUnit>
         var weightUnit: Observable<WeightUnit>
         var changeHeight: Observable<Int>
         var changeWeight: Observable<Int>
+        var saveHeight: Observable<Void>
+        var saveWeight: Observable<Void>
     }
     
     struct Output {
@@ -37,30 +50,25 @@ struct PersonalInfoViewModel: BaseViewModelType {
         var changeHeightSubject: Driver<Int>
         var changeWeightSubject: Driver<Int>
         var errorSubject: Driver<String?>
-        var saveSubject: Driver<Void>
+        var saveHeight: Driver<UpdateHeight?>
+        var saveWeight: Driver<UpdateWeight?>
     }
     
     func transform(input: Input) -> Output {
-        var tempHeightUnit: HeightUnit = .cm
         var tempHeightValue: Int = .zero
-        
-        var tempWeightUnit: WeightUnit = .pound
         var tempWeightValue: Int = .zero
         
         input.heightUnit.subscribe(onNext: { heightUnit in
-            tempHeightUnit = heightUnit
             self.healthManager.getHeight(unit: heightUnit.unit) { heightValue in
-                let cm = (heightValue * 100).toInt
-                let subject = (heightUnit, cm)
+                let height = heightUnit == .cm ? (heightValue * 100).toInt : heightValue.toInt
+                let subject = (heightUnit, height)
                 self.heightSubject.onNext(subject)
             }
         }).disposed(by: disposeBag)
         
         input.weightUnit.subscribe(onNext: { weightUnit in
-            tempWeightUnit = tempWeightUnit
             self.healthManager.getWeight(unit: weightUnit.unit) { weightValue in
-                let pound = (weightValue * 100).toInt
-                let subject = (weightUnit, pound)
+                let subject = (weightUnit, weightValue.toInt)
                 self.weightSubject.onNext(subject)
             }
         }).disposed(by: disposeBag)
@@ -73,20 +81,26 @@ struct PersonalInfoViewModel: BaseViewModelType {
             tempWeightValue = weightValue
         }).disposed(by: disposeBag)
         
-        input.saveButton.subscribe(onNext: { _ in
-            let heightDouble = Double(Double(tempHeightValue) / 100)
-            healthManager.changeHeight(unit: tempHeightUnit.unit, height: heightDouble) { state in
+        Observable.combineLatest(input.heightUnit, input.saveHeight).subscribe(onNext: { heightUnit, _  in
+            let heightDouble = heightUnit == .cm ? Double(Double(tempHeightValue) / 100) : Double(tempHeightValue)
+            healthManager.changeHeight(unit: heightUnit.unit, height: heightDouble) { state in
                 switch state {
                 case .success:
-                    let weightDouble = Double(Double(tempWeightValue) / 100)
-                    healthManager.changeWeight(unit: tempWeightUnit.unit, weight: weightDouble) { state in
-                        switch state {
-                        case .success:
-                            self.saveButtonSubject.onNext(())
-                        case .failure(let error):
-                            self.errorSubject.onNext(error)
-                        }
-                    }
+                    let model = UpdateHeight(heightUnit: heightUnit, height: heightDouble)
+                    self.saveHeightSubject.onNext(model)
+                case .failure(let error):
+                    self.errorSubject.onNext(error)
+                }
+            }
+        }).disposed(by: disposeBag)
+
+        Observable.combineLatest(input.weightUnit, input.saveWeight).subscribe(onNext: { weightUnit, _ in
+            let weightDouble = Double(tempWeightValue)
+            healthManager.changeWeight(unit: weightUnit.unit, weight: weightDouble) { state in
+                switch state {
+                case .success:
+                    let model = UpdateWeight(weightUnit: weightUnit, weight: weightDouble)
+                    self.saveWeightSubject.onNext(model)
                 case .failure(let error):
                     self.errorSubject.onNext(error)
                 }
@@ -99,6 +113,7 @@ struct PersonalInfoViewModel: BaseViewModelType {
                       changeHeightSubject: changeHeightSubject.asDriver(onErrorJustReturn: .zero),
                       changeWeightSubject: changeWeightSubject.asDriver(onErrorJustReturn: .zero),
                       errorSubject: errorSubject.asDriver(onErrorJustReturn: "Error"),
-                      saveSubject: saveButtonSubject.asDriver(onErrorJustReturn: ()))
+                      saveHeight: saveHeightSubject.asDriver(onErrorJustReturn: nil),
+                      saveWeight: saveWeightSubject.asDriver(onErrorJustReturn: nil))
     }
 }

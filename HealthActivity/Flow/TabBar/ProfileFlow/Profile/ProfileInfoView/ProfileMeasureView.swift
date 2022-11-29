@@ -123,24 +123,26 @@ class ProfileMeasureView: BaseView {
         measureValueLabel.attributedText = boldAttributedString
     }
     
-    func configureHeightView(unit: HeightUnit, value: String) {
+    func configureHeightView(value: String) {
+        let measure = UserDefaultStorage.heightUnit == .cm ? " Cm" : " ”"
         let boldAttribute = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .semibold),
                              NSAttributedString.Key.foregroundColor: UIColor(named: "blackLabel")]
         let measureAttribute = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12, weight: .semibold),
                              NSAttributedString.Key.foregroundColor: UIColor(named: "grayLabel")]
         let boldAttributedString = NSMutableAttributedString(string: value, attributes: boldAttribute as [NSAttributedString.Key: Any])
-        let measureAttributedString = NSMutableAttributedString(string: unit.measure, attributes: measureAttribute as [NSAttributedString.Key: Any])
+        let measureAttributedString = NSMutableAttributedString(string: measure, attributes: measureAttribute as [NSAttributedString.Key: Any])
         boldAttributedString.append(measureAttributedString)
         measureValueLabel.attributedText = boldAttributedString
     }
     
-    func configureWeightView(unit: WeightUnit, value: String) {
+    func configureWeightView(value: String) {
+        let measure = UserDefaultStorage.weightUnit == .pound ? " Lb" : " Kg"
         let boldAttribute = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .semibold),
                              NSAttributedString.Key.foregroundColor: UIColor(named: "blackLabel")]
         let measureAttribute = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12, weight: .semibold),
                              NSAttributedString.Key.foregroundColor: UIColor(named: "grayLabel")]
         let boldAttributedString = NSMutableAttributedString(string: value, attributes: boldAttribute as [NSAttributedString.Key: Any])
-        let measureAttributedString = NSMutableAttributedString(string: unit.measure, attributes: measureAttribute as [NSAttributedString.Key: Any])
+        let measureAttributedString = NSMutableAttributedString(string: measure, attributes: measureAttribute as [NSAttributedString.Key: Any])
         boldAttributedString.append(measureAttributedString)
         measureValueLabel.attributedText = boldAttributedString
     }

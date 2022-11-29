@@ -145,10 +145,8 @@ class HealthManager {
         guard let heightType = HKQuantityType.quantityType(forIdentifier: .height) else {
             fatalError("Height cannot be changed")
         }
-        let (start, end) = getWholeDate(date: Date())
-        let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
         let sortDescriptors = [NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)]
-        let query = HKSampleQuery(sampleType: heightType, predicate: predicate, limit: 1, sortDescriptors: sortDescriptors) { (query, results, error) in
+        let query = HKSampleQuery(sampleType: heightType, predicate: nil, limit: 1, sortDescriptors: sortDescriptors) { (query, results, error) in
             if let result = results?.first as? HKQuantitySample {
                 let height = result.quantity.doubleValue(for: unit)
                 completion(height)
@@ -182,10 +180,10 @@ class HealthManager {
         guard let bodyMassType = HKQuantityType.quantityType(forIdentifier: .bodyMass) else {
             fatalError("Weight cannot be changed")
         }
-        let (start, end) = getWholeDate(date: Date())
-        let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
+//        let (start, end) = getWholeDate(date: Date())
+//        let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
         let sortDescriptors = [NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)]
-        let query = HKSampleQuery(sampleType: bodyMassType, predicate: predicate, limit: 1, sortDescriptors: sortDescriptors) { (query, results, error) in
+        let query = HKSampleQuery(sampleType: bodyMassType, predicate: nil, limit: 1, sortDescriptors: sortDescriptors) { (query, results, error) in
             if let result = results?.first as? HKQuantitySample {
                 let bodyMass = result.quantity.doubleValue(for: unit)
                 completion(bodyMass)
@@ -358,7 +356,7 @@ extension HealthManager {
                     }
                     let dayHours = hours.reduce(0, +)
                     hours.forEach { hours in
-                        debugPrint("Debug__\(hours)")
+//                        debugPrint("Debug__\(hours)")
                     }
                     completion(dayHours)
                 } else {

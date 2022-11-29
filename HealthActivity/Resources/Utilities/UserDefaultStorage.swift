@@ -10,13 +10,13 @@ import HealthKit
 
 enum HeightUnit: Codable {
     case cm
-    case feet
+    case inch
     
     var measure: String {
         switch self {
         case .cm:
             return " Cm"
-        case .feet:
+        case .inch:
             return " ”"
         }
     }
@@ -25,7 +25,7 @@ enum HeightUnit: Codable {
         switch self {
         case .cm:
             return .meter()
-        case .feet:
+        case .inch:
             return .inch()
         }
     }

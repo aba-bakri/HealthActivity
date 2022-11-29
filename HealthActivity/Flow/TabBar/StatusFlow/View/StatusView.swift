@@ -140,6 +140,13 @@ class StatusView: BaseView {
         return stackView
     }()
     
+    lazy var emptyLabel: UILabel = {
+        let label = UILabel(frame: .zero)
+        label.font = UIFont.systemFont(ofSize: 22, weight: .medium)
+        label.textColor = R.color.blackLabel()
+        return label
+    }()
+    
     private var statusType: StatusType
     
     public init(type: StatusType) {
@@ -200,6 +207,11 @@ class StatusView: BaseView {
         bottomMeasureStackView.snp.makeConstraints { make in
             make.centerY.equalTo(previousWeekLabel.snp.centerY)
             make.right.equalTo(snp.right).inset(28)
+        }
+        
+        addSubview(emptyLabel)
+        emptyLabel.snp.makeConstraints { make in
+            make.center.equalTo(snp.center)
         }
     }
     

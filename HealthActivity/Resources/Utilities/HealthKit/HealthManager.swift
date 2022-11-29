@@ -357,6 +357,9 @@ extension HealthManager {
                         }
                     }
                     let dayHours = hours.reduce(0, +)
+                    hours.forEach { hours in
+                        debugPrint("Debug__\(hours)")
+                    }
                     completion(dayHours)
                 } else {
                     completion(.zero)

@@ -120,6 +120,11 @@ class StatusViewController: BaseController {
             guard let self = self else { return }
             self.sleepStatusView.bottomMeasureValueLabel.text = previousSleepResult
         }).disposed(by: disposeBag)
+        
+        output.errorSubject.drive(onNext: { [weak self] error in
+            guard let self = self else { return }
+            self.heartStatusView.emptyLabel.text = error
+        }).disposed(by: disposeBag)
     }
     
     override func setupComponentsUI() {

@@ -161,6 +161,11 @@ class ProfileViewController: BaseController {
             guard let self = self else { return }
             self.sleepView.valueLabel.text = hours
         }).disposed(by: disposeBag)
+        
+        output.errorSubject.drive(onNext: { [weak self] error in
+            guard let self = self else { return }
+            self.heartView.configureError(value: error)
+        }).disposed(by: disposeBag)
     }
     
     override func setupComponentsUI() {

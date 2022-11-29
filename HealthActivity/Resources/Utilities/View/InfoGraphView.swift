@@ -53,7 +53,7 @@ class InfoGraphView: BaseView {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         label.text = infoGraphType.title
-        label.textColor = UIColor(named: "blackLabel")
+        label.textColor = R.color.blackLabel()
         return label
     }()
     
@@ -70,7 +70,7 @@ class InfoGraphView: BaseView {
     
     private lazy var graphView: UIView = {
         let view = UIView(frame: .zero)
-        view.backgroundColor = UIColor(named: "purple")
+        view.backgroundColor = R.color.purple()
         return view
     }()
     
@@ -78,14 +78,14 @@ class InfoGraphView: BaseView {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         label.text = infoGraphType.measure
-        label.textColor = UIColor(named: "grayLabel")
+        label.textColor = R.color.grayLabel()
         return label
     }()
     
     lazy var valueLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-        label.textColor = UIColor(named: "blackLabel")
+        label.textColor = R.color.blackLabel()
         return label
     }()
     

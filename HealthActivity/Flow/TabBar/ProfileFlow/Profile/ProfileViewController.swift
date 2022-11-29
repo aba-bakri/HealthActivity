@@ -21,7 +21,7 @@ class ProfileViewController: BaseController, PersonalInfoDelegate {
     private lazy var dayLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 22, weight: .medium)
-        label.textColor = UIColor(named: "blackLabel")
+        label.textColor = R.color.blackLabel()
         label.text = "Today"
         return label
     }()

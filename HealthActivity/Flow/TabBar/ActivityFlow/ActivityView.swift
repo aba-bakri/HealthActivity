@@ -12,7 +12,7 @@ class ActivityView: BaseView {
     private lazy var topLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.text = "STEPS"
-        label.textColor = UIColor(named: "grayLabel")
+        label.textColor = R.color.grayLabel()
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         return label
     }()
@@ -20,14 +20,14 @@ class ActivityView: BaseView {
     lazy var stepLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 80, weight: .medium)
-        label.textColor = UIColor(named: "blackLabel")
+        label.textColor = R.color.blackLabel()
         return label
     }()
     
     private lazy var distanceLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.textColor = UIColor(named: "grayLabel")
+        label.textColor = R.color.grayLabel()
         label.text = "Distance"
         return label
     }()
@@ -35,7 +35,7 @@ class ActivityView: BaseView {
     lazy var distanceValueLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-        label.textColor = UIColor(named: "blackLabel")
+        label.textColor = R.color.blackLabel()
         return label
     }()
     
@@ -53,7 +53,7 @@ class ActivityView: BaseView {
     private lazy var caloriesLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.textColor = UIColor(named: "grayLabel")
+        label.textColor = R.color.grayLabel()
         label.text = "Calories"
         return label
     }()
@@ -61,7 +61,7 @@ class ActivityView: BaseView {
     lazy var caloriesValueLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-        label.textColor = UIColor(named: "blackLabel")
+        label.textColor = R.color.blackLabel()
         return label
     }()
     
@@ -79,7 +79,7 @@ class ActivityView: BaseView {
     private lazy var pointsLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.textColor = UIColor(named: "grayLabel")
+        label.textColor = R.color.grayLabel()
         label.text = "Points"
         return label
     }()
@@ -87,7 +87,7 @@ class ActivityView: BaseView {
     lazy var pointsValueLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-        label.textColor = UIColor(named: "blackLabel")
+        label.textColor = R.color.blackLabel()
         return label
     }()
     

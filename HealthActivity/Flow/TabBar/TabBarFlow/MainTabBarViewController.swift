@@ -120,8 +120,8 @@ class MainTabBarViewController: BaseTabBarViewController {
 //        setValue(MainTabBar(frame: self.tabBar.frame), forKey: "tabBar")
         self.setViewControllers(TabBarItem.allCases.map { BaseNavigationController(rootViewController: $0.controller) }, animated: false)
         self.tabBar.backgroundColor = UIColor.white
-        self.tabBar.tintColor = UIColor(named: "purple")
-        self.tabBar.unselectedItemTintColor = UIColor(named: "lightGray")
+        self.tabBar.tintColor = R.color.purple()
+        self.tabBar.unselectedItemTintColor = R.color.lightGray()
     }
     
     override func viewWillAppear(_ animated: Bool) {

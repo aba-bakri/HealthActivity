@@ -18,7 +18,7 @@ class ProgressCell: UICollectionViewCell, Setupable {
     
     private lazy var dayLabel: UILabel = {
         let label = UILabel(frame: .zero)
-        label.textColor = UIColor(named: "grayLabel")
+        label.textColor = R.color.grayLabel()
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         return label
     }()

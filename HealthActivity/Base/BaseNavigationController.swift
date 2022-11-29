@@ -18,9 +18,9 @@ open class BaseNavigationController: UINavigationController, Setupable {
     open func setupControl() {
         navigationBar.barStyle = .default
         navigationBar.isTranslucent = true
-        navigationBar.backgroundColor = UIColor(named: "background")
-        navigationBar.titleTextAttributes = [.foregroundColor: UIColor(named: "blackLabel") ?? .black, .font: UIFont.systemFont(ofSize: 16, weight: .semibold)]
-        navigationBar.tintColor = UIColor(named: "blackLabel")
+        navigationBar.backgroundColor = R.color.background()
+        navigationBar.titleTextAttributes = [.foregroundColor: R.color.blackLabel() ?? .black, .font: UIFont.systemFont(ofSize: 16, weight: .semibold)]
+        navigationBar.tintColor = R.color.blackLabel()
         navigationBar.barStyle = .default
     }
     

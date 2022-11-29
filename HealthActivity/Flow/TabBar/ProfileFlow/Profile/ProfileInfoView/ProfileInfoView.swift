@@ -12,7 +12,7 @@ class ProfileInfoView: BaseView {
     private lazy var nameLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        label.textColor = UIColor(named: "blackLabel")
+        label.textColor = R.color.blackLabel()
         label.text = UserDefaultStorage.firstName
         return label
     }()
@@ -20,7 +20,7 @@ class ProfileInfoView: BaseView {
     private lazy var emailLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
-        label.textColor = UIColor(named: "grayLabel")
+        label.textColor = R.color.grayLabel()
         label.text = UserDefaultStorage.email
         return label
     }()
@@ -44,7 +44,7 @@ class ProfileInfoView: BaseView {
     
     private lazy var dividerView: BaseView = {
         let view = BaseView(frame: .zero)
-        view.backgroundColor = UIColor(named: "background")
+        view.backgroundColor = R.color.background()
         return view
     }()
     

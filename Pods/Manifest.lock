@@ -1,15 +1,14 @@
 PODS:
   - DTRuler (1.0.2)
   - MLVerticalProgressView (0.1.0)
-  - R.swift (6.1.0):
-    - R.swift.Library (~> 5.3.0)
-  - R.swift.Library (5.3.0)
+  - R.swift (7.0.1)
   - RxCocoa (6.5.0):
     - RxRelay (= 6.5.0)
     - RxSwift (= 6.5.0)
   - RxRelay (6.5.0):
     - RxSwift (= 6.5.0)
   - RxSwift (6.5.0)
+  - SnapKit (5.6.0)
   - SVProgressHUD (2.2.5)
 
 DEPENDENCIES:
@@ -18,6 +17,7 @@ DEPENDENCIES:
   - R.swift
   - RxCocoa (= 6.5.0)
   - RxSwift (= 6.5.0)
+  - SnapKit (~> 5.6.0)
   - SVProgressHUD
 
 SPEC REPOS:
@@ -25,22 +25,22 @@ SPEC REPOS:
     - DTRuler
     - MLVerticalProgressView
     - R.swift
-    - R.swift.Library
     - RxCocoa
     - RxRelay
     - RxSwift
+    - SnapKit
     - SVProgressHUD
 
 SPEC CHECKSUMS:
   DTRuler: 3d12232a0068724d437046004c94efac1af7f3eb
   MLVerticalProgressView: 1524a25eec9cda5860f94ba281c6d42ecee90880
-  R.swift: ec98ff71c4ab2f6fd01dd077e5afd15e63a4834c
-  R.swift.Library: 0fc583cb55a99e28901299cc451614cad1161962
+  R.swift: 30096a13394e3e0449d0d00c74185e4523e83d8c
   RxCocoa: 94f817b71c07517321eb4f9ad299112ca8af743b
   RxRelay: 1de1523e604c72b6c68feadedd1af3b1b4d0ecbd
   RxSwift: 5710a9e6b17f3c3d6e40d6e559b9fa1e813b2ef8
+  SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
 
-PODFILE CHECKSUM: 62d2a96ff0ce2d908f251a7ad030c467b060ef12
+PODFILE CHECKSUM: c460f416be652766fe90546fcaf7674af6a40600
 
 COCOAPODS: 1.11.3

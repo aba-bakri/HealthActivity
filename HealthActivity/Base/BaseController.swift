@@ -18,7 +18,7 @@ open class BaseController: ViewController {
     
     internal lazy var contentView: BaseView = {
         let view = BaseView(frame: .zero)
-        view.backgroundColor = UIColor(named: "background")
+        view.backgroundColor = R.color.background()
         return view
     }()
     
@@ -37,7 +37,7 @@ open class BaseController: ViewController {
     
     open override func setupControl() {
         super.setupControl()
-        view.backgroundColor = UIColor(named: "background")
+        view.backgroundColor = R.color.background()
     }
     
     open override func setupComponentsUI() {

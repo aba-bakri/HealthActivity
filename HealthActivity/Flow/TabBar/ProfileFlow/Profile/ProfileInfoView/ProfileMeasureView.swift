@@ -44,14 +44,14 @@ class ProfileMeasureView: BaseView {
     private lazy var measureLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
-        label.textColor = UIColor(named: "grayLabel")
+        label.textColor = R.color.grayLabel()
         label.text = measureType.title
         return label
     }()
     
     lazy var measureValueLabel: UILabel = {
         let label = UILabel(frame: .zero)
-        label.textColor = UIColor(named: "blackLabel")
+        label.textColor = R.color.blackLabel()
         return label
     }()
     
@@ -92,9 +92,9 @@ class ProfileMeasureView: BaseView {
     
     func configureView(unit: HKUnit, value: String) {
         let boldAttribute = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .semibold),
-                             NSAttributedString.Key.foregroundColor: UIColor(named: "blackLabel")]
+                             NSAttributedString.Key.foregroundColor: R.color.blackLabel()]
         let measureAttribute = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12, weight: .semibold),
-                             NSAttributedString.Key.foregroundColor: UIColor(named: "grayLabel")]
+                             NSAttributedString.Key.foregroundColor: R.color.grayLabel()]
         let boldAttributedString = NSMutableAttributedString(string: value, attributes: boldAttribute as [NSAttributedString.Key: Any])
         var stringMeasure: String = ""
         switch unit {
@@ -114,9 +114,9 @@ class ProfileMeasureView: BaseView {
     
     func configureAgeView() {
         let boldAttribute = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .semibold),
-                             NSAttributedString.Key.foregroundColor: UIColor(named: "blackLabel")]
+                             NSAttributedString.Key.foregroundColor: R.color.blackLabel()]
         let measureAttribute = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12, weight: .semibold),
-                             NSAttributedString.Key.foregroundColor: UIColor(named: "grayLabel")]
+                             NSAttributedString.Key.foregroundColor: R.color.grayLabel()]
         let boldAttributedString = NSMutableAttributedString(string: HealthManager.shared.getAge(), attributes: boldAttribute as [NSAttributedString.Key: Any])
         let measureAttributedString = NSMutableAttributedString(string: " Yrs", attributes: measureAttribute as [NSAttributedString.Key: Any])
         boldAttributedString.append(measureAttributedString)
@@ -126,9 +126,9 @@ class ProfileMeasureView: BaseView {
     func configureHeightView(value: String) {
         let measure = UserDefaultStorage.heightUnit == .cm ? " Cm" : " ”"
         let boldAttribute = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .semibold),
-                             NSAttributedString.Key.foregroundColor: UIColor(named: "blackLabel")]
+                             NSAttributedString.Key.foregroundColor: R.color.blackLabel()]
         let measureAttribute = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12, weight: .semibold),
-                             NSAttributedString.Key.foregroundColor: UIColor(named: "grayLabel")]
+                             NSAttributedString.Key.foregroundColor: R.color.grayLabel()]
         let boldAttributedString = NSMutableAttributedString(string: value, attributes: boldAttribute as [NSAttributedString.Key: Any])
         let measureAttributedString = NSMutableAttributedString(string: measure, attributes: measureAttribute as [NSAttributedString.Key: Any])
         boldAttributedString.append(measureAttributedString)
@@ -138,9 +138,9 @@ class ProfileMeasureView: BaseView {
     func configureWeightView(value: String) {
         let measure = UserDefaultStorage.weightUnit == .pound ? " Lb" : " Kg"
         let boldAttribute = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 18, weight: .semibold),
-                             NSAttributedString.Key.foregroundColor: UIColor(named: "blackLabel")]
+                             NSAttributedString.Key.foregroundColor: R.color.blackLabel()]
         let measureAttribute = [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12, weight: .semibold),
-                             NSAttributedString.Key.foregroundColor: UIColor(named: "grayLabel")]
+                             NSAttributedString.Key.foregroundColor: R.color.grayLabel()]
         let boldAttributedString = NSMutableAttributedString(string: value, attributes: boldAttribute as [NSAttributedString.Key: Any])
         let measureAttributedString = NSMutableAttributedString(string: measure, attributes: measureAttribute as [NSAttributedString.Key: Any])
         boldAttributedString.append(measureAttributedString)

@@ -18,7 +18,7 @@ class PersonalInfoViewController: BaseController {
     
     private lazy var sexLabel: UILabel = {
         let label = UILabel(frame: .zero)
-        label.textColor = UIColor(named: "blackLabel")
+        label.textColor = R.color.blackLabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.text = "Sex"
         return label
@@ -26,7 +26,7 @@ class PersonalInfoViewController: BaseController {
     
     private lazy var sexValueLabel: UILabel = {
         let label = UILabel(frame: .zero)
-        label.textColor = UIColor(named: "blackLabel")
+        label.textColor = R.color.blackLabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.text = HealthManager.shared.getSex()
         return label

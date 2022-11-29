@@ -4,430 +4,112 @@
 //
 
 import Foundation
-import Rswift
-import UIKit
+import RswiftResources
 
-/// This `R` struct is generated and contains references to static resources.
-struct R: Rswift.Validatable {
-  fileprivate static let applicationLocale = hostingBundle.preferredLocalizations.first.flatMap { Locale(identifier: $0) } ?? Locale.current
-  fileprivate static let hostingBundle = Bundle(for: R.Class.self)
-
-  /// Find first language and bundle for which the table exists
-  fileprivate static func localeBundle(tableName: String, preferredLanguages: [String]) -> (Foundation.Locale, Foundation.Bundle)? {
-    // Filter preferredLanguages to localizations, use first locale
-    var languages = preferredLanguages
-      .map { Locale(identifier: $0) }
-      .prefix(1)
-      .flatMap { locale -> [String] in
-        if hostingBundle.localizations.contains(locale.identifier) {
-          if let language = locale.languageCode, hostingBundle.localizations.contains(language) {
-            return [locale.identifier, language]
-          } else {
-            return [locale.identifier]
-          }
-        } else if let language = locale.languageCode, hostingBundle.localizations.contains(language) {
-          return [language]
-        } else {
-          return []
-        }
-      }
-
-    // If there's no languages, use development language as backstop
-    if languages.isEmpty {
-      if let developmentLocalization = hostingBundle.developmentLocalization {
-        languages = [developmentLocalization]
-      }
-    } else {
-      // Insert Base as second item (between locale identifier and languageCode)
-      languages.insert("Base", at: 1)
-
-      // Add development language as backstop
-      if let developmentLocalization = hostingBundle.developmentLocalization {
-        languages.append(developmentLocalization)
-      }
-    }
-
-    // Find first language for which table exists
-    // Note: key might not exist in chosen language (in that case, key will be shown)
-    for language in languages {
-      if let lproj = hostingBundle.url(forResource: language, withExtension: "lproj"),
-         let lbundle = Bundle(url: lproj)
-      {
-        let strings = lbundle.url(forResource: tableName, withExtension: "strings")
-        let stringsdict = lbundle.url(forResource: tableName, withExtension: "stringsdict")
-
-        if strings != nil || stringsdict != nil {
-          return (Locale(identifier: language), lbundle)
-        }
-      }
-    }
-
-    // If table is available in main bundle, don't look for localized resources
-    let strings = hostingBundle.url(forResource: tableName, withExtension: "strings", subdirectory: nil, localization: nil)
-    let stringsdict = hostingBundle.url(forResource: tableName, withExtension: "stringsdict", subdirectory: nil, localization: nil)
-
-    if strings != nil || stringsdict != nil {
-      return (applicationLocale, hostingBundle)
-    }
-
-    // If table is not found for requested languages, key will be shown
-    return nil
-  }
-
-  /// Load string from Info.plist file
-  fileprivate static func infoPlistString(path: [String], key: String) -> String? {
-    var dict = hostingBundle.infoDictionary
-    for step in path {
-      guard let obj = dict?[step] as? [String: Any] else { return nil }
-      dict = obj
-    }
-    return dict?[key] as? String
-  }
-
-  static func validate() throws {
-    try intern.validate()
-  }
-
-  /// This `R.color` struct is generated, and contains static references to 9 colors.
-  struct color {
-    /// Color `background`.
-    static let background = Rswift.ColorResource(bundle: R.hostingBundle, name: "background")
-    /// Color `blackLabel`.
-    static let blackLabel = Rswift.ColorResource(bundle: R.hostingBundle, name: "blackLabel")
-    /// Color `divider`.
-    static let divider = Rswift.ColorResource(bundle: R.hostingBundle, name: "divider")
-    /// Color `grayLabel`.
-    static let grayLabel = Rswift.ColorResource(bundle: R.hostingBundle, name: "grayLabel")
-    /// Color `grayProgress`.
-    static let grayProgress = Rswift.ColorResource(bundle: R.hostingBundle, name: "grayProgress")
-    /// Color `green`.
-    static let green = Rswift.ColorResource(bundle: R.hostingBundle, name: "green")
-    /// Color `lightGray`.
-    static let lightGray = Rswift.ColorResource(bundle: R.hostingBundle, name: "lightGray")
-    /// Color `purple`.
-    static let purple = Rswift.ColorResource(bundle: R.hostingBundle, name: "purple")
-    /// Color `segmentedGray`.
-    static let segmentedGray = Rswift.ColorResource(bundle: R.hostingBundle, name: "segmentedGray")
-
-    #if os(iOS) || os(tvOS)
-    /// `UIColor(named: "background", bundle: ..., traitCollection: ...)`
-    @available(tvOS 11.0, *)
-    @available(iOS 11.0, *)
-    static func background(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
-      return UIKit.UIColor(resource: R.color.background, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIColor(named: "blackLabel", bundle: ..., traitCollection: ...)`
-    @available(tvOS 11.0, *)
-    @available(iOS 11.0, *)
-    static func blackLabel(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
-      return UIKit.UIColor(resource: R.color.blackLabel, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIColor(named: "divider", bundle: ..., traitCollection: ...)`
-    @available(tvOS 11.0, *)
-    @available(iOS 11.0, *)
-    static func divider(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
-      return UIKit.UIColor(resource: R.color.divider, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIColor(named: "grayLabel", bundle: ..., traitCollection: ...)`
-    @available(tvOS 11.0, *)
-    @available(iOS 11.0, *)
-    static func grayLabel(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
-      return UIKit.UIColor(resource: R.color.grayLabel, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIColor(named: "grayProgress", bundle: ..., traitCollection: ...)`
-    @available(tvOS 11.0, *)
-    @available(iOS 11.0, *)
-    static func grayProgress(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
-      return UIKit.UIColor(resource: R.color.grayProgress, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIColor(named: "green", bundle: ..., traitCollection: ...)`
-    @available(tvOS 11.0, *)
-    @available(iOS 11.0, *)
-    static func green(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
-      return UIKit.UIColor(resource: R.color.green, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIColor(named: "lightGray", bundle: ..., traitCollection: ...)`
-    @available(tvOS 11.0, *)
-    @available(iOS 11.0, *)
-    static func lightGray(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
-      return UIKit.UIColor(resource: R.color.lightGray, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIColor(named: "purple", bundle: ..., traitCollection: ...)`
-    @available(tvOS 11.0, *)
-    @available(iOS 11.0, *)
-    static func purple(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
-      return UIKit.UIColor(resource: R.color.purple, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIColor(named: "segmentedGray", bundle: ..., traitCollection: ...)`
-    @available(tvOS 11.0, *)
-    @available(iOS 11.0, *)
-    static func segmentedGray(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIColor? {
-      return UIKit.UIColor(resource: R.color.segmentedGray, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(watchOS)
-    /// `UIColor(named: "background", bundle: ..., traitCollection: ...)`
-    @available(watchOSApplicationExtension 4.0, *)
-    static func background(_: Void = ()) -> UIKit.UIColor? {
-      return UIKit.UIColor(named: R.color.background.name)
-    }
-    #endif
-
-    #if os(watchOS)
-    /// `UIColor(named: "blackLabel", bundle: ..., traitCollection: ...)`
-    @available(watchOSApplicationExtension 4.0, *)
-    static func blackLabel(_: Void = ()) -> UIKit.UIColor? {
-      return UIKit.UIColor(named: R.color.blackLabel.name)
-    }
-    #endif
-
-    #if os(watchOS)
-    /// `UIColor(named: "divider", bundle: ..., traitCollection: ...)`
-    @available(watchOSApplicationExtension 4.0, *)
-    static func divider(_: Void = ()) -> UIKit.UIColor? {
-      return UIKit.UIColor(named: R.color.divider.name)
-    }
-    #endif
-
-    #if os(watchOS)
-    /// `UIColor(named: "grayLabel", bundle: ..., traitCollection: ...)`
-    @available(watchOSApplicationExtension 4.0, *)
-    static func grayLabel(_: Void = ()) -> UIKit.UIColor? {
-      return UIKit.UIColor(named: R.color.grayLabel.name)
-    }
-    #endif
-
-    #if os(watchOS)
-    /// `UIColor(named: "grayProgress", bundle: ..., traitCollection: ...)`
-    @available(watchOSApplicationExtension 4.0, *)
-    static func grayProgress(_: Void = ()) -> UIKit.UIColor? {
-      return UIKit.UIColor(named: R.color.grayProgress.name)
-    }
-    #endif
-
-    #if os(watchOS)
-    /// `UIColor(named: "green", bundle: ..., traitCollection: ...)`
-    @available(watchOSApplicationExtension 4.0, *)
-    static func green(_: Void = ()) -> UIKit.UIColor? {
-      return UIKit.UIColor(named: R.color.green.name)
-    }
-    #endif
-
-    #if os(watchOS)
-    /// `UIColor(named: "lightGray", bundle: ..., traitCollection: ...)`
-    @available(watchOSApplicationExtension 4.0, *)
-    static func lightGray(_: Void = ()) -> UIKit.UIColor? {
-      return UIKit.UIColor(named: R.color.lightGray.name)
-    }
-    #endif
-
-    #if os(watchOS)
-    /// `UIColor(named: "purple", bundle: ..., traitCollection: ...)`
-    @available(watchOSApplicationExtension 4.0, *)
-    static func purple(_: Void = ()) -> UIKit.UIColor? {
-      return UIKit.UIColor(named: R.color.purple.name)
-    }
-    #endif
-
-    #if os(watchOS)
-    /// `UIColor(named: "segmentedGray", bundle: ..., traitCollection: ...)`
-    @available(watchOSApplicationExtension 4.0, *)
-    static func segmentedGray(_: Void = ()) -> UIKit.UIColor? {
-      return UIKit.UIColor(named: R.color.segmentedGray.name)
-    }
-    #endif
-
-    fileprivate init() {}
-  }
-
-  /// This `R.image` struct is generated, and contains static references to 16 images.
-  struct image {
-    /// Image `activities`.
-    static let activities = Rswift.ImageResource(bundle: R.hostingBundle, name: "activities")
-    /// Image `calories`.
-    static let calories = Rswift.ImageResource(bundle: R.hostingBundle, name: "calories")
-    /// Image `controlActive`.
-    static let controlActive = Rswift.ImageResource(bundle: R.hostingBundle, name: "controlActive")
-    /// Image `controlNotActive`.
-    static let controlNotActive = Rswift.ImageResource(bundle: R.hostingBundle, name: "controlNotActive")
-    /// Image `heart`.
-    static let heart = Rswift.ImageResource(bundle: R.hostingBundle, name: "heart")
-    /// Image `home`.
-    static let home = Rswift.ImageResource(bundle: R.hostingBundle, name: "home")
-    /// Image `more`.
-    static let more = Rswift.ImageResource(bundle: R.hostingBundle, name: "more")
-    /// Image `notification`.
-    static let notification = Rswift.ImageResource(bundle: R.hostingBundle, name: "notification")
-    /// Image `onboardingFirst`.
-    static let onboardingFirst = Rswift.ImageResource(bundle: R.hostingBundle, name: "onboardingFirst")
-    /// Image `onboardingSecond`.
-    static let onboardingSecond = Rswift.ImageResource(bundle: R.hostingBundle, name: "onboardingSecond")
-    /// Image `onboardingThird`.
-    static let onboardingThird = Rswift.ImageResource(bundle: R.hostingBundle, name: "onboardingThird")
-    /// Image `profile`.
-    static let profile = Rswift.ImageResource(bundle: R.hostingBundle, name: "profile")
-    /// Image `sleep`.
-    static let sleep = Rswift.ImageResource(bundle: R.hostingBundle, name: "sleep")
-    /// Image `status`.
-    static let status = Rswift.ImageResource(bundle: R.hostingBundle, name: "status")
-    /// Image `walk`.
-    static let walk = Rswift.ImageResource(bundle: R.hostingBundle, name: "walk")
-    /// Image `water`.
-    static let water = Rswift.ImageResource(bundle: R.hostingBundle, name: "water")
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "activities", bundle: ..., traitCollection: ...)`
-    static func activities(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.activities, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "calories", bundle: ..., traitCollection: ...)`
-    static func calories(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.calories, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "controlActive", bundle: ..., traitCollection: ...)`
-    static func controlActive(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.controlActive, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "controlNotActive", bundle: ..., traitCollection: ...)`
-    static func controlNotActive(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.controlNotActive, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "heart", bundle: ..., traitCollection: ...)`
-    static func heart(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.heart, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "home", bundle: ..., traitCollection: ...)`
-    static func home(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.home, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "more", bundle: ..., traitCollection: ...)`
-    static func more(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.more, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "notification", bundle: ..., traitCollection: ...)`
-    static func notification(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.notification, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "onboardingFirst", bundle: ..., traitCollection: ...)`
-    static func onboardingFirst(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.onboardingFirst, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "onboardingSecond", bundle: ..., traitCollection: ...)`
-    static func onboardingSecond(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.onboardingSecond, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "onboardingThird", bundle: ..., traitCollection: ...)`
-    static func onboardingThird(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.onboardingThird, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "profile", bundle: ..., traitCollection: ...)`
-    static func profile(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.profile, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "sleep", bundle: ..., traitCollection: ...)`
-    static func sleep(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.sleep, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "status", bundle: ..., traitCollection: ...)`
-    static func status(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.status, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "walk", bundle: ..., traitCollection: ...)`
-    static func walk(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.walk, compatibleWith: traitCollection)
-    }
-    #endif
-
-    #if os(iOS) || os(tvOS)
-    /// `UIImage(named: "water", bundle: ..., traitCollection: ...)`
-    static func water(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
-      return UIKit.UIImage(resource: R.image.water, compatibleWith: traitCollection)
-    }
-    #endif
-
-    fileprivate init() {}
-  }
-
-  fileprivate struct intern: Rswift.Validatable {
-    fileprivate static func validate() throws {
-      // There are no resources to validate
-    }
-
-    fileprivate init() {}
-  }
-
-  fileprivate class Class {}
-
-  fileprivate init() {}
-}
+private class BundleFinder {}
+let R = _R(bundle: Bundle(for: BundleFinder.self))
 
 struct _R {
-  fileprivate init() {}
+  let bundle: Foundation.Bundle
+  var color: color { .init(bundle: bundle) }
+  var image: image { .init(bundle: bundle) }
+
+  func color(bundle: Foundation.Bundle) -> color {
+    .init(bundle: bundle)
+  }
+  func image(bundle: Foundation.Bundle) -> image {
+    .init(bundle: bundle)
+  }
+  func validate() throws {
+
+  }
+
+  struct project {
+    let developmentRegion = "en"
+  }
+
+  /// This `_R.color` struct is generated, and contains static references to 9 colors.
+  struct color {
+    let bundle: Foundation.Bundle
+
+    /// Color `background`.
+    var background: ColorResource { .init(name: "background", path: [], bundle: bundle) }
+
+    /// Color `blackLabel`.
+    var blackLabel: ColorResource { .init(name: "blackLabel", path: [], bundle: bundle) }
+
+    /// Color `divider`.
+    var divider: ColorResource { .init(name: "divider", path: [], bundle: bundle) }
+
+    /// Color `grayLabel`.
+    var grayLabel: ColorResource { .init(name: "grayLabel", path: [], bundle: bundle) }
+
+    /// Color `grayProgress`.
+    var grayProgress: ColorResource { .init(name: "grayProgress", path: [], bundle: bundle) }
+
+    /// Color `green`.
+    var green: ColorResource { .init(name: "green", path: [], bundle: bundle) }
+
+    /// Color `lightGray`.
+    var lightGray: ColorResource { .init(name: "lightGray", path: [], bundle: bundle) }
+
+    /// Color `purple`.
+    var purple: ColorResource { .init(name: "purple", path: [], bundle: bundle) }
+
+    /// Color `segmentedGray`.
+    var segmentedGray: ColorResource { .init(name: "segmentedGray", path: [], bundle: bundle) }
+  }
+
+  /// This `_R.image` struct is generated, and contains static references to 16 images.
+  struct image {
+    let bundle: Foundation.Bundle
+
+    /// Image `activities`.
+    var activities: ImageResource { .init(name: "activities", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `calories`.
+    var calories: ImageResource { .init(name: "calories", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `controlActive`.
+    var controlActive: ImageResource { .init(name: "controlActive", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `controlNotActive`.
+    var controlNotActive: ImageResource { .init(name: "controlNotActive", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `heart`.
+    var heart: ImageResource { .init(name: "heart", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `home`.
+    var home: ImageResource { .init(name: "home", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `more`.
+    var more: ImageResource { .init(name: "more", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `notification`.
+    var notification: ImageResource { .init(name: "notification", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `onboardingFirst`.
+    var onboardingFirst: ImageResource { .init(name: "onboardingFirst", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `onboardingSecond`.
+    var onboardingSecond: ImageResource { .init(name: "onboardingSecond", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `onboardingThird`.
+    var onboardingThird: ImageResource { .init(name: "onboardingThird", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `profile`.
+    var profile: ImageResource { .init(name: "profile", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `sleep`.
+    var sleep: ImageResource { .init(name: "sleep", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `status`.
+    var status: ImageResource { .init(name: "status", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `walk`.
+    var walk: ImageResource { .init(name: "walk", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+
+    /// Image `water`.
+    var water: ImageResource { .init(name: "water", path: [], bundle: bundle, locale: nil, onDemandResourceTags: nil) }
+  }
 }

@@ -67,7 +67,7 @@ class InfoView: BaseView {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         label.text = infoType.title
-        label.textColor = UIColor(named: "blackLabel")
+        label.textColor = R.color.blackLabel()
         return label
     }()
     
@@ -86,14 +86,14 @@ class InfoView: BaseView {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
         label.text = infoType.measure
-        label.textColor = UIColor(named: "grayLabel")
+        label.textColor = R.color.grayLabel()
         return label
     }()
     
     lazy var valueLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 18, weight: .medium)
-        label.textColor = UIColor(named: "blackLabel")
+        label.textColor = R.color.blackLabel()
         return label
     }()
     

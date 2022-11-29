@@ -14,7 +14,7 @@ class HomeViewController: BaseController {
     private lazy var welcomeLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 22, weight: .medium)
-        label.textColor = UIColor(named: "blackLabel")
+        label.textColor = R.color.blackLabel()
         label.text = "Welcome, Back!"
         return label
     }()
@@ -22,7 +22,7 @@ class HomeViewController: BaseController {
     private lazy var nameLabel: UILabel = {
         let label = UILabel(frame: .zero)
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        label.textColor = UIColor(named: "grayLabel")
+        label.textColor = R.color.grayLabel()
         label.text = "Hi, \(UserDefaultStorage.firstName ?? "")"
         return label
     }()

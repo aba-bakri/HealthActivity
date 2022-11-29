@@ -16,7 +16,7 @@ class ActivityViewController: BaseController {
     
     private lazy var datePicker: UIDatePicker = {
         let picker = UIDatePicker(frame: .zero)
-        picker.tintColor = UIColor(named: "purple")
+        picker.tintColor = R.color.purple()
         picker.datePickerMode = .date
         picker.maximumDate = Date()
         if #available(iOS 14.0, *) {

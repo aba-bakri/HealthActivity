@@ -11,7 +11,7 @@ open class BaseButton: BaseClearButton {
     
     open override var isEnabled: Bool {
         didSet {
-            backgroundColor = isEnabled ? UIColor(named: "purple") : UIColor(named: "purple")?.withAlphaComponent(0.5)
+            backgroundColor = isEnabled ? R.color.purple() : R.color.purple()?.withAlphaComponent(0.5)
             isUserInteractionEnabled = isEnabled ? true : false
         }
     }

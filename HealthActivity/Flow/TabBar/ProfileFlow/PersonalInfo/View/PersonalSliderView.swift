@@ -13,7 +13,7 @@ class PersonalSliderView: BaseView {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel(frame: .zero)
-        label.textColor = UIColor(named: "blackLabel")
+        label.textColor = R.color.blackLabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.text = unitType.title
         return label
@@ -21,7 +21,7 @@ class PersonalSliderView: BaseView {
     
     private lazy var valueLabel: UILabel = {
         let label = UILabel(frame: .zero)
-        label.textColor = UIColor(named: "grayLabel")
+        label.textColor = R.color.grayLabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         return label
     }()
@@ -40,8 +40,8 @@ class PersonalSliderView: BaseView {
     lazy var segmentedControl: UISegmentedControl = {
         let control = UISegmentedControl(items: [unitType.unitLabels.0, unitType.unitLabels.1])
         control.selectedSegmentTintColor = UIColor.white
-        control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(named: "segmentedGray") ?? .lightGray], for: .normal)
-        control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor(named: "purple") ?? .purple], for: .selected)
+        control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: R.color.segmentedGray() ?? .lightGray], for: .normal)
+        control.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: R.color.purple() ?? .purple], for: .selected)
         control.addTarget(self, action: #selector(segmentedControlValueChanged), for: .valueChanged)
         return control
     }()
@@ -152,28 +152,11 @@ extension PersonalSliderView: DTRulerDelegate {
     
     func didChange(on ruler: DTRuler, withScale scale: DTRuler.Scale) {
         rulerValueDidChange?(scale.minorTextRepresentation())
-//        if segmentedControl.selectedSegmentIndex == 0 {
-//            switch unitType {
-//            case .height(let heightUnit):
-//                valueLabel.text = "\(scale.minorTextRepresentation()) \(heightUnit.measure)"
-//            case .weight(let weightUnit):
-//                valueLabel.text = "\(scale.minorTextRepresentation()) \(weightUnit.measure)"
-//            }
-//        } else {
-//            switch unitType {
-//            case .height(let heightUnit):
-//                valueLabel.text = "\(scale.minorTextRepresentation()) \(heightUnit.measure)"
-//            case .weight(let weightUnit):
-//                valueLabel.text = "\(scale.minorTextRepresentation()) \(weightUnit.measure)"
-//            }
-//        }
-        
         switch unitType {
         case .height:
             valueLabel.text = "\(scale.minorTextRepresentation()) \(UserDefaultStorage.heightUnit.measure)"
         case .weight:
             valueLabel.text = "\(scale.minorTextRepresentation()) \(UserDefaultStorage.weightUnit.measure)"
         }
-//        rulerValueDidChange?(scale.minorTextRepresentation())
     }
 }

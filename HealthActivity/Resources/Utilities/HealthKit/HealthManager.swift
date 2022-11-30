@@ -114,6 +114,24 @@ class HealthManager {
         }
     }
     
+    func getAge() -> Observable<String> {
+        return .create { [weak self] (observer) -> Disposable in
+            do {
+                let birthDay = try self?.healthStore.dateOfBirthComponents()
+                let calendar = Calendar.current
+                let currentYear = calendar.component(.year, from: Date())
+                if let birthDay = birthDay {
+                    let birth = "\(currentYear - (birthDay.year ?? .zero))"
+                    observer.onNext(birth)
+                }
+                observer.onCompleted()
+            } catch let error {
+                observer.onError(error)
+            }
+            return Disposables.create()
+        }
+    }
+    
     //MARK: Calories
     
     func getCalories(date: Date = Date()) -> Observable<Int> {
@@ -142,58 +160,60 @@ class HealthManager {
         }
     }
     
-    func getDistance(forSpecificDate: Date = Date(), completion: @escaping(Double) -> Void) {
-        guard let distanceType = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning) else {
-            fatalError("Step Count Type is no longer available in HealthKit")
-        }
-        let (start, end) = getWholeDate(date: forSpecificDate)
-        let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
-        let query = HKStatisticsQuery(quantityType: distanceType, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, result, _ in
-            guard let result = result, let sum = result.sumQuantity() else {
-                completion(.zero)
-                return
+    //MARK: Get Active Points for ActivityScreen
+    
+    func getActivePoints(date: Date = Date()) -> Observable<Int> {
+        return .create { [weak self] (observer) -> Disposable in
+            let activePoints = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned)!
+            var startDate = date
+            var length = TimeInterval()
+            _ = Calendar.current.dateInterval(of: .day, start: &startDate, interval: &length, for: startDate)
+            let endDate: Date = startDate.addingTimeInterval(length)
+            let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictStartDate)
+            let query = HKStatisticsQuery(quantityType: activePoints, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, results, error in
+                if let error = error {
+                    observer.onError(error)
+                }
+                if let results = results {
+                    var resultCount = 0.0
+                    if let sum = results.sumQuantity() {
+                        resultCount = sum.doubleValue(for: HKUnit.kilocalorie())
+                    }
+                    observer.onNext(resultCount.toInt)
+                }
+                observer.onCompleted()
             }
-            let distance = sum.doubleValue(for: HKUnit.mile())
-            completion((distance * 1.60932))
+            self?.healthStore.execute(query)
+            return Disposables.create()
         }
-        
-        healthStore.execute(query)
     }
     
-    func getCalories(forSpecificDate: Date = Date(), completion: @escaping(Int) -> Void) {
-        guard let caloriesType = HKQuantityType.quantityType(forIdentifier: .basalEnergyBurned) else {
-            fatalError("Step Count Type is no longer available in HealthKit")
-        }
-        let (start, end) = getWholeDate(date: forSpecificDate)
-        let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
-        let query = HKStatisticsQuery(quantityType: caloriesType, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, result, _ in
-            guard let result = result, let sum = result.sumQuantity() else {
-                completion(.zero)
-                return
-            }
-            let calories = sum.doubleValue(for: HKUnit.kilocalorie())
-            completion(calories.toInt)
-        }
-        
-        healthStore.execute(query)
-    }
+    //MARK: Distance
     
-    func getActivePoints(forSpecificDate: Date = Date(), completion: @escaping(Int) -> Void) {
-        guard let activePointsType = HKQuantityType.quantityType(forIdentifier: .activeEnergyBurned) else {
-            fatalError("Step Count Type is no longer available in HealthKit")
-        }
-        let (start, end) = getWholeDate(date: forSpecificDate)
-        let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
-        let query = HKStatisticsQuery(quantityType: activePointsType, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, result, _ in
-            guard let result = result, let sum = result.sumQuantity() else {
-                completion(.zero)
-                return
+    func getDistance(date: Date = Date()) -> Observable<Double> {
+        return .create { [weak self] (observer) -> Disposable in
+            let distance = HKQuantityType.quantityType(forIdentifier: .distanceWalkingRunning)!
+            var startDate = date
+            var length = TimeInterval()
+            _ = Calendar.current.dateInterval(of: .day, start: &startDate, interval: &length, for: startDate)
+            let endDate: Date = startDate.addingTimeInterval(length)
+            let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictStartDate)
+            let query = HKStatisticsQuery(quantityType: distance, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, results, error in
+                if let error = error {
+                    observer.onError(error)
+                }
+                if let results = results {
+                    var resultCount = 0.0
+                    if let sum = results.sumQuantity() {
+                        resultCount = sum.doubleValue(for: HKUnit.mile())
+                    }
+                    observer.onNext(resultCount * 1.60932)
+                }
+                observer.onCompleted()
             }
-            let calories = sum.doubleValue(for: HKUnit.kilocalorie())
-            completion(calories.toInt)
+            self?.healthStore.execute(query)
+            return Disposables.create()
         }
-        
-        healthStore.execute(query)
     }
     
     //MARK: Height
@@ -237,8 +257,6 @@ class HealthManager {
         guard let bodyMassType = HKQuantityType.quantityType(forIdentifier: .bodyMass) else {
             fatalError("Weight cannot be changed")
         }
-//        let (start, end) = getWholeDate(date: Date())
-//        let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
         let sortDescriptors = [NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)]
         let query = HKSampleQuery(sampleType: bodyMassType, predicate: nil, limit: 1, sortDescriptors: sortDescriptors) { (query, results, error) in
             if let result = results?.first as? HKQuantitySample {

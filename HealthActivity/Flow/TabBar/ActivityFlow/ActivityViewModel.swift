@@ -37,15 +37,8 @@ struct ActivityViewModel: BaseViewModelType {
         input.date.subscribe(onNext: { date in
             healthManager.getSteps(date: date).subscribe(onNext: { stepsSubject.onNext($0) }).disposed(by: disposeBag)
             healthManager.getCalories(date: date).subscribe(onNext: { caloriesSubject.onNext($0) }).disposed(by: disposeBag)
-            healthManager.getDistance(forSpecificDate: date) { distance in
-                distanceSubject.onNext(distance)
-            }
-//            healthManager.getCalories(forSpecificDate: date) { calories in
-//                caloriesSubject.onNext(calories)
-//            }
-            healthManager.getActivePoints(forSpecificDate: date) { points in
-                pointsSubject.onNext(points)
-            }
+            healthManager.getActivePoints(date: date).subscribe(onNext: { pointsSubject.onNext($0) }).disposed(by: disposeBag)
+            healthManager.getDistance(date: date).subscribe(onNext: { distanceSubject.onNext($0) }).disposed(by: disposeBag)
         }).disposed(by: disposeBag)
         
         return Output(navigationTitleSubject: navigationTitleSubject.asDriver(onErrorJustReturn: ""),

@@ -35,9 +35,8 @@ struct ActivityViewModel: BaseViewModelType {
     
     func transform(input: Input) -> Output {
         input.date.subscribe(onNext: { date in
-            healthManager.getSteps(forSpecificDate: date) { steps in
-                stepsSubject.onNext(steps)
-            }
+            healthManager.getSteps(date: date).subscribe(onNext: { stepsSubject.onNext($0) }).disposed(by: disposeBag)
+            
             healthManager.getDistance(forSpecificDate: date) { distance in
                 distanceSubject.onNext(distance)
             }

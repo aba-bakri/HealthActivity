@@ -7,6 +7,7 @@
 
 import Foundation
 import HealthKit
+import RxSwift
 
 enum Result<T> {
     case success(T)
@@ -67,6 +68,8 @@ class HealthManager {
         }
     }
     
+    //MARK: Steps
+    
     func getSteps(forSpecificDate: Date = Date(), completion: @escaping(Int) -> Void) {
         guard let stepCountType = HKQuantityType.quantityType(forIdentifier: .stepCount) else {
             fatalError("Step Count Type is no longer available in HealthKit")
@@ -83,6 +86,32 @@ class HealthManager {
         }
         
         healthStore.execute(query)
+    }
+    
+    func getSteps(date: Date = Date()) -> Observable<Int> {
+        return .create { [weak self] (observer) -> Disposable in
+            let stepsCount = HKQuantityType.quantityType(forIdentifier: .stepCount)!
+            var startDate = date
+            var length = TimeInterval()
+            _ = Calendar.current.dateInterval(of: .day, start: &startDate, interval: &length, for: startDate)
+            let endDate: Date = startDate.addingTimeInterval(length)
+            let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictStartDate)
+            let query = HKStatisticsQuery(quantityType: stepsCount, quantitySamplePredicate: predicate, options: .cumulativeSum) { _, results, error in
+                if let error = error {
+                    observer.onError(error)
+                }
+                if let results = results {
+                    var resultCount = 0.0
+                    if let sum = results.sumQuantity() {
+                        resultCount = sum.doubleValue(for: HKUnit.count())
+                    }
+                    observer.onNext(resultCount.toInt)
+                }
+                observer.onCompleted()
+            }
+            self?.healthStore.execute(query)
+            return Disposables.create()
+        }
     }
     
     func getDistance(forSpecificDate: Date = Date(), completion: @escaping(Double) -> Void) {

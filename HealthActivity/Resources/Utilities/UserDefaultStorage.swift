@@ -24,7 +24,7 @@ enum HeightUnit: Codable {
     var unit: HKUnit {
         switch self {
         case .cm:
-            return .meter()
+            return .meterUnit(with: .centi)
         case .inch:
             return .inch()
         }

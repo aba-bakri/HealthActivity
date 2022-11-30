@@ -29,6 +29,7 @@ class HealthManager {
     static let shared = HealthManager()
     
     private let healthStore = HKHealthStore()
+    private let disposeBag = DisposeBag()
     
     func authorizeHealthKit(success: (() -> ())? = nil, failure: ((HealthKitError) -> ())? = nil) {
         
@@ -216,6 +217,95 @@ class HealthManager {
         }
     }
     
+    func getHeartRate(date: Date = Date()) -> Observable<StatusProgressModel> {
+        return .create { [weak self] (observer) -> Disposable in
+            let heartRateType = HKQuantityType.quantityType(forIdentifier: .heartRate)!
+            var startDate = date
+            var length = TimeInterval()
+            _ = Calendar.current.dateInterval(of: .day, start: &startDate, interval: &length, for: startDate)
+            let endDate: Date = startDate.addingTimeInterval(length)
+            let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictStartDate)
+            let sortDescriptors = [NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)]
+            let query = HKSampleQuery(sampleType: heartRateType, predicate: predicate, limit: 1, sortDescriptors: sortDescriptors, resultsHandler: { (query, results, error) in
+                if let error = error {
+                    observer.onError(error)
+                }
+                if let results = results {
+                    for result in results {
+                        if let data = result as? HKQuantitySample {
+                            let value = data.quantity.doubleValue(for: HKUnit(from: "count/min"))
+                            observer.onNext(StatusProgressModel(value: value, day: date))
+                        }
+                    }
+                }
+                observer.onCompleted()
+            })
+            self?.healthStore.execute(query)
+            return Disposables.create()
+        }
+    }
+    
+//    func test(date: [Date]) -> Observable<[StatusProgressModel]> {
+//        return .create { [weak self] (observer) -> Disposable in
+//            var heartRates = [StatusProgressModel]()
+//            date.forEach { date in
+//                let heartRateType = HKQuantityType.quantityType(forIdentifier: .heartRate)!
+//                var startDate = date
+//                var length = TimeInterval()
+//                _ = Calendar.current.dateInterval(of: .day, start: &startDate, interval: &length, for: startDate)
+//                let endDate: Date = startDate.addingTimeInterval(length)
+//                let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictStartDate)
+//                let sortDescriptors = [NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)]
+//                let query = HKSampleQuery(sampleType: heartRateType, predicate: predicate, limit: 1, sortDescriptors: sortDescriptors, resultsHandler: { (query, results, error) in
+//                    if let error = error {
+//                        observer.onError(error)
+//                    }
+//                    if let results = results {
+//                        var value: Double = .zero
+//                        if !results.isEmpty {
+//                            if let result = results.first as? HKQuantitySample {
+//                                value = result.quantity.doubleValue(for: HKUnit(from: "count/min"))
+//                            }
+//                        }
+//                        let heartRateModel = StatusProgressModel(value: value, day: date)
+//                        heartRates.append(heartRateModel)
+//                    }
+//                })
+//                self?.healthStore.execute(query)
+//            }
+//            observer.onNext(heartRates)
+//            return Disposables.create()
+//        }
+//    }
+    
+//    func getHeartRate(forSpecificDate: Date = Date(), completion: @escaping((Result<StatusProgressModel>) -> Void)) {
+//        guard let heartRateType = HKQuantityType.quantityType(forIdentifier: .heartRate) else { return }
+//        let (start, end) = getWholeDate(date: forSpecificDate)
+//        let predicate = HKQuery.predicateForSamples(withStart: start, end: end, options: .strictStartDate)
+//        let sortDescriptors = [NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)]
+//        let query = HKSampleQuery(sampleType: heartRateType, predicate: predicate, limit: 1, sortDescriptors: sortDescriptors, resultsHandler: { (query, results, error) in
+//            self.heartRateInfo(date: forSpecificDate, results: results, completion: completion)
+//        })
+//        healthStore.execute(query)
+//    }
+//
+//    private func heartRateInfo(date: Date, results: [HKSample]?, completion: @escaping((Result<StatusProgressModel>) -> Void)) {
+//        if (results?.isEmpty ?? true) {
+//            completion(.failure(error: "Haven't measured today"))
+//        } else {
+//            for (_, sample) in results!.enumerated() {
+//                if let currData: HKQuantitySample = sample as? HKQuantitySample {
+//                    let value = currData.quantity.doubleValue(for: HKUnit(from: "count/min"))
+//                    if (results?.isEmpty ?? true) {
+//                        completion(.success(StatusProgressModel(value: .zero, day: date)))
+//                    } else {
+//                        completion(.success(StatusProgressModel(value: value, day: date)))
+//                    }
+//                }
+//            }
+//        }
+//    }
+    
     //MARK: Height
     
     func getHeight(unit: HKUnit, completion: @escaping(Double) -> Void) {
@@ -232,6 +322,28 @@ class HealthManager {
             }
         }
         healthStore.execute(query)
+    }
+    
+    func getHeight(unit: HKUnit) -> Observable<Double> {
+        return .create { [weak self] (observer) -> Disposable in
+            let heightType = HKQuantityType.quantityType(forIdentifier: .height)!
+            let sortDescriptors = [NSSortDescriptor(key: HKSampleSortIdentifierEndDate, ascending: false)]
+            let query = HKSampleQuery(sampleType: heightType, predicate: nil, limit: 1, sortDescriptors: sortDescriptors) { (query, results, error) in
+                if let error = error {
+                    observer.onError(error)
+                }
+                if let results = results {
+                    var height: Double = .zero
+                    if let result = results.first as? HKQuantitySample {
+                        height = result.quantity.doubleValue(for: unit)
+                    }
+                    observer.onNext(height)
+                }
+                observer.onCompleted()
+            }
+            self?.healthStore.execute(query)
+            return Disposables.create()
+        }
     }
     
     func changeHeight(unit: HKUnit, height: Double, completion: @escaping(EmptyResult) -> Void) {

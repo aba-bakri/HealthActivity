@@ -21,30 +21,30 @@ enum TabBarItem: CaseIterable {
     private var tabBarImage: UIImage? {
         switch self {
         case .home:
-            return UIImage(named: "home")
+            return R.image.home()
         case .activities:
-            return UIImage(named: "activities")
+            return R.image.activities()
         case .go:
             return nil
         case .status:
-            return UIImage(named: "status")
+            return R.image.status()
         case .profile:
-            return UIImage(named: "profile")
+            return R.image.profile()
         }
     }
     
     private var tabBarSelectedImage: UIImage? {
         switch self {
         case .home:
-            return UIImage(named: "home")
+            return R.image.home()
         case .activities:
-            return UIImage(named: "activities")
+            return R.image.activities()
         case .go:
             return nil
         case .status:
-            return UIImage(named: "status")
+            return R.image.status()
         case .profile:
-            return UIImage(named: "profile")
+            return R.image.profile()
         }
     }
     
@@ -75,7 +75,6 @@ enum TabBarItem: CaseIterable {
 
 class MainTabBarViewController: BaseTabBarViewController {
     
-//    private let mainTabBar = MainTabBar()
     private let healthManager = HealthManager.shared
     
     private lazy var goButton: BaseClearButton = {
@@ -116,8 +115,7 @@ class MainTabBarViewController: BaseTabBarViewController {
     
     override func setupControl() {
         super.setupControl()
-        delegate = self
-//        setValue(MainTabBar(frame: self.tabBar.frame), forKey: "tabBar")
+        self.delegate = self
         self.setViewControllers(TabBarItem.allCases.map { BaseNavigationController(rootViewController: $0.controller) }, animated: false)
         self.tabBar.backgroundColor = UIColor.white
         self.tabBar.tintColor = R.color.purple()

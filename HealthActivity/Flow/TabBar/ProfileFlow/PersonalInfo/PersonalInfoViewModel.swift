@@ -59,9 +59,8 @@ struct PersonalInfoViewModel: BaseViewModelType {
         var tempWeightValue: Int = .zero
         
         input.heightUnit.subscribe(onNext: { heightUnit in
-            self.healthManager.getHeight(unit: heightUnit.unit) { heightValue in
-                let height = heightUnit == .cm ? (heightValue * 100).toInt : heightValue.toInt
-                let subject = (heightUnit, height)
+            self.healthManager.getHeight(unit: heightUnit.unit) { height in
+                let subject = (heightUnit, height.toInt)
                 self.heightSubject.onNext(subject)
             }
         }).disposed(by: disposeBag)
@@ -82,11 +81,11 @@ struct PersonalInfoViewModel: BaseViewModelType {
         }).disposed(by: disposeBag)
         
         Observable.combineLatest(input.heightUnit, input.saveHeight).subscribe(onNext: { heightUnit, _  in
-            let heightDouble = heightUnit == .cm ? Double(Double(tempHeightValue) / 100) : Double(tempHeightValue)
-            healthManager.changeHeight(unit: heightUnit.unit, height: heightDouble) { state in
+//            let heightDouble = heightUnit == .cm ? Double(Double(tempHeightValue) / 100) : Double(tempHeightValue)
+            healthManager.changeHeight(unit: heightUnit.unit, height: Double(tempHeightValue)) { state in
                 switch state {
                 case .success:
-                    let model = UpdateHeight(heightUnit: heightUnit, height: heightDouble)
+                    let model = UpdateHeight(heightUnit: heightUnit, height: Double(tempHeightValue))
                     self.saveHeightSubject.onNext(model)
                 case .failure(let error):
                     self.errorSubject.onNext(error)

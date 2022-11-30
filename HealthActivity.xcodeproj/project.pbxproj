@@ -70,7 +70,6 @@
 		CABE30E1292908BC0038A999 /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABE30E0292908BC0038A999 /* R.generated.swift */; };
 		CABE30E4292911120038A999 /* OnboardingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABE30E3292911120038A999 /* OnboardingCell.swift */; };
 		CABE30E6292913890038A999 /* BaseClearButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABE30E5292913890038A999 /* BaseClearButton.swift */; };
-		CABE30E8292A17990038A999 /* CustomPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABE30E7292A17990038A999 /* CustomPageControl.swift */; };
 		CABE30EA292AC4680038A999 /* SplashRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABE30E9292AC4680038A999 /* SplashRouter.swift */; };
 		CABE30ED292D140F0038A999 /* HeightWeightType.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABE30EC292D140F0038A999 /* HeightWeightType.swift */; };
 		CABE30F1292E612F0038A999 /* StatusViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CABE30F0292E612F0038A999 /* StatusViewModel.swift */; };
@@ -151,7 +150,6 @@
 		CABE30E0292908BC0038A999 /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		CABE30E3292911120038A999 /* OnboardingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingCell.swift; sourceTree = "<group>"; };
 		CABE30E5292913890038A999 /* BaseClearButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseClearButton.swift; sourceTree = "<group>"; };
-		CABE30E7292A17990038A999 /* CustomPageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPageControl.swift; sourceTree = "<group>"; };
 		CABE30E9292AC4680038A999 /* SplashRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashRouter.swift; sourceTree = "<group>"; };
 		CABE30EC292D140F0038A999 /* HeightWeightType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeightWeightType.swift; sourceTree = "<group>"; };
 		CABE30F0292E612F0038A999 /* StatusViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StatusViewModel.swift; sourceTree = "<group>"; };
@@ -273,7 +271,6 @@
 				CA94F8A1291AA27900E02F6D /* HealthKit */,
 				CA2A4199291A41060089A2E4 /* View */,
 				CA7D04C12926388B009620F5 /* UserDefaultStorage.swift */,
-				CABE30E7292A17990038A999 /* CustomPageControl.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -695,7 +692,6 @@
 				CABE30F829326CF10038A999 /* WalkRouter.swift in Sources */,
 				CA94F8D1291BE7B200E02F6D /* BaseView.swift in Sources */,
 				CABE30F1292E612F0038A999 /* StatusViewModel.swift in Sources */,
-				CABE30E8292A17990038A999 /* CustomPageControl.swift in Sources */,
 				CABE30D52928F6C60038A999 /* OnboardingViewModel.swift in Sources */,
 				CABE30E6292913890038A999 /* BaseClearButton.swift in Sources */,
 				CA50EF41291D7FD300F3955E /* DoubleExtension.swift in Sources */,

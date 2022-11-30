@@ -38,7 +38,7 @@ class ProfileInfoView: BaseView {
     
     public lazy var moreButton: BaseClearButton = {
         let button = BaseClearButton(frame: .zero)
-        button.setImage(UIImage(named: "more"), for: .normal)
+        button.setImage(R.image.more(), for: .normal)
         return button
     }()
     

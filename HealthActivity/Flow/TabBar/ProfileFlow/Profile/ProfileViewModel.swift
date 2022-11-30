@@ -61,11 +61,7 @@ struct ProfileViewModel: BaseViewModelType {
         }).disposed(by: disposeBag)
         
         input.heightUnit.subscribe(onNext: { heightUnit in
-            healthManager.getHeight(unit: heightUnit.unit) { heightValue in
-                let height = heightUnit == .cm ? (heightValue * 100).toInt : heightValue.toInt
-                let subject = (heightUnit, height)
-                self.heightSubject.onNext(subject)
-            }
+            healthManager.getHeight(unit: heightUnit.unit).subscribe(onNext: { self.heightSubject.onNext((heightUnit, $0.toInt)) }).disposed(by: disposeBag)
         }).disposed(by: disposeBag)
         
         healthManager.getHeartRate { state in
@@ -76,6 +72,10 @@ struct ProfileViewModel: BaseViewModelType {
                 self.errorSubject.onNext(error)
             }
         }
+        
+//        healthManager.getHeartRate().subscribe(onNext: { heartModel in
+//            heartRateSubject.onNext(heartModel.value.toInt)
+//        }).disposed(by: disposeBag)
         
         return Output(navigationTitleSubject: navigationTitleSubject.asDriver(onErrorJustReturn: ""),
                       walkSubject: walkSubject.asDriver(onErrorJustReturn: .zero),

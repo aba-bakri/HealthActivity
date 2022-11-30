@@ -24,9 +24,9 @@ enum InfoGraphType {
     var topLeftImage: UIImage? {
         switch self {
         case .water:
-            return UIImage(named: "water")
+            return R.image.water()
         case .heart:
-            return UIImage(named: "heart")
+            return R.image.heart()
         }
     }
     

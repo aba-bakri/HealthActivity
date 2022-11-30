@@ -30,13 +30,13 @@ enum InfoType {
     var topLeftImage: UIImage? {
         switch self {
         case .walk:
-            return UIImage(named: "walk")
+            return R.image.walk()
         case .heart:
-            return UIImage(named: "heart")
+            return R.image.heart()
         case .sleep:
-            return UIImage(named: "sleep")
+            return R.image.sleep()
         case .calories:
-            return UIImage(named: "calories")
+            return R.image.calories()
         }
     }
     

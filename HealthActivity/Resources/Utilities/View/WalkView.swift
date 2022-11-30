@@ -11,7 +11,7 @@ class WalkView: BaseView {
     
     private lazy var topLeftImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
-        imageView.image = UIImage(named: "walk")
+        imageView.image = R.image.walk()
         return imageView
     }()
     

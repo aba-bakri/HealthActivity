@@ -135,6 +135,23 @@ struct StatusViewModel: BaseViewModelType {
             self.previousSleepResultSubject.onNext(result)
         }).disposed(by: disposeBag)
         
+//        var test: [StatusProgressModel] = []
+//        Date().previousWeek().forEach { date in
+//            healthManager.getHeartRate(date: date).subscribe(onNext: { heartModel in
+////                debugPrint("Debug__\(heartModel)")
+//                test.append(heartModel)
+//            }).disposed(by: disposeBag)
+//        }
+        
+//        healthManager.test(date: Date().previousWeek()).subscribe(onNext: { heartRatesModel in
+//            heartRatesModel.forEach { model in
+//                debugPrint("Debug__\(model)")
+//            }
+//        }).disposed(by: disposeBag)
+//        healthManager.test(date: Date().previousWeek()).subscribe(onNext: { heartRateModels in
+//            debugPrint("Debug__\(heartRateModels.count)")
+//        }).disposed(by: disposeBag)
+        
         return Output(navigationTitleSubject: navigationTitleSubject.asDriver(onErrorJustReturn: ""),
                       todayHeartRateSubject: todayHeartRateSubject.asDriver(onErrorJustReturn: .zero),
                       rateModelSubject: rateModelSubject.asDriver(onErrorJustReturn: nil),

@@ -47,9 +47,7 @@ struct ProfileViewModel: BaseViewModelType {
     func transform(input: Input) -> Output {
         input.date.subscribe(onNext: { date in
             healthManager.getSteps(date: date).subscribe(onNext: { walkSubject.onNext($0) }).disposed(by: disposeBag)
-            healthManager.getCalories(forSpecificDate: date) { calories in
-                self.caloriesSubject.onNext(calories)
-            }
+            healthManager.getCalories(date: date).subscribe(onNext: { caloriesSubject.onNext($0) }).disposed(by: disposeBag)
             healthManager.getSleepHours(forSpecificDate: date) { hours in
                 self.sleepSubject.onNext(hours.stringFromTimeInterval())
             }
